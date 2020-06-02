@@ -1,0 +1,7 @@
+adduser username
+passwd username
+
+gpasswd -a username wheel
+
+userdel username
+userdel - r username

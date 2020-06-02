@@ -1,0 +1,3 @@
+https://www.8host.com/blog/ustanovka-apache-kafka-v-centos-7/
+https://linux-notes.org/ustanovka-kafka-v-unix-linux/
+https://quasar.site/tutorials/473/kak-ustanovit-apache-kafka-na-centos-7

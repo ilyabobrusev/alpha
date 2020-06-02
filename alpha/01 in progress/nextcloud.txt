@@ -1,0 +1,65 @@
+https://linuxin.cf/ustanovka-nextcloud-11-na-centos-7.html
+
+https://docs.nextcloud.com/server/12/admin_manual/installation/installation_wizard.html#setting-strong-directory-permissions
+https://docs.nextcloud.com/server/12/admin_manual/installation/source_installation.html
+https://docs.nextcloud.com/server/12/admin_manual/installation/selinux_configuration.html
+
+
+yum -y install httpd mod_ssl unzip
+
+#update to php7.2
+yum -y install epel-release yum-utils
+yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+yum-config-manager --enable remi-php72
+yum -y update
+
+
+yum install -y php php-gd php-json php-mysqlnd php-curl php-mbstring php-intl php-pecl-mcrypt php-pecl-imagick php-xml php-zip php-ldap
+
+
+sed -i "s/post_max_size = 8M/post_max_size = 100M/" /etc/php.ini
+sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 100M/" /etc/php.ini
+
+systemctl restart httpd
+
+mysql -u root -p
+CREATE DATABASE nextcloud;
+GRANT ALL PRIVILEGES ON nextcloud.* TO 'nextcloud'@'localhost' IDENTIFIED BY 'nextcloud';
+FLUSH PRIVILEGES;
+\q
+
+cd /var/www/html/
+
+wget https://download.nextcloud.com/server/releases/nextcloud-18.0.1.zip
+
+unzip nextcloud-18.0.1.zip
+
+#check data dir
+
+mkdir /var/www/html/nextcloud/data	
+
+chown -R apache:apache /var/www/html/nextcloud/
+
+
+#selinux
+yum -y install policycoreutils-python
+yum install -y setroubleshooting (?)
+yum install -y setroubleshoot
+
+#mkdir /var/www/html/nextcloud/data
+
+semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/html/nextcloud/data(/.*)?'
+semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/html/nextcloud/config(/.*)?'
+semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/html/nextcloud/apps(/.*)?'
+semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/html/nextcloud/.htaccess'
+semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/html/nextcloud/.user.ini'
+restorecon -Rv '/var/www/html/nextcloud/'
+
+setsebool -P httpd_can_network_connect_db 1
+
+systemctl restart httpd
+systemctl restart mysql
+
+firewall-cmd --permanent --add-port=80/tcp
+firewall-cmd --permanent --add-port=443/tcp
+firewall-cmd --reload

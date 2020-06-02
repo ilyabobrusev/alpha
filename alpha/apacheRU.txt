@@ -1,0 +1,15 @@
+#global
+nano /etc/httpd/conf.d/autoindex.conf
+IndexOptions FancyIndexing VersionSort NameWidth=* Charset=UTF-8
+
+#for_dir
+<Directory> нужно дописать IndexOptions Charset=UTF-8
+
+nano /etc/httpd/conf.d/autoindex.conf
+#add parameters block
+<Directory "/var/www/html/books">
+    IndexOptions FancyIndexing VersionSort NameWidth=* Charset=UTF-8
+</Directory>
+
+chown apache:apache /var/www/html/books
+chmow 770 /var/www/html/books

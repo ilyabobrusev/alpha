@@ -1,0 +1,54 @@
+apt install samba krb5-user winbind libpam-krb5 libpam-winbind libnss-winbind -y
+
+nano /etc/hosts
+127.0.0.1       localhost
+127.0.1.1       ub01.alpha.loc         ub01
+
+nano /etc/dhcp/dhclient.conf
+supersede domain-name "alpha.loc";
+prepend domain-name-servers 192.168.2.112;
+
+nano /etc/nsswitch.conf
+......
+passwd:         compat winbind
+group:          compat winbind
+......
+hosts:          files dns
+
+cp /etc/krb5.conf /etc/krb5.conf.orig
+:> /etc/krb5.conf
+nano /etc/krb5.conf
+
+kinit qwesrt
+klist
+kdestroy
+
+cp /etc/samba/smb.conf /etc/samba/smb.conf.orig
+:> /etc/samba/smb.conf
+nano /etc/samba/smb.conf
+
+nano /etc/security/limits.conf
+..........
+*                -       nofile         16384
+root             -       nofile         16384
+# End of file
+
+reboot
+
+testparm
+net ads join -U qwesrt
+net ads info
+
+systemctl restart winbind
+wbinfo -t
+wbinfo -u
+wbinfo -g
+
+getent passwd
+getent group
+
+#select "create home dir on logon"
+pam-auth-update
+
+#login without domname
+net ads join -U admin createcomputer='OU=linux,OU=vdi,DC=alpha,DC=loc'

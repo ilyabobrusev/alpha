@@ -1,0 +1,52 @@
+http://blog.sedicomm.com/2016/12/25/fail2ban-ustanovka-i-nastrojka/
+
+yum install -y epel-release
+#nano fail2ban.sh
+yum install -y fail2ban fail2ban-systemd
+systemctl start fail2ban
+systemctl enable fail2ban
+cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+nano /etc/fail2ban/jail.d/sshd.local
+systemctl restart fail2ban
+systemctl status fail2ban
+
+[sshd]
+enabled = true
+port = ssh
+action = iptables-multiport
+logpath = /var/log/secure #logpath = %(sshd_log)s #ubuntu
+maxretry = 3
+bantime = 60000
+
+systemctl restart fail2ban
+systemctl enable fail2ban
+systemctl status fail2ban
+
+fail2ban-client status sshd
+fail2ban-client set sshd unbanip 203.
+
+_______________________________________________________
+
+#nano fail2ban.sh
+yum install -y epel-release
+yum install -y fail2ban fail2ban-systemd epel-release
+yum -y update
+systemctl start fail2ban
+systemctl enable fail2ban
+cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+echo "[sshd]
+enabled = true
+port = ssh/5242
+action = iptables-multiport
+logpath = /var/log/secure
+maxretry = 3
+bantime = 60000" > /etc/fail2ban/jail.d/sshd.local
+echo "________________________________
+"
+echo "File sshd.local contains:"
+cat /etc/fail2ban/jail.d/sshd.local
+echo "________________________________
+"
+systemctl restart fail2ban
+systemctl status fail2ban
+echo "May be done!!!!"

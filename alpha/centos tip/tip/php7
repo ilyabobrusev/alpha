@@ -1,0 +1,21 @@
+yum update
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+yum install php70w
+yum install php70w-mysql
+php -v
+
+
+#test php script
+nano /var/www/html/info.php
+<?php
+phpinfo();
+?>
+
+chown apache: info.php
+systemctl restart httpd
+
+http://ip_add/info.php
+
+#search all available packages php7
+yum search php70w

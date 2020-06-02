@@ -1,0 +1,9 @@
+yum -y install policycoreutils-python
+semanage port -a -t ssh_port_t -p tcp 5242
+nano /etc/ssh/sshd_config
+Port 5242
+firewall-cmd --permanent --add-port=5242/tcp
+firewall-cmd --reload
+systemctl restart sshd
+
+ssh -p 5242 qwesrt@mylinuxzabbix.info

@@ -1,0 +1,6 @@
+yum install -y postgresql-server
+systemctl enable postgresql
+postgresql-setup initdb
+systemctl start postgresql
+firewall-cmd --permanent --add-port=5432/tcp
+firewall-cmd --reload

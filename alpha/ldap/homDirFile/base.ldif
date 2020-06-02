@@ -1,0 +1,17 @@
+dn: dc=alpha,dc=loc
+dc: alpha
+objectClass: top
+objectClass: domain
+
+dn: cn=ldapadm,dc=alpha,dc=loc
+objectClass: organizationalRole
+cn: ldapadm
+description: LDAP Manager
+
+dn: ou=People,dc=alpha,dc=loc
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Group,dc=alpha,dc=loc
+objectClass: organizationalUnit
+ou: Group

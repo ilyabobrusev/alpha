@@ -1,0 +1,60 @@
+[global]
+workgroup = ALPHA
+security = ADS
+realm = ALPHA.LOC
+encrypt passwords = yes
+winbind use default domain = yes
+winbind enum users = yes
+winbind enum groups = yes
+idmap config *:backend = tdb
+idmap config *:range = 1000000-1999999
+idmap config ALPHA:backend = rid
+idmap config ALPHA:range = 10000-999999
+
+template homedir = /home/%D/%U
+template shell = /bin/bash
+winbind refresh tickets = yes
+
+domain master = no
+local master = no
+preferred master = no
+os level = 0
+domain logons = no
+
+load printers = no
+show add printer wizard = no
+printcap name = /dev/null
+disable spoolss = yes
+
+______________________________
+
+[global]
+workgroup = ALPHA
+security = ADS
+realm = ALPHA.LOC
+encrypt passwords = yes
+winbind use default domain = yes
+winbind enum users = yes
+winbind enum groups = yes
+idmap config *:backend = tdb
+idmap config *:range = 1000000-1999999
+idmap config ALPHA:backend = rid
+idmap config ALPHA:range = 10000-999999
+
+template homedir = /home/%D/%U
+template shell = /bin/bash
+winbind refresh tickets = yes
+
+domain master = no
+local master = no
+preferred master = no
+os level = 0
+domain logons = no
+
+load printers = no
+show add printer wizard = no
+printcap name = /dev/null
+disable spoolss =yes
+
+_______________________________________
+

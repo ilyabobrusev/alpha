@@ -1,0 +1,7 @@
+https://medium.com/@vivekteega/how-to-setup-an-xrdp-server-on-ubuntu-18-04-89f7e205bd4e
+
+apt-get install -y xrdp
+apt-get install -y xfce4
+sed -i.bak '/fi/a #xrdp multiple users configuration \n xfce-session \n' /etc/xrdp/startwm.sh
+ufw allow 3389/tcp
+/etc/init.d/xrdp restart

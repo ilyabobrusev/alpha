@@ -1,0 +1,2 @@
+https://serveradmin.ru/ustanovka-asterisk-i-freepbx-na-centos-7/
+https://serveradmin.ru/nastroyka-servera-telefonii-asterisk-s-nulya/#Nastrojka_iptables_asterisk_za_NAT_probros_portov

@@ -1,0 +1,4 @@
+https://wiki.merionet.ru/servernye-resheniya/29/ustanovka-openmeetings-po-shagam/
+
+#best
+https://www.vultr.com/docs/how-to-install-openmeetings-on-centos-7

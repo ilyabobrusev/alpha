@@ -1,0 +1,1 @@
+https://medium.com/@iphuongtt/how-to-install-lemp-on-centos-7-x-nginx-php-7-x-sql-mariadb-10-x-bcf42e850aea

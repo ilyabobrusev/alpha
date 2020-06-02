@@ -1,0 +1,13 @@
+yum install krb5-workstation krb5-libs krb5-auth-dialog
+samba
+yum install realmd sssd sssd-libwbclient oddjob oddjob-mkhomedir adcli samba-common samba-common-tools
+gvfs-smb
+yum install samba-winbind samba-winbind-clients samba pam_krb5 krb5-workstation chrony
+
+# systemctl start winbind
+# systemctl start smb.service
+# systemctl enable winbind
+# systemctl enable smb.service
+
+#wetwork
+DOMAIN="dom.loc"

@@ -1,0 +1,9 @@
+&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=lalse&serverTimezone=UTC
+
+
+
+?autoReconnect=true&characterEncoding=UTF-8&sessionVariables=time_zone='Europe/Moscow'
+
+mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root -p mysql
+SET GLOBAL time_zone = '+3:00';
+SET time_zone = '+03:00';

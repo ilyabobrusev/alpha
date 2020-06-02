@@ -1,0 +1,12 @@
+yum update -y
+yum install -y epel-release
+cd /etc/yum.repos.d/
+wget http://download.opensuse.org/repositories/home:emby/CentOS_7/home:emby.repo
+yum install -y emby-server
+systemctl start emby-server
+systemctl enable emby-server
+systemctl status emby-server
+firewall-cmd --zone=public --add-port=80/tcp --permanent
+firewall-cmd --zone=public --add-port=443/tcp --permanent
+firewall-cmd --zone=public --add-port=8096/tcp --permanent
+firewall-cmd --reload

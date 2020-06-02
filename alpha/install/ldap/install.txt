@@ -1,0 +1,17 @@
+#working
+https://kernelboot.com/%D1%80%D0%B0%D0%B7%D0%B2%D1%91%D1%80%D1%82%D1%8B%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-openldap-%D1%81%D0%B5%D1%80%D0%B2%D0%B5%D1%80%D0%B0-%D0%BD%D0%B0-centos-7/
+
+#testing
+http://trakrd.ru/2017/04/19/openldap-centos7/\
+
+
+#phpldapadmin
+https://www.server-world.info/en/note?os=CentOS_7&p=openldap&f=7
+nano /etc/httpd/conf.d/phpldapadmin.conf
+<Directory /usr/share/phpldapadmin/htdocs>
+  <IfModule mod_authz_core.c>
+    # Apache 2.4
+    Require all granted
+  </IfModule>
+
+cn=admin,dc=ldap,dc=alpha,dc=loc

@@ -1,0 +1,7 @@
+https://unix.stackexchange.com/questions/370318/how-to-connect-to-wifi-in-centos-7clino-gui
+
+
+ip link set wlp2s0 up
+wpa_passphrase MGTS_GPON_6571 H4FNPBU6 >> /etc/wpa_supplicant/wpa_supplicant.conf
+wpa_supplicant -i wlp2s0 -c /etc/wpa_supplicant/wpa_supplicant.conf -B
+dhclient wlp2s0

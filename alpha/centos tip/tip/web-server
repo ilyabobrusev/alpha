@@ -1,0 +1,25 @@
+#turn of the firewall
+systemctl stop firewalld
+systemctl disable firewalld
+
+#install apache2
+yum install -y httpd
+systemctl enable httpd
+systemctl start httpd
+#systemctl stop/restart httpd
+
+#install php
+yum install -y php php-mysql php-mbstring php-mcrypt php-devel php-xml php-gd
+systemctl restart httpd
+
+#add to cron if necessary
+nano /etc/crontab
+@reboot root iptables -I INPUT -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT
+
+https://serveradmin.ru/nastroyka-iptables-v-centos-7/
+https://losst.ru/nastrojka-seti-centos-7#_IP
+
+iptables_ruls.sh
+
+firewall-cmd --permanent --add-port=80/tcp
+firewall-cmd --reload

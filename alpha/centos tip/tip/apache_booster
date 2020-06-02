@@ -1,0 +1,7 @@
+#long start apache и mc
+#in case if, dns not registered or not avalible
+#add string in first line
+vi /etc/hosts
+echo "192.168.1.110    host.local" >> /etc/hosts
+&
+ip <hostname>

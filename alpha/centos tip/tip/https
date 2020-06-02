@@ -1,0 +1,8 @@
+yum -y install epel-release mod_ssl
+yum -y install python-certbot-apache
+
+
+certbot --apache -d example.ru
+certbot --apache -d example.ru -d www.example.ru
+
+systemctl restart httpd

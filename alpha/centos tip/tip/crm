@@ -1,0 +1,18 @@
+https://andreyex.ru/centos-7/ustanovka-crm-vtiger-na-centos-7/
+https://voxlink.ru/kb/integraciya-s-crm/ustanovka-salesplatform-vtiger-crm/
+
+yum update –y
+wget -q -O - http://www.atomicorp.com/installers/atomic | sh
+
+cd /opt
+wget https://sourceforge.net/projects/salesplatform/files/salesplatform-vtigercrm-7.1.0-201803.tar.gz
+tar -xzvf salesplatform-vtigercrm-7.1.0-201803.tar.gz
+chown apache: -R vtigercrm
+mv vtigercrm /var/www/html/
+
+
+
+wget https://sourceforge.net/projects/salesplatform/files/salesplatform-vtigercrm-7.1.0-201803.tar.gz
+tar -xzvf salesplatform-vtigercrm-7.1.0-201803.tar.gz
+chown apache: -R vtigercrm
+mv vtigercrm /var/www/html/

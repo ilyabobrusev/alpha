@@ -1,0 +1,24 @@
+https://blog.volobuev.su/monitoring-mysql-v-zabbix/
+
+#create user for monitoring
+GRANT USAGE ON *.* TO 'observer'@'%' IDENTIFIED BY 'observer';
+FLUSH PRIVILEGES;
+
+#search $home for mysql 
+nano /etc/zabbix/zabbix_agentd.d/userparameter_mysql.conf
+#usualy
+HOME=/var/lib/zabbix
+#create dir & file
+mkdir /var/lib/zabbix/
+nano /var/lib/zabbix/.my.cnf
+[client]
+user = observer
+password = observer
+
+systemctl restart zabbix-agent
+
+nano /etc/selinux/config
+SELINUX = disabled
+
+#unlock host, if remotehost locked
+mysqladmin -uroot -p flush-hosts;

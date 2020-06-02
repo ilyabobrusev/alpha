@@ -1,0 +1,25 @@
+#servers
+q	q
+root	q
+
+#mysql
+root	Zxcv1234
+zabbix	Zxcv1234
+observer	Zxcv1234
+
+#zabbix
+Admin	Zxcv1234
+
+#Grafana
+admin	Zxcv1234
+
+#Splunk
+admin	Zxcv1234
+
+#mWiki
+admin
+Bkmz1420007
+
+#nextcloud
+admin
+Bkmz1420007

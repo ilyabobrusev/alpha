@@ -1,0 +1,5 @@
+sudo nano /etc/lightdm/lightdm.conf
+[SeatDefaults]
+allow-guest=false
+greeter-hide-users=true
+greeter-show-manual-login=true

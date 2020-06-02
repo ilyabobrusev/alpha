@@ -1,0 +1,23 @@
+#resolv name
+nano /etc/sysconfig/network-scripts/ifcfg-ens33
+DNS1="192.168.2.11"
+DOMAIN="alpha.loc"
+
+yum install realm realmd sssd ntpdate ntp samba-common-tools
+
+nano /etc/ntp.conf
+server dc1.alpha.loc iburst prefer
+
+ntpdate dc1.alpha.loc
+systemctl start ntpd
+systemctl enable ntpd
+
+realm join --user=qwesrt@alpha.loc alpha.loc
+realm list
+
+nano /etc/sudoers
+%wheel@alpha.loc        ALL=(ALL)       ALL
+
+#login with domname
+user@alpha.loc
+alpha\user

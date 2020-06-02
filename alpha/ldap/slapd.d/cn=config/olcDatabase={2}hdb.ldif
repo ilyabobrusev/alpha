@@ -1,0 +1,19 @@
+# AUTO-GENERATED FILE - DO NOT EDIT!! Use ldapmodify.
+# CRC32 d8680ffa
+dn: olcDatabase={2}hdb
+objectClass: olcDatabaseConfig
+objectClass: olcHdbConfig
+olcDatabase: {2}hdb
+olcDbDirectory: /var/lib/ldap
+olcDbIndex: objectClass eq,pres
+olcDbIndex: ou,cn,mail,surname,givenname eq,pres,sub
+structuralObjectClass: olcHdbConfig
+entryUUID: 48ca82c0-3d1a-1039-9c27-4dc496e22b1f
+creatorsName: cn=config
+createTimestamp: 20190717200744Z
+olcSuffix: dc=alpha,dc=loc
+olcRootDN: cn=ldapadm,dc=alpha,dc=loc
+olcRootPW:: e1NTSEF9cTA5Y2JydUNyOTl2Mnh4elo3ZXM3STJRMW9xZ2FGREg=
+entryCSN: 20190913212037.776153Z#000000#000#000000
+modifiersName: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+modifyTimestamp: 20190913212037Z

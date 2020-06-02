@@ -1,0 +1,20 @@
+#reduce connection time by ssh
+vi /etc/ssh/sshd_config
+UseDNS no
+systemctl restart sshd
+
+#change port for ssh connect
+yum -y install policycoreutils-python
+semanage port -a -t ssh_port_t -p tcp 2255
+
+firewall-cmd --permanent --add-port=2233/tcp
+#firewall-cmd --reload
+systemctl restart firewalld
+
+vi /etc/ssh/sshd_config
+Port 2255 #uncomment and specify to port
+
+systemctl restart sshd
+
+#connect to other port
+ssh -p 2255 hostadmin@192.168.1.100

@@ -1,0 +1,2 @@
+https://itproffi.ru/ustanovka-i-nastrojka-servera-cobbler-dlya-avtomaticheskoj-ustanovki-os-po-seti/
+https://gist.github.com/funzoneq/d77369203ea447dc3cc2

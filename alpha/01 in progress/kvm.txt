@@ -1,0 +1,42 @@
+#Самый четкий первый
+https://www.youtube.com/watch?v=rg15nxznfwQ&list=PLva_8Wo6URIhtNQO73q3Ul6YuX-SMtfEJ
+https://www.youtube.com/watch?v=Pasz-lv3gTY
+https://www.dmosk.ru/miniinstruktions.php?mini=kvm-centos7
+https://ivirt-it.ru/category/virtualization/
+https://ivirt-it.ru/ovirt-ldap/
+https://www.youtube.com/watch?v=iAM5rVsyONQ
+
+#semidicom
+https://www.youtube.com/watch?v=DuAHpkek_RM
+
+https://www.youtube.com/channel/UC_mNaaEd5QBKmavtdPUv7CA
+
+https://www.guidgenerator.com/
+
+mkdir -p /kvm/{images,iso}
+chown vdsm:kvm -R /kvm
+chmod 774 -R /kvm
+yum install -y epel-release
+yum install -y qemu-kvm libvirt virt-install bridge-utils ascii
+systemctl enable libvirtd
+systemctl start libvirtd
+
+yum install -y http://resources.ovirt.org/pub/yum-repo/ovirt-release43.rpm
+
+yum install -y ovirt-engine
+engine-setup
+
+yum install -y ovirt-guest-agent
+systemctl start ovirt-guest-agent
+systemctl enable ovirt-guest-agent
+
+
+multipath -ll
+nano /etc/multipath.conf
+blacklist {
+	wwid WDC_WD10EZEX-22MFCA0_WD-WCC6Y6TE9LN8
+	wwid WDC_WD10EZEX-08WN4A0_WD-WCC6Y0JVLX58
+}
+
+WDC_WD10EZEX-22MFCA0_WD-WCC6Y6TE9LN8
+WDC_WD10EZEX-08WN4A0_WD-WCC6Y0JVLX58
