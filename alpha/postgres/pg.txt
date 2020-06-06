@@ -51,7 +51,7 @@ ________________________________________________________________________________
 yum -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
 yum -y install epel-release yum-utils
 yum-config-manager --enable pgdg12
-yum -y install postgresql12-server postgresql12 postgresql12-contrib postgresql12-devel postgresql12-odbc postgresql12-docs
+yum -y install postgresql12-server postgresql12 postgresql12-contrib postgresql12-odbc postgresql12-docs
 /usr/pgsql-12/bin/postgresql-12-setup initdb
 systemctl enable --now postgresql-12
 firewall-cmd --add-service=postgresql --permanent
@@ -81,3 +81,7 @@ postgresql12-pltcl.x86_64 : The Tcl procedural language for PostgreSQL
 postgresql12-server.x86_64 : The programs needed to create and run a PostgreSQL
 postgresql12-test.x86_64 : The test suite distributed with PostgreSQL
 
+#install postgresql12-devel
+yum install centos-release-scl
+yum-config-manager --enable rhel-server-rhscl-7-rpms
+yum -y install postgresql12-devel
