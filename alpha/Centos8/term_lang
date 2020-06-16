@@ -1,2 +1,2 @@
-vi/etc/vconsole.conf
+vi /etc/vconsole.conf
 FONT="UniCyr_8x16" 
