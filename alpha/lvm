@@ -111,8 +111,9 @@ nano /etc/fstab
 /dev/mapper/vg_raid-lv_kvm	/raid/kvm	        ext4	defaults        0 0
 
 
-
-
+#remove lvm parts
+umount /raid/iso
+umount /raid/kvm/
 lvremove /dev/vg_raid/lv_iso 
 lvremove /dev/vg_raid/lv_kvm 
 vgchange -a n vg_raid
