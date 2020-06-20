@@ -1,0 +1,6 @@
+dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+dnf -qy module disable postgresql
+dnf install -y postgresql11-server
+/usr/pgsql-11/bin/postgresql-11-setup initdb
+systemctl enable postgresql-11
+systemctl start postgresql-11
