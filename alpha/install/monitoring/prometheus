@@ -1,0 +1,59 @@
+https://www.dmosk.ru/instruktions.php?object=prometheus-linux#node-autoruns
+
+
+
+   38  firewall-cmd --permanent --add-port={9090,9093,9094,9100}/tcp --add-port=9094/udp
+   39  firewall-cmd --reload
+   40  firewall-cmd --list-all
+   43  wget https://github.com/prometheus/prometheus/releases/download/v2.19.1/prometheus-2.19.1.linux-amd64.tar.gz
+   44  mkdir /etc/prometheus
+   45  mkdir /var/lib/prometheus
+   46  tar zxvf prometheus-2.19.1.linux-amd64.tar.gz 
+   48  cd prometheus-2.19.1.linux-amd64
+   50  cp prometheus promtool /usr/local/bin/
+   52  cp -r console_libraries consoles prometheus.yml /etc/prometheus/
+   53  ls -al /etc/prometheus/
+   54  ls -al /usr/local/bin/ | grep prom
+   55  useradd --no-create-home --shell /bin/false prometheus
+   56  chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus/
+   57  chown prometheus:prometheus /usr/local/bin/{prometheus,promtool}
+   59  /usr/local/bin/prometheus --config.file /etc/prometheus/prometheus.yml --storage.tsdb.path /var/lib/prometheus/ --web.console.templates=/etc/prometheus/consoles --web.console.libraries=/etc/prometheus/console_libraries
+   60  vi /etc/systemd/system/prometheus.service
+   61  systemctl daemon-reload
+   62  systemctl enable prometheus
+   63  chown -R prometheus:prometheus /var/lib/prometheus
+   64  systemctl start prometheus
+   65  systemctl status prometheus
+   72  wget https://github.com/prometheus/alertmanager/releases/download/v0.21.0/alertmanager-0.21.0.linux-amd64.tar.gz
+   73  mkdir /etc/alertmanager /var/lib/prometheus/alertmanager
+   74  tar zxvf alertmanager-*.linux-amd64.tar.gz
+   89  cd alertmanager-*.linux-amd64
+   90  cp alertmanager amtool /usr/local/bin/
+   91  cp alertmanager.yml /etc/alertmanager/
+   92  useradd --no-create-home --shell /bin/false alertmanager
+   93  chown -R alertmanager:alertmanager /etc/alertmanager/ /var/lib/prometheus/alertmanager/
+   94  chown alertmanager:alertmanager /usr/local/bin/{alertmanager,amtool}
+   95  vi /etc/systemd/system/alertmanager.service
+   96  systemctl daemon-reload
+   97  systemctl enable alertmanager
+   98  systemctl start alertmanager
+   99  systemctl status alertmanager
+  104  wget https://github.com/prometheus/node_exporter/releases/download/v1.0.1/node_exporter-1.0.1.linux-amd64.tar.gz
+  105  tar zxvf node_exporter-*.linux-amd64.tar.gz
+  106  cd node_exporter-*.linux-amd64
+  108  useradd --no-create-home --shell /bin/false nodeusr
+  109  chown -R nodeusr:nodeusr /usr/local/bin/node_exporter
+  112  chown -R nodeusr:nodeusr /usr/local/bin/node_exporter
+  115  vi /etc/systemd/system/node_exporter.service
+  116  systemctl daemon-reload
+  117  systemctl enable node_exporter
+  118  systemctl start node_exporter
+  119  systemctl status node_exporter
+  120  vi /etc/prometheus/prometheus.yml
+  122  systemctl restart prometheus
+  123  vi /etc/prometheus/prometheus.yml
+  125  systemctl restart prometheus
+  126  vi /etc/prometheus/alert.rules.yml
+  130  vi /etc/prometheus/prometheus.yml
+  131  systemctl restart prometheus
+
