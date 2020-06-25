@@ -90,3 +90,24 @@ cat /var/log/zabbix/zabbix_server.log
 
 
 yum install zabbix-java-gateway
+
+_________________________________________________________
+
+CO8
+
+rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/8/x86_64/zabbix-release-5.0-1.el8.noarch.rpm
+dnf install zabbix-server-pgsql zabbix-web-pgsql zabbix-apache-conf zabbix-java-gateway zabbix-agent
+zcat /usr/share/doc/zabbix-server-pgsql*/create.sql.gz | psql -U zabbix -d zabbix -h 192.168.1.112
+nano /etc/zabbix/zabbix_server.conf
+#DBHost=localhost
+#DBName=zabbix
+#DBUser=zabbix
+#DBPassword=zabbix
+vi /etc/php-fpm.d/zabbix.conf
+#php_value[date.timezone] = Europe/Moscow
+firewall-cmd --permanent --add-port={10050,10051,80,443}/tcp
+firewall-cmd --reload
+systemctl enable --now zabbix-server zabbix-agent zabbix-java-gateway httpd
+cat /var/log/zabbix/zabbix_server.log
+cat /var/log/zabbix/zabbix_agentd.log
+
