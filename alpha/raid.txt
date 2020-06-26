@@ -23,3 +23,27 @@ fuser -mv /raid
 umount /raid
 mdadm -S /dev/md0
 mdadm --zero-superblock --force /dev/sd{b,c}
+
+
+
+#raid info
+cat /proc/mdstat
+mdadm --detail /dev/md0
+
+#fail mark
+mdadm --manage /dev/md0 --fail /dev/sda1
+
+#detach disk
+mdadm --manage /dev/md0 --remove /dev/sda1
+mdadm --manage /dev/md0 --detached /dev/sda1
+
+#add disk
+mdadm --manage /dev/md0 --add /dev/sda3
+
+#resize raid
+mdadm --grow /dev/md0 --size=max
+resize2fs /dev/md0
+
+#disk info
+mdadm --examine /dev/sda1
+mdamd --assemble --scan
