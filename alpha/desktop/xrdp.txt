@@ -4,4 +4,5 @@ apt-get install -y xrdp
 apt-get install -y xfce4
 sed -i.bak '/fi/a #xrdp multiple users configuration \n xfce-session \n' /etc/xrdp/startwm.sh
 ufw allow 3389/tcp
+ufw reload
 /etc/init.d/xrdp restart
