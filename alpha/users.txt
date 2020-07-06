@@ -1,25 +1,25 @@
 #servers
-q	q
-root	q
+q	1234
+root	1234
 
 #mysql
-root	Zxcv1234
-zabbix	Zxcv1234
-observer	Zxcv1234
+root	1234
+zabbix	1234
+observer	1234
 
 #zabbix
-Admin	Zxcv1234
+Admin	1234
 
 #Grafana
-admin	Zxcv1234
+admin	1234
 
 #Splunk
-admin	Zxcv1234
+admin	1234
 
 #mWiki
 admin
-Bkmz1420007
+1234
 
 #nextcloud
 admin
-Bkmz1420007
+1234
