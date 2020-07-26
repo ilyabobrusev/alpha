@@ -4,7 +4,7 @@ dnf -y install htop strace nload sysstat iotop mc nano nmap tree wget curl yum-u
 timedatectl set-timezone Europe/Moscow
 
 
-#ocale
+#locale
 localectl set-locale LANG=en_US.UTF-8
 localectl
 dnf install -y langpacks-en glibc-all-langpacks -y
