@@ -40,3 +40,17 @@ blacklist {
 
 WDC_WD10EZEX-22MFCA0_WD-WCC6Y6TE9LN8
 WDC_WD10EZEX-08WN4A0_WD-WCC6Y0JVLX58
+
+
+
+
+_______________________________________________________
+
+virsh list
+virsh list --all
+virsh start co20
+virsh suspend co20
+virsh resume co20
+virsh shutdown co20
+virt-clone --original=co20 --name=co21 --auto-clone
+
