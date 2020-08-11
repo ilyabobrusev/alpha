@@ -1,0 +1,47 @@
+dnf install epel-release
+yum install java-1.8.0-openjdk
+useradd activemq
+cd /opt
+wget https://downloads.apache.org/activemq/5.16.0/apache-activemq-5.16.0-bin.tar.gz
+tar zxvf apache-activemq-5.16.0-bin.tar.gz
+chown -R activemq:activemq /opt/apache-activemq-5.16.0
+____________________________________________________________________________________
+vi /etc/systemd/system/activemq.service
+
+[Unit]
+Description=Apache ActiveMQ Message Broker
+After=network-online.target
+
+[Service]
+Type=forking
+
+User=activemq
+Group=activemq
+
+WorkingDirectory=/opt/apache-activemq-5.16.0/bin
+ExecStart=/opt/apache-activemq-5.16.0/bin/activemq start
+ExecStop=/opt/apache-activemq-5.16.0/bin/activemq stop
+Restart=on-abort
+
+
+[Install]
+WantedBy=multi-user.target
+____________________________________________________________________________________
+
+systemctl daemon-reload
+systemctl start activemq.service
+systemctl status activemq.service
+systemctl enable activemq.service
+
+firewall-cmd --permanent --add-port=8161/tcp
+firewall-cmd --reload
+
+#remode access
+vi /opt/apache-activemq-5.16.0/conf/jetty.xml
+<property name="host" value="127.0.0.1"/>
+#reconf to
+<property name="host" value="0.0.0.0"/>
+
+
+http://hostname:8161/admin
+admin:admin
