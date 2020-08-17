@@ -57,3 +57,24 @@
  vi /etc/prometheus/prometheus.yml
  systemctl restart prometheus
 
+-----------------------------------------------
+
+/etc/prometheus/prometheus.yml
+
+global:
+	scrape_interval: 15s	# как часто опрашивать exporter-ы
+
+storage:
+	tsdb:
+	  path: /var/lib/prometheus # где хранить данные
+	  retention:
+	    time: 15d	# как долго хранить данные
+
+scrape_configs:
+	- job_name: 'prometheus'
+	  static_configs:
+	    - targets: ['localhost:9090']
+	- job_name: 'app'
+	  static_configs:
+	    - targets: ['localhost:9100', 'localhost:9102', 'localhost:9103', 'localhost:9187']
+
