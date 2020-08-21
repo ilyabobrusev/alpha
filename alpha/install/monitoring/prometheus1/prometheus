@@ -12,8 +12,6 @@
  cd prometheus-2.20.1.linux-amd64
  cp prometheus promtool /usr/local/bin/
  cp -r console_libraries consoles prometheus.yml /etc/prometheus/
- ls -al /etc/prometheus/
- ls -al /usr/local/bin/ | grep prom
  useradd --no-create-home --shell /bin/false prometheus
  chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus/
  chown prometheus:prometheus /usr/local/bin/{prometheus,promtool}
