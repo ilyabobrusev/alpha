@@ -30,3 +30,19 @@ docker push q/catnip
 docker login
 docker network ls
 docker network inspect bridge
+
+
+docker run -d --hostname lt01.loc -p 443:4438 -p 80:808 -p 22:228 --name gitlab  --restart always gitlab/gitlab-ee:latest
+
+
+docker run --rm -it gitlab/gitlab-runner-helper:x86_64-6d9dd510
+docker tag  gitlab/gitlab-runner-helper:x86_64-6d9dd510 gitlab-runner-helper:11.2.0
+
+
+
+
+apt install gitlab-runner
+systemctl enable enable --now gitlab-runner
+systemctl status gitlab-runner
+gitlab-runner register   --non-interactive   --url "http://lt01.loc:7070/"   --registration-token "fypBfQzbyqFMxxEF8n6i"   --executor "docker"   --docker-image ubuntu:latest   --description "docker-runner"   --tag-list "docker"   --run-untagged="true"   --locked="false"
+
