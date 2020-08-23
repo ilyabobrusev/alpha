@@ -1,0 +1,1 @@
+<b>Problem started</b> at {EVENT.TIME} on {EVENT.DATE}<br><b>Problem name:</b> {EVENT.NAME}<br><b>Host:</b> {HOST.NAME}<br><b>Severity:</b> {EVENT.SEVERITY}<br><b>Operational data:</b> {EVENT.OPDATA}<br><b>Original problem ID:</b> {EVENT.ID}<br>{TRIGGER.URL}
