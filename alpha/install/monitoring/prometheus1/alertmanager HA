@@ -1,0 +1,59 @@
+https://github.com/prometheus/alertmanager#high-availability
+https://www.programmersought.com/article/26082206794/
+
+
+https://www.dmosk.ru/instruktions.php?object=prometheus-linux
+https://prometheus.io/download/
+
+ExecStart=/usr/local/bin/alertmanager \
+          --cluster.listen-address=192.168.122.21:9094 \
+          --cluster.peer=192.168.122.21:9094 \
+          --cluster.peer=192.168.122.22:9094 \
+          --cluster.peer=192.168.122.23:9094 \
+          --config.file=/etc/alertmanager/alertmanager.yml \
+          --storage.path=/var/lib/prometheus/alertmanager \
+          $ALERTMANAGER_OPTS
+
+
+__________________________________________
+
+
+mkdir -p /etc/alertmanager /var/lib/prometheus/alertmanager
+tar zxvf alertmanager-*.linux-amd64.tar.gz
+cd alertmanager-*.linux-amd64
+cp alertmanager amtool /usr/local/bin/
+cp alertmanager.yml /etc/alertmanager
+useradd --no-create-home --shell /bin/false alertmanager
+chown -R alertmanager:alertmanager /etc/alertmanager /var/lib/prometheus/alertmanager
+chown alertmanager:alertmanager /usr/local/bin/{alertmanager,amtool}
+vi /etc/systemd/system/alertmanager.service
+systemctl daemon-reload
+systemctl enable --now alertmanager
+systemctl status alertmanager
+
+
+
+
+
+[Unit]
+Description=Alertmanager Service
+After=network.target
+
+[Service]
+EnvironmentFile=-/etc/default/alertmanager
+User=alertmanager
+Group=alertmanager
+Type=simple
+ExecStart=/usr/local/bin/alertmanager \
+          --cluster.listen-address=192.168.122.21:9094 \
+          --cluster.peer=192.168.122.21:9094 \
+          --cluster.peer=192.168.122.22:9094 \
+          --cluster.peer=192.168.122.23:9094 \
+          --config.file=/etc/alertmanager/alertmanager.yml \
+          --storage.path=/var/lib/prometheus/alertmanager \
+          $ALERTMANAGER_OPTS
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

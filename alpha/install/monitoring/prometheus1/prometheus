@@ -1,15 +1,17 @@
- https://www.dmosk.ru/instruktions.php?object=prometheus-linux#node-autoruns
+https://www.dmosk.ru/instruktions.php?object=prometheus-linux#node-autoruns
+https://www.dmosk.ru/instruktions.php?object=prometheus-linux
+https://prometheus.io/download/
 
 
 #prometheus
+wget https://github.com/prometheus/prometheus/releases/download/v2.20.1/prometheus-2.20.1.linux-amd64.tar.gz
  firewall-cmd --permanent --add-port={9090,9093,9094,9100}/tcp --add-port=9094/udp
  firewall-cmd --reload
  firewall-cmd --list-all
- wget https://github.com/prometheus/prometheus/releases/download/v2.20.1/prometheus-2.20.1.linux-amd64.tar.gz
  mkdir /etc/prometheus
  mkdir /var/lib/prometheus
- tar zxvf prometheus-2.20.1.linux-amd64.tar.gz
- cd prometheus-2.20.1.linux-amd64
+ tar zxvf prometheus-*.linux-amd64.tar.gz
+ cd prometheus-*.linux-amd64
  cp prometheus promtool /usr/local/bin/
  cp -r console_libraries consoles prometheus.yml /etc/prometheus/
  useradd --no-create-home --shell /bin/false prometheus
@@ -31,7 +33,8 @@ ExecStart=/usr/local/bin/prometheus \
 --storage.tsdb.path /var/lib/prometheus/ \
 --storage.tsdb.retention.time=7d \
 --web.console.templates=/etc/prometheus/consoles \
---web.console.libraries=/etc/prometheus/console_libraries
+--web.console.libraries=/etc/prometheus/console_libraries \
+--web.enable-admin-api
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure
 
