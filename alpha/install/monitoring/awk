@@ -1,3 +1,10 @@
 awk '{print $1}' /var/log/nginx/access.log | awk '{ cnt[$1]++ } END { for (id in cnt) {printf "%d %s\n", cnt[id], id}}' | sort -n -k1 -r | head
 
 awk '$9 == 404 {print $1}' /var/log/nginx/access.log | awk '{ cnt[$1]++ } END { for (id in cnt) {printf "%d %s\n", cnt[id], id}}' | sort -n -k1 -r | head
+
+
+ps aux | awk '{print $3 " % CPU -->> " $13}' | sort -n -k1 -r | grep guest
+ps aux | awk '{print $6/1024 " MB -->> " $13}' | sort -n -k1 -r | grep guest
+
+ps aux | awk '{print $3 " % CPU -->> " $0}' | sort -n -k1 -r | head
+ps aux | awk '{print $6/1024 " MB -->> " $0}' | sort -n -k1 -r | head

@@ -1,6 +1,10 @@
 https://www.dmosk.ru/instruktions.php?object=prometheus-linux#node-autoruns
 https://www.dmosk.ru/instruktions.php?object=prometheus-linux
 https://prometheus.io/download/
+https://habr.com/ru/company/selectel/blog/275803/
+https://habr.com/ru/post/441136/
+https://rtfm.co.ua/prometheus-zapusk-servera-s-alertmanager-cadvisor-i-grafana/#Alertmanager
+https://habr.com/ru/post/308610/
 
 
 #prometheus
@@ -83,9 +87,9 @@ WantedBy=multi-user.target
  systemctl status alertmanager
 
 #node_exporter
+ wget https://github.com/prometheus/node_exporter/releases/download/v1.0.1/node_exporter-1.0.1.linux-amd64.tar.gz
  firewall-cmd --permanent --add-port=9100/tcp
  firewall-cmd --reload
- wget https://github.com/prometheus/node_exporter/releases/download/v1.0.1/node_exporter-1.0.1.linux-amd64.tar.gz
  tar zxvf node_exporter-*.linux-amd64.tar.gz
  cd node_exporter-*.linux-amd64
  cp node_exporter /usr/local/bin/
