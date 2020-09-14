@@ -10,5 +10,6 @@ systemctl enable --now qemu-guest-agent
 #locale
 localectl set-locale LANG=en_US.UTF-8
 localectl
-dnf install -y langpacks-en glibc-all-langpacks -y
+dnf install -y langpacks-en glibc-all-langpacks
 dnf install -y glibc-langpack-en
+
