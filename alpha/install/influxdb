@@ -1,0 +1,36 @@
+https://linux-notes.org/ustanovka-influxdb-v-unix-linux/
+https://angrysysadmins.tech/index.php/2020/04/bailey/grafana-how-to-install-grafana-influxdb-on-centos-8/
+https://docs.influxdata.com/influxdb/v1.8/introduction/install/
+https://computingforgeeks.com/how-to-install-influxdb-on-rhel-8-centos-8/
+
+https://docs.openstack.org/developer/performance-docs/methodologies/monitoring/influxha.html
+https://docs.influxdata.com/influxdb/v1.8/supported_protocols/prometheus/
+
+
+cat <<EOF | sudo tee /etc/yum.repos.d/influxdb.repo
+[influxdb]
+name = InfluxDB Repository - RHEL \$releasever
+baseurl = https://repos.influxdata.com/rhel/\$releasever/\$basearch/stable
+enabled = 1
+gpgcheck = 1
+gpgkey = https://repos.influxdata.com/influxdb.key
+EOF
+
+dnf install influxdb -y
+
+vi /etc/influxdb/influxdb.conf
+
+[http]  
+enabled = true  
+bind-address = ":8086"      # change to a specific interface if needed 
+auth-enabled = true         # will enforce authentication
+
+systemctl enable --now influxdb
+
+CREATE USER admin WITH PASSWORD 'admin' WITH ALL PRIVILEGES
+auth
+CREATE DATABASE DBNAME
+SHOW DATABASES
+CREATE USER prom WITH PASSWORD 'prom'
+GRANT ALL ON prom TO prom
+GRANT READ ON prom TO prom
