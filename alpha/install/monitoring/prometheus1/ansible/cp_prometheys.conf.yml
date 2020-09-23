@@ -1,0 +1,14 @@
+- hosts: test
+  become: yes
+ 
+  tasks:
+ 
+  - name: Copy prometheus.conf
+    copy:
+      src: /home/ansible/prometheus.conf
+      dest: /etc/prometheus/prometheus.conf
+
+  - name: Restart firewalld
+    service:
+      name: prometheus
+      state: restarted

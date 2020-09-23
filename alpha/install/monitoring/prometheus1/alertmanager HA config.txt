@@ -1,0 +1,43 @@
+https://github.com/prometheus/alertmanager#high-availability
+
+High Availability
+
+Alertmanager's high availability is in production use at many companies and is enabled by default.
+
+    Important: Both UDP and TCP are needed in alertmanager 0.15 and higher for the cluster to work.
+
+        If you are using a firewall, make sure to whitelist the clustering port for both protocols.
+        If you are running in a container, make sure to expose the clustering port for both protocols.
+
+To create a highly available cluster of the Alertmanager the instances need to be configured to communicate with each other. This is configured using the --cluster.* flags.
+
+    --cluster.listen-address string: cluster listen address (default "0.0.0.0:9094"; empty string disables HA mode)
+    --cluster.advertise-address string: cluster advertise address
+    --cluster.peer value: initial peers (repeat flag for each additional peer)
+    --cluster.peer-timeout value: peer timeout period (default "15s")
+    --cluster.gossip-interval value: cluster message propagation speed (default "200ms")
+    --cluster.pushpull-interval value: lower values will increase convergence speeds at expense of bandwidth (default "1m0s")
+    --cluster.settle-timeout value: maximum time to wait for cluster connections to settle before evaluating notifications.
+    --cluster.tcp-timeout value: timeout value for tcp connections, reads and writes (default "10s")
+    --cluster.probe-timeout value: time to wait for ack before marking node unhealthy (default "500ms")
+    --cluster.probe-interval value: interval between random node probes (default "1s")
+    --cluster.reconnect-interval value: interval between attempting to reconnect to lost peers (default "10s")
+    --cluster.reconnect-timeout value: length of time to attempt to reconnect to a lost peer (default: "6h0m0s")
+
+The chosen port in the cluster.listen-address flag is the port that needs to be specified in the cluster.peer flag of the other peers.
+
+The cluster.advertise-address flag is required if the instance doesn't have an IP address that is part of RFC 6980 with a default route.
+
+To start a cluster of three peers on your local machine use goreman and the Procfile within this repository.
+
+goreman start
+
+To point your Prometheus 1.4, or later, instance to multiple Alertmanagers, configure them in your prometheus.yml configuration file, for example:
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - alertmanager1:9093
+      - alertmanager2:9093
+      - alertmanager3:9093

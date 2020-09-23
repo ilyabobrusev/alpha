@@ -1,0 +1,14 @@
+global:
+  resolve_timeout: 1m
+  smtp_smarthost: 'smtp.email.ru:465'
+  smtp_from: 'mail@mail.ru'
+  smtp_auth_username: 'email@email.ru'
+  smtp_auth_password: 'Passwd'
+route:
+  receiver: send_email
+receivers:
+- name: send_email
+  email_configs:
+  - to: email@email.ru
+    send_resolved: true
+    require_tls: false

@@ -1,0 +1,98 @@
+- hosts: test 
+  become: yes
+ 
+  tasks:
+ 
+  - name: Open ports
+    firewalld:
+      port: "{{ item }}"
+      permanent: yes
+      state: enabled
+    loop:
+      - 9094/udp
+      - 9094/tcp
+      - 9093/tcp
+    notify:
+      - Open ports
+
+  - name: Add the user 'alertmanager'
+    user:
+      name: alertmanager
+      shell: /bin/false
+      create_home: no
+
+  - name: Create /etc/alertmanager and /var/lib/prometheus/alertmanager
+    file:
+      path: "{{ item }}"
+      owner: alertmanager
+      group: alertmanager
+      mode: '0755'
+      state: directory
+    loop:
+      - /etc/alertmanager
+      - /var/lib/prometheus/alertmanager
+
+  - name: Download alertmanager
+    unarchive:
+      src: /tmp/alertmanager-0.21.0.linux-amd64.tar.gz
+      dest: /tmp
+
+  - name: Cp alertmanager and amtool to /usr/local/bin/
+    copy:
+      src: "{{ item }}"
+      dest: /usr/local/bin/
+      remote_src: yes
+      owner: alertmanager
+      group: alertmanager
+      mode: 0755
+    loop:
+      - /tmp/alertmanager-0.21.0.linux-amd64/alertmanager
+      - /tmp/alertmanager-0.21.0.linux-amd64/amtool
+
+
+  - name: Cp consoles, console_libraries and prometheus.yml to /etc/prometheus/
+    copy:
+      src: /tmp/alertmanager-0.21.0.linux-amd64/alertmanager.yml
+      dest: /etc/alertmanager/
+      remote_src: yes
+      owner: alertmanager 
+      group: alertmanager
+      mode: 0755
+
+  - name: Add unit /etc/systemd/system/alertmanager.service
+    copy:
+      content: |
+        [Unit]
+        Description=Alertmanager Service
+        After=network.target
+        
+        [Service]
+        EnvironmentFile=-/etc/default/alertmanager
+        User=alertmanager
+        Group=alertmanager
+        Type=simple
+        ExecStart=/usr/local/bin/alertmanager \
+                  --config.file=/etc/alertmanager/alertmanager.yml \
+                  --storage.path=/var/lib/prometheus/alertmanager \
+                  $ALERTMANAGER_OPTS
+        ExecReload=/bin/kill -HUP $MAINPID
+        Restart=on-failure
+        
+        [Install]
+        WantedBy=multi-user.target
+      dest: /etc/systemd/system/alertmanager.service
+    notify:
+      - Add unit /etc/systemd/system/alertmanager.service
+
+  handlers:
+    - name: Open ports
+      service:
+        name: firewalld
+        state: reloaded
+
+    - name: Add unit /etc/systemd/system/alertmanager.service
+      systemd:
+        daemon-reload: true
+        enabled: true
+        state: restarted
+        name: alertmanager

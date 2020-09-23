@@ -1,0 +1,66 @@
+# my global config
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+  external_labels:
+    dc: promet-test1
+
+# Alertmanager configuration
+alerting:
+  alert_relabel_configs:
+  - source_labels: [dc]
+    regex: (.+)\d+
+    target_label: dc
+  alertmanagers:
+  - static_configs:
+    - targets: ['192.168.122.21:9093', '192.168.122.22:9093', '192.168.122.23:9093']
+      # - alertmanager:9093
+      # - 192.168.122.21:9093
+      # - 192.168.122.22:9093
+      # - 192.168.122.23:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+  - "alert.rules.yml"
+  - "services.rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+    - targets: ['localhost:9090']
+
+  - job_name: 'node_exporter_pr24_pr25'
+    static_configs:
+    - targets: ['192.168.122.30:9100']
+
+  - job_name: 'federate'
+    scrape_interval: 15s
+
+    honor_labels: true
+    metrics_path: '/federate'
+
+    params:
+      'match[]':
+        - '{__name__!=""}'
+
+    static_configs:
+      - targets:
+        - '192.168.122.26:9090'
+
+#remote storage - influxdb
+#remote_write:
+#  - url: "http://192.168.122.31:8086/api/v1/prom/write?db=pr24&u=pr24&p=pr24"
+#
+#remote_read:
+#  - url: "http://192.168.122.31:8086/api/v1/prom/read?db=pr24&u=pr24&p=pr24"
+
