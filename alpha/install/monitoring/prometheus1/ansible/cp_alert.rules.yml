@@ -3,18 +3,18 @@
 
   tasks:
 
-  - name: Copy prometheus.yml
+  - name: Copy alert.rules.yml
     copy:
-      src: /home/ansible/prometheus.yml
-      dest: /etc/prometheus/prometheus.yml
+      src: /home/ansible/alert.rules.yml
+      dest: /etc/prometheus/alert.rules.yml
       owner: prometheus
       group: prometheus
       mode: 0755
     notify:
-      - Copy prometheus.yml
+      - Copy alert.rules.yml
 
   handlers:
-  - name: Copy prometheus.yml
+  - name: Copy alert.rules.yml
     service:
       name: prometheus
       state: restarted

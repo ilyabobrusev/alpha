@@ -1,0 +1,66 @@
+- hosts: co36 
+  become: yes
+ 
+  tasks:
+ 
+  - name: Open 9100 ports
+    firewalld:
+      port: 9100/tcp
+      permanent: yes
+      state: enabled
+    notify:
+      - Open 9100 ports
+
+  - name: Add the user 'nodeusr'
+    user:
+      name: nodeusr
+      shell: /bin/false
+      create_home: no
+
+  - name: Download alertmanager
+    unarchive:
+      src: /tmp/node_exporter-1.0.1.linux-amd64.tar.gz
+      dest: /tmp
+
+  - name: Cp node_exporter to /usr/local/bin/
+    copy:
+      src: /tmp/node_exporter-1.0.1.linux-amd64/node_exporter
+      dest: /usr/local/bin/
+      remote_src: yes
+      owner: nodeusr
+      group: nodeusr
+      mode: 0755
+
+  - name: Add unit /etc/systemd/system/node_exporter.service
+    copy:
+      content: |
+        [Unit]
+        Description=Node Exporter Service
+        After=network.target
+                
+        [Service]
+        User=nodeusr
+        Group=nodeusr
+        Type=simple
+        ExecStart=/usr/local/bin/node_exporter
+        ExecReload=/bin/kill -HUP $MAINPID
+        Restart=on-failure
+        
+        [Install]
+        WantedBy=multi-user.target
+      dest: /etc/systemd/system/node_exporter.service
+    notify:
+      - Add unit /etc/systemd/system/node_exporter.service
+
+  handlers:
+    - name: Open 9100 ports
+      service:
+        name: firewalld
+        state: reloaded
+
+    - name: Add unit /etc/systemd/system/node_exporter.service
+      systemd:
+        daemon-reload: true
+        enabled: true
+        state: restarted
+        name: node_exporter
