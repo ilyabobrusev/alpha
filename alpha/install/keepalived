@@ -1,0 +1,25 @@
+firewall-cmd --add-rich-rule='rule protocol value="vrrp" accept' --permanent
+firewall-cmd --reload
+firewall-cmd --list-all
+dnf -y install keepalived
+systemctl enable --now keepalived
+nano /etc/keepalived/keepalived.conf
+####
+vrrp_instance VI_1 {
+    state MASTER #SLAVE
+    interface enp1s0
+    virtual_router_id 51
+    priority 150 #100
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass 00000000
+    }
+
+    virtual_ipaddress {
+        192.168.122.10
+    }
+}
+###
+systemctl restart keepalived
+systemctl status keepalived

@@ -67,3 +67,15 @@ systemctl enable mysql
 /usr/bin/mysql_secure_installation
 systemctl restart mysql
 systemctl status mysql
+
+__________________________________________________________
+
+dnf install -y mariadb-server
+ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+systemctl enable --now httpd
+mysql_secure_installation
+firewall-cmd --permanent --add-port=3306/tcp
+firewall-cmd --reload
+firewall-cmd --list-all
+
+
