@@ -148,3 +148,9 @@ scrape_configs:
 	  static_configs:
 	    - targets: ['localhost:9100', 'localhost:9102', 'localhost:9103', 'localhost:9187']
 
+-----------------------------------------------
+
+Можно выносить в отдельные файлы:
+file_sd_configs:
+    - files:
+      - /etc/prometheus/nodes/*-nodeexporter.yml

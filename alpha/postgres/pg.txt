@@ -85,3 +85,15 @@ postgresql12-test.x86_64 : The test suite distributed with PostgreSQL
 yum install centos-release-scl
 yum-config-manager --enable rhel-server-rhscl-7-rpms
 yum -y install postgresql12-devel
+
+_____________________________________________________________________________________
+
+#ssh tunel
+my_host# ssh -L 9999:localhost:5432 pg_host
+my_host# ssh -L 9999:pg_host:5432 jump_host
+
+my_host# psql -h localhost -p 9999 -U postgres
+
+
+
+
