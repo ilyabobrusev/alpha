@@ -150,7 +150,19 @@ scrape_configs:
 
 -----------------------------------------------
 
-Можно выносить в отдельные файлы:
-file_sd_configs:
-    - files:
-      - /etc/prometheus/nodes/*-nodeexporter.yml
+#Можно выносить в отдельные файлы:
+scrape_configs:
+...
+
+  - job_name: 'my_internet'
+    file_sd_configs:
+      - files:
+	- /etc/prometheus/targets/my_internet.yml
+
+#my_internet.yml
+- targets:
+  - www.openmit.space:9100
+  labels:
+    contur: internet
+    role: web-server, mail-server
+
