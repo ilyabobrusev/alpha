@@ -165,4 +165,23 @@ scrape_configs:
   labels:
     contur: internet
     role: web-server, mail-server
+    
+-----------------------------------------------
 
+#access to target with auth
+  - job_name: Name
+    metrics_path: /path/to/metrics
+    scheme: https
+    lts_config:
+      insecure_skip_verify: true
+    static_config:
+      - targets: ['target.name']
+        labels:
+	  lab1: info1
+	  lab2: info2
+    basic_auth:
+      username: user
+      password: pass
+      
+kill -HUP 1111
+tail /var/log/messages
