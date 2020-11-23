@@ -1,0 +1,29 @@
+https://www.dmosk.ru/instruktions.php?object=pacemaker-cluster
+https://www.kost.su/%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-%D0%B8-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-pacemaker-%D0%BD%D0%B0-centos7/#i-13
+https://www.server-world.info/en/note?os=CentOS_8&p=pacemaker&f=1
+
+#packeges install
+dnf --enablerepo=HighAvailability -y install resource-agents pacemaker pcs fence-agents-all psmisc corosync
+passwd hacluster
+systemctl enable --now pcsd
+systemctl status pcsd
+
+#cluster setup
+pcs host auth node1 node2 -u hacluster
+pcs cluster setup --force cluster_name node1 node2
+pcs cluster enable --all
+pcs cluster start --all
+pcs property set stonith-enabled=false   #disable stonith, optional
+pcs property set no-quorum-policy=ignore #disable quorum, optional
+pcs resource create virtual_ip ocf:heartbeat:IPaddr2 ip=192.168.xxx.xxx cidr_netmask=24 op monitor interval=60s
+pcs status
+pcs status corosync
+pcs config
+pcs cluster node remove node2
+pcs host auth node3
+pcs cluster node add node3
+pcs cluster stop --all
+pcs cluster start --all
+crm_resource --list-agents ocf
+
+
