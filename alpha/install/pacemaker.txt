@@ -26,4 +26,5 @@ pcs cluster stop --all
 pcs cluster start --all
 crm_resource --list-agents ocf
 
-
+#web ui
+https://192.168.xxx.xxx:2224
