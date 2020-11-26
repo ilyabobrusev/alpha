@@ -16,7 +16,7 @@ User=nodeusr
 Group=nodeusr
 Type=simple
 ExecStart=/usr/local/bin/node_exporter
-ExecReload=/bin/kill -HUP $MAINPID
+ExecReload=/bin/kill -HUP \$MAINPID
 Restart=on-failure
 
 [Install]
