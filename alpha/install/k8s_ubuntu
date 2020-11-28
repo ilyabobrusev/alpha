@@ -8,9 +8,6 @@ apt -y install docker-ce
 systemctl enable --now docker
 systemctl status docker
 docker run -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/server:preview
-#or
-docker run -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/server:latest
-latest
 
 #docker command
 https://linux-notes.org/ostanovit-udalit-vse-docker-kontejnery/
