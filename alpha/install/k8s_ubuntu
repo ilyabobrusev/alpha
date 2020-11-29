@@ -8,9 +8,16 @@ apt -y install docker-ce
 systemctl enable --now docker
 systemctl status docker
 docker run -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/server:preview
+docker run -d --restart=unless-stopped -p 7070:80 -p 7073:443 rancher/server:preview
+#https://phoenixnap.com/kb/install-rancher-on-ubuntu
+docker run -d --restart=unless-stopped -p 8080:8080 rancher/server:stable
 
 #docker command
 https://linux-notes.org/ostanovit-udalit-vse-docker-kontejnery/
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 docker rmi $(docker images -q)
+docker volume ls
+docker volume rm 
+rm -rf /var/lib/docker*
+systemctl restart docker
