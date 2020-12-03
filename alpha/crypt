@@ -1,0 +1,3 @@
+cryptsetup luksDump /dev/nvme0n1p3
+cryptsetup luksAddKey /dev/nvme0n1p3
+cryptsetup luksRemoveKey /dev/nvme0n1p3
