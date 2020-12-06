@@ -5,7 +5,7 @@ useradd supp
 passwd supp
 dnf -y install git
 dnf -y install postgresql postgresql-server
-/usr/pgsql-10/bin/postgresql-setup initdb
+/usr/bin/postgresql-setup initdb
 systemctl enable --now postgresql
 nano /var/lib/pgsql/data/pg_hba.conf
 host bitbucket bitbucketuser 127.0.0.1/32 md5
@@ -40,6 +40,7 @@ firewall-cmd --list-all
 #firewall-cmd --permanent --zone=public --add-port=7999/tcp
 #firewall-cmd --reload
 
+systemctl daemon-reload
 systemctl status atlbitbucket
 systemctl start atlbitbucket
 systemctl stop atlbitbucket
