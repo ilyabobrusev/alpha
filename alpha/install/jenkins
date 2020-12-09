@@ -8,9 +8,19 @@ name=Jenkins-stable
 baseurl=http://pkg.jenkins.io/redhat
 gpgcheck=1
 
-rpm ––import https://pkg.jenkins.io/redhat/jenkins.io.key
+rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
 dnf install -y jenkins
 systemctl enable --now jenkins
 firewall-cmd --permanent --zone=public --add-port=8080/tcp
 firewall-cmd --reload
 cat /var/lib/jenkins/secrets/initialAdminPassword
+
+_______________________________________________________________
+
+#UBUNTU20
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt update
+sudo apt install jenkins
+
+	

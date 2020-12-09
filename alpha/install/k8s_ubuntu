@@ -21,3 +21,4 @@ docker volume ls
 docker volume rm 
 rm -rf /var/lib/docker*
 systemctl restart docker
+docker exec -ti cont_name /bin/bash
