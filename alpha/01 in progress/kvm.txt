@@ -6,6 +6,19 @@ https://ivirt-it.ru/category/virtualization/
 https://ivirt-it.ru/ovirt-ldap/
 https://www.youtube.com/watch?v=iAM5rVsyONQ
 
+#create brige
+https://unixhow.com/4707/kak-ustanovit-i-nastroit-kvm-na-rhel-8
+nmcli connection show
+nmcli connection delete enp0s31f6
+nmcli connection add type bridge autoconnect yes con-name br0 ifname br0
+nmcli connection modify br0 ipv4.addresses 192.168.1.99/24 ipv4.method manual
+nmcli connection modify br0 ipv4.gateway 192.168.1.254
+nmcli connection modify br0 ipv4.dns 192.168.1.254
+nmcli connection add type bridge-slave autoconnect yes con-name enp0s31f6 ifname enp0s31f6 master br0
+nmcli connection up br0
+nmcli connection show
+
+
 #semidicom
 https://www.youtube.com/watch?v=DuAHpkek_RM
 
