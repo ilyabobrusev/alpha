@@ -1,0 +1,81 @@
+git clone https://github.com/inCaller/prometheus_bot.git
+cd prometheus_bot/
+make
+
+config.yaml
+telegram_token: "13234523452345:JFHEIOJFHVF0-q7&hjgft&UUJBhmvb"
+time_outdata: "02/01/2006 15:04:05"
+template_path: "/etc/alertmanager/template/tg.tmpl"
+time_zone: "Europe/Rome"
+split_msg_byte: 4000
+send_only: true
+
+
+nano /etc/alertmanager/alertmanager.yml
+
+
+receivers:
+- name: send_tg
+  webhook_configs:
+  - send_resolved: True
+    url: http://127.0.0.1:9087/alert/-102348340234
+
+_______________________________________________________________
+
+
+git clone https://github.com/inCaller/prometheus_bot.git
+cd prometheus_bot/
+make
+cp prometheus_bot /usr/local/bin/
+
+useradd --no-create-home --shell /bin/false prometheus_bot
+mkdir /etc/prometheus_bot/
+
+cat <<EOF | tee /etc/prometheus_bot/config.yaml
+telegram_token: "13234523452345:JFHEIOJFHVF0-q7&hjgft&UUJBhmvb"
+time_outdata: "02/01/2006 15:04:05"
+template_path: "/etc/alertmanager/template/tg.tmpl"
+time_zone: "Europe/Moscow"
+split_msg_byte: 4000
+send_only: true
+EOF
+
+chown prometheus_bot:prometheus_bot /usr/local/bin/prometheus_bot
+chown -R prometheus_bot:prometheus_bot /etc/prometheus_bot/
+
+cat <<EOF | tee /etc/alertmanager/template/tg.tmpl
+{{/* Writer - bobrusev.i.al@sberbank.ru */}}
+{{if eq .Status "firing"}}
+Status: <b>{{.Status }} 🔥</b>
+{{  .CommonAnnotations }}
+Labels:
+{{ .CommonLabels }}
+{{ end }}
+{{ if eq .Status "resolved"}}
+Status: <b>{{.Status }} ✅</b>
+{{ .CommonAnnotations }}
+Labels:
+{{ .CommonLabels }}
+{{ end }}
+EOF
+
+cat <<EOF | tee /etc/systemd/system/prometheus_bot.service
+[Unit]
+Description=prometheus_bot fot alertmanaget notifications in telegram
+After=network.target
+
+[Service]
+User=prometheus_bot
+Group=prometheus_bot
+Type=simple
+ExecStart=/usr/local/bin/prometheus_bot -c /etc/prometheus_bot/config.yaml
+ExecReload=/bin/kill -HUP \$MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+systemctl enable prometheus_bot
+systemctl start prometheus_bot
+systemctl status prometheus_bot
