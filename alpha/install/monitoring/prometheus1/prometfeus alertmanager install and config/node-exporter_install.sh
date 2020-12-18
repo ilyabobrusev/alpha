@@ -5,7 +5,7 @@ tar zxvf node_exporter-*.linux-amd64.tar.gz
 cd node_exporter-*.linux-amd64
 cp node_exporter /usr/local/bin/
 useradd --no-create-home --shell /bin/false nodeusr
-chown -R nodeusr:nodeusr /usr/local/bin/node_exporter
+chown nodeusr:nodeusr /usr/local/bin/node_exporter
 cat <<EOF | tee /etc/systemd/system/node_exporter.service
 [Unit]
 Description=Node Exporter Service
@@ -16,7 +16,6 @@ User=nodeusr
 Group=nodeusr
 Type=simple
 ExecStart=/usr/local/bin/node_exporter
-ExecReload=/bin/kill -HUP \$MAINPID
 Restart=on-failure
 
 [Install]
