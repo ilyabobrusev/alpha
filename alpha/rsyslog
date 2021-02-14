@@ -1,0 +1,5 @@
+https://www.dmosk.ru/miniinstruktions.php?mini=rsyslog
+http://r3mm3r.net/nastraivaem-rsyslog-na-logirovanie-v-otdelnye-fayly
+
+:programname, isequal, "dhcpd" /var/log/dhcpd.log
+:programname, isequal, "dhcpd" stop
