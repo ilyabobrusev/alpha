@@ -1,0 +1,22 @@
+fio для тестирования IOPS в Linux
+
+yum install epel-release -y
+yum install fio -y
+
+Тест случайных операций на чтение/запись
+fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=fiotest --filename=testfio --bs=4k --iodepth=64 --size=8G --readwrite=randrw --rwmixread=75
+
+Тест случайных операций на чтение
+fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=fiotest --filename=testfio --bs=4k --iodepth=64 --size=8G --readwrite=randread
+
+Тест случайных операций на запись
+fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=fiotest --filename=fiotest --bs=4k --iodepth=64 --size=8G --readwrite=randwrite
+
+
+
+Проверка latency диска с помощью ioping
+
+yum install ioping -y
+
+(выполняется 20 запросов):
+ioping -c 20 /tmp/
