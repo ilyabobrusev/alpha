@@ -34,7 +34,9 @@ docker push q/catnip
 docker login
 docker network ls
 docker network inspect bridge
-
+docker inspect container
+docker system df
+docker system prune -a
 
 docker run -d --hostname lt01.loc -p 443:4438 -p 80:808 -p 22:228 --name gitlab  --restart always gitlab/gitlab-ee:latest
 
