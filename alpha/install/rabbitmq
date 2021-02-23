@@ -10,7 +10,7 @@ sslverify=1
 sslcacert=/etc/pki/tls/certs/ca-bundle.crt
 metadata_expire=300
 
-dnf install rabbitmq-server
+dnf install -y rabbitmq-server
 systemctl enable rabbitmq-server.service --now
 systemctl status rabbitmq-server.service
 firewall-cmd --zone=public --permanent --add-port={4369,25672,5671,5672,15672,61613,61614,1883,8883}/tcp
