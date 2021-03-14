@@ -1,5 +1,5 @@
 {{if eq .Status "firing"}}
-Status: <b>{{.Status | str_UpperCase}}  </b>
+Status: <b>{{.Status | str_UpperCase}} 🔥</b>
 
 {{- range $val := .Alerts }}
   --Problem timestamp:
@@ -16,7 +16,7 @@ Status: <b>{{.Status | str_UpperCase}}  </b>
 {{ end }}
 
 {{if eq .Status "resolved"}}
-Status: <b>{{.Status | str_UpperCase}}  </b>
+Status: <b>{{.Status | str_UpperCase}} ✅</b>
 
 {{- range $val := .Alerts }}
   --Problem timestamp:
