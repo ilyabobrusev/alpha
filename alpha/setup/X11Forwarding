@@ -1,0 +1,5 @@
+#https://www.osradar.com/configure-x11-forwarding-in-centos-rhel-6-7-8-and-fedora-28-29/
+dnf install  xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-utils -y
+vi  /etc/ssh/sshd_config
+X11Forwarding yes #uncomment, set yes
+systemctl restart sshd
