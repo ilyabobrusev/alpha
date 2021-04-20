@@ -1,13 +1,13 @@
-wget https://github.com/prometheus/prometheus/releases/download/v2.25.0/prometheus-2.25.0.linux-amd64.tar.gz
+wget https://github.com/prometheus/prometheus/releases/download/v2.26.0/prometheus-2.26.0.linux-amd64.tar.gz
 firewall-cmd --permanent --add-port={9090,9093,9094,9100}/tcp --add-port=9094/udp
 firewall-cmd --reload
 firewall-cmd --list-all
-mkdir /etc/prometheus
-mkdir /var/lib/prometheus
+mkdir /etc/prometheus/
+mkdir /var/lib/prometheus/
 tar zxvf prometheus-*.linux-amd64.tar.gz
-cd prometheus-*.linux-amd64
-cp prometheus promtool /usr/local/bin/
-cp -r console_libraries consoles prometheus.yml /etc/prometheus/
+cp prometheus-*.linux-amd64/{prometheus,promtool} /usr/local/bin/
+cp prometheus-*.linux-amd64/prometheus.yml /etc/prometheus/
+cp -r prometheus-*.linux-amd64/console* /etc/prometheus/
 useradd --no-create-home --shell /bin/false prometheus
 chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus/
 chown prometheus:prometheus /usr/local/bin/{prometheus,promtool}
