@@ -67,3 +67,23 @@ DNS3="2001:4860:4860::8888"
 DNS4="2001:4860:4860::8844"
 IPV6_PRIVACY="no"
 
+____________________________________________________
+#Centos8
+#/etc/sysconfig/network-scripts/ifcfg-ens33 
+TYPE=Ethernet
+PROXY_METHOD=none
+BROWSER_ONLY=no
+BOOTPROTO=none
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=no
+NAME=ens33
+UUID=675bc239-2e46-4ffc-ab3e-f0d6057e6f3f
+DEVICE=ens33
+ONBOOT=yes
+IPADDR=192.168.1.100
+PREFIX=24
+GATEWAY=192.168.1.254
+DNS1=192.168.1.254
+IPV6_DISABLED=yes
+
