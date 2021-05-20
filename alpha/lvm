@@ -124,3 +124,13 @@ vgremove vg_raid
 fdisk /dev/sda
 pvresize /dev/sda2
 
+___________________________________
+#Информация по дискам:
+df -h, lsblk, pvs, vgs, lvs, pvdisplay, vgdisplay, lvdisplay
+#Добавление диска в lvm и расширение раздела
+pvcreate /dev/sdc
+lvmdiskscan -l
+vgextend rootvg /dev/sdc
+lvextend -L +100G /dev/mapper/rootvg-data
+resize2fs /dev/mapper/rootvg-data
+
