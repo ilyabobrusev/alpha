@@ -40,3 +40,77 @@ script_success{script="script1"} 1 #success
 script_duration_seconds{script="script2"} 1.000317
 script_success{script="script2"} 0 #fail
 
+
+___________________________________________________
+
+
+./script_exporter -config.file script-exporter.yml
+
+  - alert: User lock
+    expr: script_success{job="script_exporter",script=~"пользователь.*"} == 0
+    for: 15s
+    labels:
+      severity: high
+    annotations:
+      description: 'Заблокирован {{ $labels.script }}'
+
+
+
+  - job_name: script_exporter
+    metrics_path: "/probe"
+    params:
+      'pattern':
+        - ".*"
+    static_configs:
+      - targets: ['localhost:9172']
+
+
+#nano ldapconn.py
+#!/usr/bin/python3.8
+#Импорт бибилиотеки для работы с ldap
+from ldap3 import Connection,Server
+#Импорт бибилиотеки для работы с аргументами
+import argparse
+#Переменная для хранения аргумента
+parser = argparse.ArgumentParser()
+#Задаем дключь для передачи аргумента
+parser.add_argument("--user")
+#Парсим переданный аргумент
+args = parser.parse_args()
+#Создаем переменную для хранения аргумента
+user = args.user
+#Сервер ldap
+server=Server("dom.loc")
+#Подключение к ldap
+con=Connection(server,"dom\\user","pass",auto_bind=True)
+#Проверка признака блокировки
+con.search("dc=dom,dc=loc","(&(objectClass=user)(sAMAccountName=" + str(user) + ")(lockoutTime>=1))")
+#печатаем результат если есть признак блокировки
+#print(con.entries)
+if len(con.entries) == 0:
+    True
+else:
+    raise SystemExit(1)
+
+
+#nano script-exporter.yml
+scripts:
+  - name: пользователь - test01
+    script: ./ldapconn.py --user test01
+    timeout: 5
+
+  - name: пользователь - test02
+    script: ./ldapconn.py --user test02
+    timeout: 5
+
+  - name: пользователь - test03
+    script: ./ldapconn.py --user test03
+    timeout: 5
+
+  - name: пользователь - test04
+    script: ./ldapconn.py --user test04
+    timeout: 5
+
+  - name: пользователь - test05
+    script: ./ldapconn.py --user test05
+    timeout: 5

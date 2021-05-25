@@ -25,3 +25,8 @@ username = "cn"
 member_of = "memberOf"
 email =  "mail"
 
+
+#[[servers.group_mappings]]
+#group_dn = "cn=grafana-admins,ou=home_groups,dc=home,dc=loc"
+#org_role = "Admin"
+#grafana_admin = true
