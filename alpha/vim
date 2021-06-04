@@ -1,0 +1,3 @@
+vim ~/.vimrc
+set cursorcolumn
+set cursorline
