@@ -1,3 +1,4 @@
+#https://computingforgeeks.com/install-standalone-ovirt-engine-on-centos/
 #Самый четкий первый
 https://www.youtube.com/watch?v=rg15nxznfwQ&list=PLva_8Wo6URIhtNQO73q3Ul6YuX-SMtfEJ
 https://www.youtube.com/watch?v=Pasz-lv3gTY
