@@ -6,3 +6,94 @@ https://ruhighload.com/%D0%9A%D0%B0%D0%BA+%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D
 
 
 mysqladmin -uroot -p flush-hosts;
+
+
+#На примере percona 5.7 и centos 8
+#Если на мастере работает фаервол, необходимо открыть порт для подключения со слейва
+firewall-cmd --permanent --add-port=3306/tcp
+firewall-cmd --reload
+
+#Следующие действия одинаковы для всех серверов
+#Подключаем репозиторий
+yum -y install https://repo.percona.com/yum/percona-release-latest.noarch.rpm
+#Отключаем стандартный модуль mysql
+dnf -y module disable mysql
+#Установка mysql
+yum -y install Percona-Server-server-57
+#Запустить mysql и добавить в автостарт
+systemctl enable --now mysqld
+#Смотрим начальный пароль пользователя root для сервера mysql
+grep "temporary password" /var/log/mysqld.log
+#Выполняем начальную настройку безопастности
+mysql_secure_installation
+#Подключаемся к mysql, проверяем что всё работает
+mysql -p root
+#Создаём папку для хранения бинарных логов, которые потребуются в настройки репликации
+mkdir /var/log/mysql
+#Делаем владельцем пользователю от имени которого работает mysql
+chown mysql:mysql /var/log/mysql
+#Правим конфиг для включения возможности репликации
+vi /etc/percona-server.conf.d/mysqld.cnf
+#Привести конфиг к данному виду (на раздых серверах должны быть разные значение server-id)
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+symbolic-links=0
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+server-id = 1 # On slave server-id = 2
+log_bin = /var/log/mysql/mysql-bin.log
+explicit_defaults_for_timestamp = 1
+binlog_do_db = db_name_for_replication_01
+binlog_do_db = db_name_for_replication_02
+#####
+#Перезагружаем mysql для применения нового конфига
+systemctl restart mysqld
+
+#On master
+#Подключаемся к mysql
+mysql -p root
+#Создаём пользователя для подключения с сервера slave
+CREATE USER 'replication_user'@'ip_slave_server' IDENTIFIED BY 'pass';
+#Предоставляем права для возможности выполнения репликации всех баз
+GRANT replication slave ON *.* TO 'replication_user'@'ip_slave_server';
+#Или предоставляем права для возможности выполнения репликации конкретных баз
+GRANT replication slave ON db_name_for_replication_01.* TO 'replication_user'@'ip_slave_server';
+#Получаем статус мастера
+show master status;
+#Нам нужны данные из поля File и Position для последующего использования на slave
+
+#On slave
+#Перед тем как запускать репликацию, необходимо создать такие-же БД как и на master которые мы будем реплицировать
+#Подключаемся к mysql
+mysql -p root
+#Назаначение параметров подключения к master
+CHANGE MASTER TO MASTER_HOST = 'ip_master_server',
+ MASTER_USER = 'replication_user',
+ MASTER_PASSWORD = 'pass',
+ MASTER_LOG_FILE = 'value_File',
+ MASTER_LOG_POS = value_Position;
+#Запуск репликации
+start slave;
+#Проверяем статус репликации
+show slave status \G;
+#Основные паказатели которые свидетельствуют что всё работает корректно
+Slave_IO_State: Waiting for master to send event
+Slave_IO_Running: Yes
+Slave_SQL_Running: Yes
+Seconds_Behind_Master: 0 #Показатель отставания от master
+
+#Примечание!!!
+#Если будем снимать дамп текущих данных для переноса на slave, то нужно заблокировать таблицы
+mysql -p root
+mysql>USE db_name_for_replication_01;
+mysql>FLUSH TABLES WITH READ LOCK;
+mysql>SHOW MASTER STATUS;
+mysqldump -u root -p db_name_for_replication_01 > db_name_for_replication_01.sql
+mysql>UNLOCK TABLES;
+
+#Также для блокировки записи в базу можно использовать
+mysql>SET GLOBAL read_only = ON;  # вкл только чтение
+mysql>SET GLOBAL read_only = OFF; # выкл только чтение
+
+#Наслаждаемся успехом)))
