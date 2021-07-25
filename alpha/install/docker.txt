@@ -61,3 +61,13 @@ iptables -t filter -X
 systemctl restart docker
 #or
 firewall-cmd --zone=public --add-masquerade --permanent
+
+docker run -d \
+  --hostname gitlab.co241.loc \
+  --publish 443:443 --publish 80:80 --publish 22:22 \
+  --name gitlab \
+  --restart always \
+  -v /gl/etc/gitlab:/etc/gitlab \
+  -v /gl/var/log/gitlab:/var/log/gitlab \
+  -v /gl/var/opt/gitlab:/var/opt/gitlab \
+  gitlab/gitlab-ce:latest
