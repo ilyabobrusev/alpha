@@ -52,3 +52,12 @@ systemctl enable enable --now gitlab-runner
 systemctl status gitlab-runner
 gitlab-runner register   --non-interactive   --url "http://lt01.loc:7070/"   --registration-token "fypBfQzbyqFMxxEF8n6i"   --executor "docker"   --docker-image ubuntu:latest   --description "docker-runner"   --tag-list "docker"   --run-untagged="true"   --locked="false"
 
+___________________________________
+#centos
+
+#net
+iptables -t filter -F
+iptables -t filter -X
+systemctl restart docker
+#or
+firewall-cmd --zone=public --add-masquerade --permanent
