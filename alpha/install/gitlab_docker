@@ -1,0 +1,44 @@
+docker run -d \
+--hostname srv01 \
+--publish 7080:7080 --publish 7022:22 \
+--name gitlab-ce \
+gitlab/gitlab-ce
+
+#or
+
+mkdir -p /gitlab/{config,logs,data}
+
+docker run -d \
+--hostname srv01 --publish 7080:7080 --publish 7022:22 \
+--name gitlab-ce \
+--restart always \
+--volume /gitlab/config:/etc/gitlab \
+--volume /gitlab/logs:/var/log/gitlab \
+--volume /gitlab/data:/var/opt/gitlab \
+gitlab/gitlab-ce
+
+docker exec -it gitlab-ce /bin/bash
+cat /etc/gitlab/initial_root_password
+vi /etc/gitlab/gitlab.rb
+
+external_url "http://srv01:7080"
+gitlab_rails['gitlab_shell_ssh_port'] = 7022
+#mail_server_settings
+gitlab_rails['smtp_enable'] = true                                                                                     
+gitlab_rails['smtp_address'] = "mlx.ru"                                                    
+gitlab_rails['smtp_port'] = 465                                                                                      
+gitlab_rails['smtp_user_name'] = "glu@mlx.ru"                                                           
+gitlab_rails['gitlab_email_from'] = "glu@mlx.ru"                                                                 
+gitlab_rails['smtp_domain'] = "mlx.ru"                                                                      
+gitlab_rails['smtp_password'] = "glu_pass"                                                       
+gitlab_rails['smtp_authentication'] = "login"                                                                          
+gitlab_rails['smtp_enable_starttls_auto'] = true                                                   
+gitlab_rails['smtp_tls'] = true                                                                                      
+gitlab_rails['smtp_ssl'] = false                                                                                   
+gitlab_rails['smtp_openssl_verify_mode'] = 'none'
+
+gitlab-ctl reconfigure
+gitlab-ctl restart
+
+gitlab-rails console
+Notify.test_email('user@mlx.ru', 'Message Subject', 'Message Body').deliver_now
