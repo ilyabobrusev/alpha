@@ -1,0 +1,7 @@
+etcd-1: connect command: ssh user@134.209.253.156 password: dbjbzdzanywa
+etcd-2: connect command: ssh user@134.209.255.113 password: hmrbzvistngd
+etcd-3: connect command: ssh user@134.209.252.149 password: tlrivkcaxhgf
+patroni-1: connect command: ssh user@134.209.242.254 password: zndfxqlzaade
+patroni-2: connect command: ssh user@134.209.248.47 password: hzxtkcowoowc
+patroni-3: connect command: ssh user@134.209.252.19 password: cvdctjdoymyy
+HAProxy: connect command: ssh user@134.209.231.193 password: gnpegopbknmx

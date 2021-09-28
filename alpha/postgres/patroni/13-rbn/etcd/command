@@ -1,0 +1,14 @@
+cd /root/
+vi etcd_installer.sh
+sh etcd_installer.sh
+adduser etcd
+mkdir /etc/etcd/
+vi /etc/etcd/etcd.yml
+chown etcd:etcd -R /task13/etcd/ /etc/etcd/
+vi /etc/systemd/system/etcd.service
+systemctl daemon-reload
+systemctl enable --now etcd
+systemctl status etcd
+
+./etcdctl --endpoints="134.209.253.156:2379,134.209.255.113:2379,134.209.252.149:2379" endpoint status
+./etcdctl --endpoints="134.209.253.156:2379,134.209.255.113:2379,134.209.252.149:2379" endpoint health

@@ -1,0 +1,73 @@
+scope: rebrain # должно быть одинаковым на всех нодах
+namespace: /rebrain-cluster/ # должно быть одинаковым на всех нодах
+name: rebrain-postgres-node-1 # должно быть разным на всех нодах
+
+restapi:
+  listen: 134.209.242.254:8008 # адрес той ноды, в которой находится этот файл
+  connect_address: 134.209.242.254:8008 # адрес той ноды, в которой находится этот файл
+
+etcd:
+  hosts: 134.209.253.156:2379,134.209.255.113:2379,134.209.252.149:2379 # перечислите здесь все ваши ноды, в случае если вы устанавливаете etcd на них же
+
+# this section (bootstrap) will be written into Etcd:/<namespace>/<scope>/config after initializing new cluster
+# and all other cluster members will use it as a `global configuration`
+bootstrap:
+  dcs:
+    ttl: 30
+    loop_wait: 10
+    retry_timeout: 10
+    maximum_lag_on_failover: 1048576
+    postgresql:
+      use_pg_rewind: true
+      use_slots: true
+      parameters:
+      wal_level: replica 
+      hot_standby: "on" 
+      max_wal_senders: 5 
+      max_replication_slots: 5 
+      wal_log_hints: "on" 
+      archive_mode: "on" 
+      archive_timeout: 600s
+      archive_command: "cp -f %p /db/pg_archived/%f"
+      recovery_conf:
+        restore_command: "cp -f /db/pg_archived/%f %p"
+  initdb:
+  - encoding: UTF8
+  - data-checksums
+  - locale: en_US.UTF8
+  # init pg_hba.conf должен содержать адреса ВСЕХ машин, используемых в кластере
+  pg_hba:
+  - host replication replicator ::1/128 md5
+  - host replication replicator 127.0.0.1/8 md5
+  - host replication replicator 134.209.242.254/24 md5
+  - host replication replicator 134.209.248.47/24 md5
+  - host replication replicator 134.209.252.19/24 md5
+  - host all root 0.0.0.0/0 md5
+  users:
+    rebrain_admin:
+      password: rebrain_admin_password
+      options:
+      - createrole
+      - createdb
+postgresql:
+  listen: 134.209.242.254:5432 # адрес той ноды, в которой находится этот файл
+  connect_address: 134.209.242.254:5432 # адрес той ноды, в которой находится этот файл
+  data_dir: /etc/patroni/pgdata # эту директорию создаст скрипт, описанный выше и установит нужные права
+  bin_dir:  /usr/lib/postgresql/13/bin # укажите путь до вашей директории с postgresql
+  pgpass: /tmp/pgpass0
+  authentication:
+    replication:
+      username: replicator
+      password: replicatorSuperHarDpwd
+    superuser:
+      username: root
+      password: admin
+  create_replica_methods:
+    basebackup:
+      checkpoint: 'fast'
+  parameters:
+    unix_socket_directories: '/var/run/postgresql'
+    external_pid_file: '/var/run/postgresql/13-main.pid'
+  logging_collector: "on" 
+  log_directory: "/var/log/postgresql"
+  log_filename: "postgresql-13-main.log"

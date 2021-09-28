@@ -1,0 +1,3 @@
+CREATE TABLE test (id SERIAL Primary Key NOT NULL, info TEXT);
+INSERT INTO test (info) VALUES ('Hello'),('From'),('Patroni'),('Leader');
+SELECT * FROM test;
