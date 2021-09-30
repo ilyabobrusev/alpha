@@ -112,8 +112,8 @@ sync_map:
 
 # Now query LDAP to create roles and grant them privileges by parenting.
 - ldap:
-    base: OU=Users,OU=Central,OU=Main,DC=X5,DC=ru
-    filter: '(& (objectClass=User) (memberOf=CN=mn-hdap19-postgres-access,OU=Groups,OU=Hadoop,OU=Resources,OU=Main,DC=X5,DC=ru))'
+    base: OU=Usr,OU=Cent,OU=Main,DC=X7,DC=ru
+    filter: '(& (objectClass=User) (memberOf=CN=mn-hdpg120-postgres-access,OU=Groups,OU=Hadoop,OU=Resources,OU=Main,DC=X7,DC=ru))'
     scope: sub
   role:
     name: '{samaccountname}'
@@ -122,8 +122,8 @@ sync_map:
     - ldap_roles
     - owners
 - ldap:
-    base: OU=Users,OU=RUMN,OU=MO,OU=F.CEN,OU=Branch,OU=Main,DC=X5,DC=ru
-    filter: '(& (objectClass=User) (memberOf=CN=mn-hdap19-postgres-access,OU=Groups,OU=Hadoop,OU=Resources,OU=Main,DC=X5,DC=ru))'
+    base: OU=Usr,OU=RUM,OU=MO,OU=F.CEN,OU=Br,OU=Main,DC=X7,DC=ru
+    filter: '(& (objectClass=User) (memberOf=CN=mn-hdpg120-postgres-access,OU=Groups,OU=Hadoop,OU=Resources,OU=Main,DC=X7,DC=ru))'
     scope: sub
   role:
     name: '{samaccountname}'
@@ -132,8 +132,8 @@ sync_map:
     - ldap_roles
     - owners
 - ldap:
-    base: OU=New Users,OU=Users,OU=Central,OU=Main,DC=X5,DC=ru
-    filter: '(& (objectClass=User) (memberOf=CN=mn-hdap19-postgres-access,OU=Groups,OU=Hadoop,OU=Resources,OU=Main,DC=X5,DC=ru))'
+    base: OU=New Usr,OU=Users,OU=Cent,OU=Main,DC=X7,DC=ru
+    filter: '(& (objectClass=User) (memberOf=CN=mn-hdpg120-postgres-access,OU=Groups,OU=Hadoop,OU=Resources,OU=Main,DC=X7,DC=ru))'
     scope: sub
   role:
     name: '{samaccountname}'
@@ -142,8 +142,8 @@ sync_map:
     - ldap_roles
     - owners
 - ldap:
-    base: OU=Service Accounts,OU=Admins,DC=X5,DC=ru
-    filter: '(& (objectClass=User) (memberOf=CN=mn-hdap19-postgres-access,OU=Groups,OU=Hadoop,OU=Resources,OU=Main,DC=X5,DC=ru))'
+    base: OU=Service Acc,OU=Adm,DC=X7,DC=ru
+    filter: '(& (objectClass=User) (memberOf=CN=mn-hdpg120-postgres-access,OU=Groups,OU=Hadoop,OU=Resources,OU=Main,DC=X7,DC=ru))'
     scope: sub
   role:
     name: '{samaccountname}'
