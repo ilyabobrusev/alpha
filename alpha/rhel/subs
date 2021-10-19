@@ -1,0 +1,144 @@
+[root@rhel181 q]# sudo subscription-manager list --available
++-------------------------------------------+
+    Доступные подписки
++-------------------------------------------+
+Подписка:             Red Hat Developer Subscription for Individuals
+Предоставляет:        Red Hat Developer Tools (for RHEL Server for ARM)
+                      Red Hat Software Collections (for RHEL Server for ARM)
+                      Red Hat Ansible Engine
+                      JBoss Enterprise Application Platform from RHUI
+                      Red Hat CodeReady Linux Builder for IBM z Systems - Extended Update Support
+                      Red Hat JBoss AMQ Interconnect
+                      JBoss Enterprise Application Platform
+                      JBoss Enterprise Web Server from RHUI
+                      Red Hat Enterprise Linux for IBM z Systems - Extended Update Support
+                      Red Hat Container Development Kit
+                      Red Hat Beta
+                      RHEL for SAP (for IBM Power LE) - Update Services for SAP Solutions
+                      Red Hat OpenShift Container Platform
+                      MRG Realtime
+                      Red Hat JBoss Data Grid
+                      dotNET on RHEL (for RHEL Server)
+                      Red Hat CodeReady Linux Builder for x86_64 - Extended Update Support
+                      Red Hat OpenShift Enterprise JBoss A-MQ add-on
+                      Red Hat OpenShift Application Runtimes Beta
+                      Red Hat Enterprise Linux High Availability - Update Services for SAP Solutions
+                      Oracle Java (for RHEL Server)
+                      Red Hat Enterprise Linux Resilient Storage for x86_64
+                      Red Hat Software Collections (for RHEL Server)
+                      Red Hat Enterprise Linux for ARM 64
+                      JBoss Enterprise Web Platform
+                      Red Hat Enterprise Linux for Real Time
+                      Red Hat CodeReady Linux Builder for ARM 64
+                      Red Hat Developer Tools (for RHEL Server)
+                      Red Hat Developer Tools Beta (for RHEL Server)
+                      Red Hat Enterprise Linux for x86_64
+                      Red Hat Enterprise Linux Resilient Storage for IBM z Systems - Extended Update Support
+                      Red Hat Enterprise Linux High Performance Networking (for RHEL Compute Node)
+                      Red Hat S-JIS Support (for RHEL Server) - Extended Update Support
+                      dotNET on RHEL Beta (for RHEL Server)
+                      Red Hat CodeReady Linux Builder for x86_64
+                      Red Hat Enterprise Linux for SAP HANA for x86_64
+                      RHEL for SAP HANA - Update Services for SAP Solutions
+                      Red Hat Enterprise Linux Scalable File System (for RHEL Server) - Extended Update Support
+                      RHEL for SAP HANA - Extended Update Support
+                      Red Hat Container Images Beta
+                      Red Hat Ansible Automation Platform
+                      Red Hat Enterprise Linux Atomic Host Beta
+                      Red Hat JBoss Core Services
+                      Red Hat Container Images
+                      Red Hat Enterprise Linux Load Balancer (for RHEL Server)
+                      Red Hat Developer Suite v.3
+                      Red Hat CodeReady Workspaces for OpenShift
+                      Red Hat OpenShift Enterprise JBoss EAP add-on
+                      Red Hat Openshift Application Runtimes for IBM Power LE
+                      Red Hat EUCJP Support (for RHEL Server) - Extended Update Support
+                      Red Hat Enterprise Linux High Availability for x86_64
+                      Red Hat Enterprise Linux Load Balancer (for RHEL Server) - Extended Update Support
+                      Red Hat Openshift Application Runtimes
+                      Red Hat Enterprise Linux High Availability (for IBM z Systems) - Extended Update Support
+                      Red Hat Enterprise Linux Resilient Storage for x86_64 - Extended Update Support
+                      Red Hat Enterprise Linux High Availability for x86_64 - Extended Update Support
+                      Red Hat Enterprise Linux Server - Update Services for SAP Solutions
+                      Red Hat JBoss Middleware
+                      Red Hat Migration Toolkit
+                      Red Hat Enterprise Linux High Performance Networking (for RHEL Server)
+                      Red Hat Enterprise Linux Scalable File System (for RHEL Server)
+                      Red Hat Enterprise Linux High Performance Networking (for RHEL Server) - Extended Update Support
+                      Red Hat Enterprise Linux EUS Compute Node
+                      RHEL for SAP - Update Services for SAP Solutions
+                      Oracle Java (for RHEL Server) - Extended Update Support
+                      Red Hat Enterprise Linux Atomic Host
+                      OpenJDK Java (for Middleware)
+                      JBoss Operations Network from RHUI
+                      Red Hat JBoss AMQ Clients
+                      Red Hat 3scale API Management Platform
+                      Red Hat Software Collections Beta (for RHEL Server)
+                      Red Hat Enterprise Linux Server
+                      Red Hat Enterprise Linux for SAP Applications for x86_64
+                      Red Hat Enterprise Linux for x86_64 - Extended Update Support
+                      RHEL for SAP - Extended Update Support
+                      Red Hat Developer Toolset (for RHEL Server)
+                      Red Hat Software Collections Beta (for RHEL Server for ARM)
+                      Red Hat JBoss Core Services from RHUI
+                      Red Hat Developer Tools Beta (for RHEL Server for ARM)
+                      Red Hat OpenShift Enterprise JBoss FUSE add-on
+                      Red Hat Build of Quarkus
+                      Red Hat OpenShift Enterprise JBoss EAP add-on Beta
+Артикул:              RH00798
+Контракт:             
+ID пула:              8a85f99a7c18bfe3017c3842a3f75fc7
+Управление:           Нет
+Доступно:             16
+Предлагается:         1
+Тип обслуживания:     
+Roles:                Red Hat Enterprise Linux Server
+                      Red Hat Enterprise Linux Workstation
+                      Red Hat Enterprise Linux Compute Node
+Уровень обслуживания: Self-Support
+Usage:                Development/Test
+Add-ons:              
+Тип подписки:         Standard
+Начало:               30.09.2021
+Конец:                30.09.2022
+Entitlement Type:     Физическая
+
+Подписка:             Red Hat Beta Access
+Предоставляет:        Red Hat CodeReady Linux Builder for x86_64 Beta
+                      Red Hat Enterprise Linux for IBM z Systems Beta
+                      Red Hat Enterprise Linux Fast Datapath Beta for Power, little endian
+                      Red Hat Enterprise Linux Resilient Storage Beta
+                      Red Hat Enterprise Linux for x86_64 Beta
+                      Red Hat Enterprise Linux for Real Time for NFV Beta
+                      Red Hat Enterprise Linux for Real Time Beta
+                      Red Hat Enterprise Linux for SAP HANA for x86_64 Beta
+                      Red Hat Directory Server Beta
+                      Red Hat Enterprise Linux Advanced Virtualization Beta (for RHEL Server for IBM System Z)
+                      Red Hat Enterprise Linux for SAP Applications for x86_64 Beta
+                      Red Hat Enterprise Linux for SAP Applications for IBM z Systems Beta
+                      Red Hat CodeReady Linux Builder for ARM 64 Beta
+                      Red Hat Enterprise Linux for SAP Applications for Power, little endian Beta
+                      Red Hat Enterprise Linux Fast Datapath Beta for x86_64
+                      Red Hat Enterprise Linux Advanced Virtualization (for RHEL Server for IBM System Z)
+                      Red Hat CodeReady Linux Builder for Power, little endian Beta
+                      Red Hat CodeReady Linux Builder for IBM z Systems Beta
+                      Red Hat Enterprise Linux High Availability Beta
+                      Red Hat Enterprise Linux for Power, little endian Beta
+                      Red Hat Enterprise Linux for ARM 64 Beta
+                      Red Hat Certificate System Beta
+                      Red Hat Enterprise Linux for SAP HANA for Power, little endian Beta
+Артикул:              RH00069
+Контракт:             
+ID пула:              8a85f99f7b54dac0017c0574447f15ca
+Управление:           Нет
+Доступно:             Не ограничено
+Предлагается:         1
+Тип обслуживания:     L1-L3
+Roles:                
+Уровень обслуживания: Self-Support
+Usage:                
+Add-ons:              
+Тип подписки:         Standard
+Начало:               04.09.2021
+Конец:                30.09.2022
+Entitlement Type:     Физическая

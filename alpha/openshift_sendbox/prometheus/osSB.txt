@@ -1,0 +1,13 @@
+curl -H "Authorization: Bearer sha256~cLiNLvz34l1wSUsZSlkxawszuKwLkTFQolqNL_8vJo4" "https://api.sandbox-v1.r2.d2.openshiftapps.com:6443/apis/user.openshift.io/v1/users/~"
+
+oc login --token=sha256~cLiNLvzl1wsZSlkxertGRsdfgszuKwkTFQolqNL_8vJo4 --server=https://api.sandbox-v1.r2.d2.openshiftapps.com:6443
+
+
+oc login -u kubeadmin -p ${RHT_OCP4_KUBEADM_PASSWD} https://api.ocp4.example.com:6443
+
+
+https://console-openshift-console.apps.sandbox-m2.ll9k.p1.openshiftapps.com/k8s/cluster/projects
+
+
+https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/
+
