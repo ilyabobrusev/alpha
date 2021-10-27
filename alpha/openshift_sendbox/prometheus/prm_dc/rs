@@ -1,0 +1,1 @@
+oc scale dc/prometheus --replicas=0; oc scale dc/prometheus --replicas=1
