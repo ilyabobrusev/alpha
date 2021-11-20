@@ -1,4 +1,4 @@
-wget https://github.com/prometheus/node_exporter/releases/download/v1.1.2/node_exporter-1.1.2.linux-amd64.tar.gz
+wget https://github.com/prometheus/node_exporter/releases/download/v1.3.0/node_exporter-1.3.0.linux-amd64.tar.gz
 firewall-cmd --permanent --add-port=9100/tcp
 firewall-cmd --reload
 tar zxvf node_exporter-*.linux-amd64.tar.gz
@@ -22,6 +22,5 @@ Restart=on-failure
 WantedBy=multi-user.target
 EOF
 systemctl daemon-reload
-systemctl enable node_exporter
-systemctl start node_exporter
+systemctl enable --now node_exporter
 systemctl status node_exporter
