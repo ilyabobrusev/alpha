@@ -132,6 +132,7 @@ pvcreate /dev/sdc
 lvmdiskscan -l
 vgextend rootvg /dev/sdc
 lvextend -L +100G /dev/mapper/rootvg-data
+#lvextend -l +100%FREE /dev/mapper/rootvg-data
 resize2fs /dev/mapper/rootvg-data
 #xfs_growfs /dev/mapper/rootvg-data
 
