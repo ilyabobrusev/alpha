@@ -1,0 +1,49 @@
+https://www.digicert.com/kb/ssl-support/openssl-quick-reference-guide.htm
+https://firstvds.ru/technology/komandy-openssl
+
+#CA
+openssl genrsa -out ca.key 2048
+openssl req -x509 -new -key ca.key -days 10000 -out ca.crt
+#client1
+openssl genrsa -out client1.key 2048
+openssl req -new -key client.key -out client.csr
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 5000
+
+
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:ru
+State or Province Name (full name) [Some-State]:df
+Locality Name (eg, city) []:msk
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:sw
+Organizational Unit Name (eg, section) []:msw
+Common Name (e.g. server FQDN or YOUR name) []:client
+Email Address []:email@email.com
+
+#Show csr data
+openssl req -noout -text -in client.csr
+
+#show ctr data
+openssl x509 -noout -text -in ca.crt
+
+#Проверить, что ключ соответствует сертификату
+openssl x509 -noout -modulus -in client.crt | openssl md5
+openssl rsa -noout -modulus -in client.key | openssl md5
+
+#Проверить что клиентский сертификат подписан корневым
+openssl verify -verbose -CAfile ca.crt client.crt
+
+
+#Width subj
+#CA
+openssl genrsa -out ca.key 4096
+openssl req -x509 -new -key ca.key -days 10000 -out ca.crt -subj '/C=ru/ST=df/L=msk/O=sw/OU=msw/emailAddress=root@example.com/CN=sw_ca'
+#Client
+openssl genrsa -out client.key 4096
+openssl req -new -key client.key -out client.csr -subj '/C=ru/ST=df/L=msk/O=sw/OU=msw/emailAddress=root@example.com/CN=gsw1'
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 5000
