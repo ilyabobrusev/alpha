@@ -5,7 +5,7 @@ https://firstvds.ru/technology/komandy-openssl
 openssl genrsa -out ca.key 2048
 openssl req -x509 -new -key ca.key -days 10000 -out ca.crt
 #client1
-openssl genrsa -out client1.key 2048
+openssl genrsa -out client.key 2048
 openssl req -new -key client.key -out client.csr
 openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 5000
 
