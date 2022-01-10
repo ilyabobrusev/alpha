@@ -11,6 +11,7 @@ sudo subscription-manager clean
 
 sudo subscription-manager register
 sudo subscription-manager refresh
+sudo subscription-manager register --auto-attach --force
 
 sudo subscription-manager list --available
 sudo subscription-manager attach --pool=<Pool-ID>
