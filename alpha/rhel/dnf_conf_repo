@@ -1,0 +1,8 @@
+dnf config-manager --add-repo repository_url
+dnf config-manager --add-repo http://www.example.com/example.repo
+dnf config-manager --set-enabled repository_name
+dnf config-manager --set-disabled repository_name
+
+dnf repolist
+or dnf repolist enabled
+dnf repolist disabled
