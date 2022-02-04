@@ -1,0 +1,3 @@
+https://forketyfork.medium.com/centos-8-no-urls-in-mirrorlist-error-3f87c3466faa
+sudo sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-*
+sudo sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*
