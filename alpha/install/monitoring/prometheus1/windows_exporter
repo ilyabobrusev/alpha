@@ -9,3 +9,5 @@ msiexec /i windows_exporter-0.16.0-amd64.msi ENABLED_COLLECTORS=cpu,cs,logical_d
 
 sc create MyService binPath=C:\MyServise\MyService.exe DisplayName="My New Service" type=own start=auto
 sc create MyService binPath= C:\MyServise\MyService.exe DisplayName= "My New Service" type= own start= auto
+
+sc create windows_exporter binPath="C:\windows_exporter\windows_exporter-0.18.1-amd64.exe --collectors.enabled="cpu,cs,logical_disk,net,os,service,system,tcp,process"" DisplayName="windows_exporter" type=own start=auto
