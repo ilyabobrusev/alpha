@@ -4,3 +4,8 @@ msiexec /i windows_exporter-0.15.0-amd64.msi ENABLED_COLLECTORS=cpu,cs,logical_d
 
 https://github.com/prometheus-community/windows_exporter/blob/master/README.md
 https://support.rdb24.com/hc/ru/articles/360026563334-Using-prometheus-exporter-on-Windows-Server-Hyper-V-Server
+
+msiexec /i windows_exporter-0.16.0-amd64.msi ENABLED_COLLECTORS=cpu,cs,logical_disc,os,system,process
+
+sc create MyService binPath=C:\MyServise\MyService.exe DisplayName="My New Service" type=own start=auto
+sc create MyService binPath= C:\MyServise\MyService.exe DisplayName= "My New Service" type= own start= auto
