@@ -1,0 +1,237 @@
+https://www.vultr.com/docs/install-and-configure-victoriametrics-on-debian/
+
+
+Install and configure VictoriaMetrics on Debian
+
+Author: Oleg Kotsar
+Last Updated: Wed, Sep 1, 2021 Debian System Admin
+Introduction
+
+VictoriaMetrics is a fast, cost-effective, and scalable monitoring solution and time-series database. VictoriaMetrics can be used for long-term remote storage for Prometheus. VictoriaMetrics is written in the Go programming language, so it installs without any external dependencies.
+Prerequisites
+
+This guide is tested on a new Vultr Ubuntu 20.04 LTS cloud server instance and works on any version of Debian.
+
+    Deploy a Vultr Debian 11 cloud server instance.
+    Create a sudo user.
+    Update the Debian server.
+    Install Curl - apt install curl
+
+Install VictoriaMetrics
+
+For running VictoriaMetrics as not root, we need to create a victoriametrics user and group. To create a new system user and group, you can use these two commands:
+
+$ sudo groupadd -r victoriametrics
+$ sudo useradd -g victoriametrics -d /var/lib/victoriametrics -s /sbin/nologin --system victoriametrics
+
+VictoriaMetrics installation files are packaged as precompiled binaries. In this guide, we'll be installing version v1.64.1 of VictoriaMetrics. To download the archive with a specific version of VictoriaMetrics visit the github releases. For downloading, execute the command:
+
+$ curl -L https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.64.1/victoria-metrics-amd64-v1.64.1.tar.gz --output victoria-metrics-amd64-v1.64.1.tar.gz
+
+Or you can download the latest version with a single command (you need the jq program to run it, you can install it with the sudo apt install jq command). This command gets the latest version of VictoriaMetrics through the GitHub API and then downloads it.
+
+$ export VM_VER=`curl -s https://api.github.com/repos/VictoriaMetrics/VictoriaMetrics/releases/latest | jq -r '.tag_name'` && curl -L https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/${VM_VER}/victoria-metrics-amd64-${VM_VER}.tar.gz --output victoria-metrics-amd64-${VM_VER}.tar.gz
+
+Extract the VictoriaMetrics executable to /usr/local/bin.
+
+$ sudo tar xvf victoria-metrics-amd64-*.tar.gz -C /usr/local/bin/
+
+Modify the ownership of executable:
+
+$ sudo chown -v root:root /usr/local/bin/victoria-metrics-prod
+
+Configure VictoriaMetrics
+
+Create a directory for VictoriaMetrics data and set owner:
+
+$ sudo mkdir -v /var/lib/victoria-metrics-data
+$ sudo chown -v victoriametrics:victoriametrics /var/lib/victoria-metrics-data
+
+Create new systemd services.
+
+$ sudo vi /etc/systemd/system/victoriametrics.service
+
+Add the following lines to the file:
+
+[Unit]
+Description=High-performance, cost-effective and scalable time series database, long-term remote storage for Prometheus
+After=network.target
+
+[Service]
+Type=simple
+User=victoriametrics
+Group=victoriametrics
+StartLimitBurst=5
+StartLimitInterval=0
+Restart=on-failure
+RestartSec=1
+ExecStart=/usr/local/bin/victoria-metrics-prod \
+        -storageDataPath=/var/lib/victoria-metrics-data \
+        -httpListenAddr=127.0.0.1:8428 \
+        -retentionPeriod=1
+ExecStop=/bin/kill -s SIGTERM $MAINPID
+LimitNOFILE=65536
+LimitNPROC=32000
+
+[Install]
+WantedBy=multi-user.target
+
+    -storageDataPath - the path of the data directory. VictoriaMetrics stores all the data in this directory.
+    -httpListenAddr - The IP address and port on which VictoriaMetrics will listen. If you want to connect to VictoriaMetrics not only from localhost (127.0.0.1), then specify 0.0.0.0:8428. In this case, used 127.0.0.1 because vmauth (for authentification) will be used for external connection and it will be forward all queries to VictoriaMetrics.
+    -retentionPeriod - retention for stored data. Older data is automatically deleted. retentionPeriod=1 means that the data will be stored for 1 month and then deleted.
+
+Save and quit:
+
+:wq
+
+Enable and start VictoriaMetrics service to run on system boot automatically.
+
+$ sudo systemctl enable victoriametrics.service --now
+
+Verify VictoriaMetrics
+
+Check if you can get access to VictoriaMetrics via API:
+
+$ curl http://localhost:8428/api/v1/query -d 'query={job=~".*"}'
+
+If everything fine that output must be something like that:
+
+{"status":"success","data":{"resultType":"vector","result":[]}}
+
+If at this stage there are any errors or problems, then check the status and logs of the service.
+
+$ systemctl status victoriametrics.service
+$ journalctl -u victoriametrics.service
+
+Security
+
+By default, VictoriaMetrics does not use any method of authentication or encryption. Therefore, for security reasons in the configuration above, VictoriaMetrics uses local listening (127.0.0.1:8428). If you want to use VictoriaMetrics to connect from outside (from the Internet), then it is recommended to use encryption and authentication tools. VictoriaMetrics provides a separate utility for this, vmauth. Vmauth is used as a proxy between the client and VictoriaMetrics. The client sends a query to vmauth using TLS and specifying a password, if vmauth authenticates this query, then the query sending to VictoriaMetrics.
+Install vmauth
+
+Utility vmauth located is in the vmutils archive. Also, vmutils has many additional utilities that will come in handy in administering the VictoriaMetrics server (such as vmbackup, vmrestore, etc.). Download archive vmutils-amd64-VERSION.tar.gz. In this guide, we'll be installing version v1.64.1 of vmutils. To download the archive with a specific version of vmutils visit the github releases. For downloading execute the command:
+
+$ curl -L https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.64.1/vmutils-amd64-v1.64.1.tar.gz --output vmutils-amd64-v1.64.1.tar.gz
+
+Or you can download the latest version with a single command (you need the jq program to run it, you can install it with the sudo apt install jq command). This command gets the latest version of vmutils through the GitHub API and then downloads it.
+
+$ export VM_UTILS_VER=`curl -s https://api.github.com/repos/VictoriaMetrics/VictoriaMetrics/releases/latest | jq -r '.tag_name'` && curl -L https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/${VM_UTILS_VER}/vmutils-amd64-${VM_UTILS_VER}.tar.gz --output vmutils-amd64-${VM_UTILS_VER}.tar.gz
+
+Extract the vmutils executable to /usr/local/bin.
+
+$ sudo tar xvf vmutils-amd64-*.tar.gz -C /usr/local/bin/
+
+Modify the ownership of each executable:
+
+$ sudo chown -v root:root /usr/local/bin/vm*-prod
+
+Configure vmauth
+
+First, you will need to create a configuration file, which will specify the login and password for authentication, and then you will create TLS certificates that will be required to run vmauth with TLS encryption.
+
+Create directory for certificates:
+
+$ sudo mkdir -p /etc/victoriametrics/ssl/
+
+Set permission for access VictoriaMetrics to configuration directory:
+
+$ sudo chown -vR victoriametrics:victoriametrics /etc/victoriametrics
+
+Create a configuration file for vmauth:
+
+$ sudo vi /etc/victoriametrics/config.yml
+
+Add the following lines to the file:
+
+users:
+  - username: "user"
+    password: "strongPassword"
+    url_prefix: "http://127.0.0.1:8428"
+
+Whereas you should replace the parameter username and password with the username and password that you want to use for authentification. And change url_prefix if you used another IP and Port for accessing to VictoriaMetrics.
+
+Save and quit:
+
+:wq
+
+Afterward, set owner for the configuration file:
+
+$ sudo chown -v victoriametrics:victoriametrics /etc/victoriametrics/config.yml
+
+Generate a self-signed certificate for vmauth
+
+In this example, you will generate self-signed certificates for encrypting the connection between client and vmauth, but recommend using trusted certificates, for example from Let's Encrypt.
+
+Install package openssl for generating certificates:
+
+$ sudo apt install -y openssl
+
+Generate certificates:
+
+$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout /etc/victoriametrics/ssl/victoriametrics.key -out /etc/victoriametrics/ssl/victoriametrics.crt
+
+After executing the command you will be asked a few questions such as country code, state, city, organization name, etc. use your own or your organizations information. The most important line is the Common name which must match the IP address of your server, alternatively a domain name pointing at it.
+
+Set permission for access VictoriaMetrics to SSL directory:
+
+$ sudo chown -Rv victoriametrics:victoriametrics /etc/victoriametrics/ssl/
+
+Configuring the service in systemd.
+
+$ sudo vi /etc/systemd/system/vmauth.service
+
+Add the following lines to the file:
+
+[Unit]
+Description=Simple auth proxy, router and load balancer for VictoriaMetrics
+After=network.target
+
+[Service]
+Type=simple
+User=victoriametrics
+Group=victoriametrics
+StartLimitBurst=5
+StartLimitInterval=0
+Restart=on-failure
+RestartSec=1
+ExecStart=/usr/local/bin/vmauth-prod \
+        --tls=true \
+        --auth.config=/etc/victoriametrics/config.yml \
+        --httpListenAddr=0.0.0.0:8247 \
+        --tlsCertFile=/etc/victoriametrics/ssl/victoriametrics.crt \
+        --tlsKeyFile=/etc/victoriametrics/ssl/victoriametrics.key \
+ExecStop=/bin/kill -s SIGTERM $MAINPID
+LimitNOFILE=65536
+LimitNPROC=32000
+
+[Install]
+WantedBy=multi-user.target
+
+Save and quit:
+
+:wq
+
+Enable and start vmauth service to run on system boot automatically.
+
+$ sudo systemctl enable vmauth.service --now
+
+Verifying
+
+Check if you can get access to VictoriaMetrics via API:
+
+$ curl -H "Authorization: Basic `echo -n "user:strongPassword" | base64`" --insecure https://localhost:8247/api/v1/query -d 'query={job=~".*"}'
+
+Please replace user and strongPassword with the ones you specified when creating the config file /etc/victoriametrics/config.yml.
+
+If everything fine that output must be something like that:
+
+{"status":"success","data":{"resultType":"vector","result":[]}}
+
+Conclusion
+
+VictoriaMetrics is a powerful time-series database, that can be used as a store for Prometheus metrics or other similar monitoring systems. VictoriaMetrics can replace Prometheus entirely by using the additional utility vmagent, that is used for collecting metrics. Utility vmagent is located in the vmutils archive.
+
+The VictoriaMetrics write API is similar to InfluxDB. If your software supports sending metrics to InfluxDB, then you can configure it to send to VictoriaMetrics as well.
+
+The VictoriaMetrics reading API uses the PromQL language, which is the same as in Prometheus. Therefore, for example, to add to Grafana, you need to use the Prometheus datasource.
+
+For more information about VictoriaMetrics please see the official documentation
