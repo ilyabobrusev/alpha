@@ -1,0 +1,5 @@
+/usr/pgsql-14/bin/postgresql-14-setup initdb
+systemctl stop postgresql-13
+/usr/pgsql-14/bin/pg_upgrade -b /usr/pgsql-13/bin/ -B /usr/pgsql-14/bin/ -d /var/lib/pgsql/13/data/ -D /var/lib/pgsql/14/data/ -v
+/usr/pgsql-14/bin/vacuumdb --all --analyze-in-stages
+./delete_old_cluster.sh

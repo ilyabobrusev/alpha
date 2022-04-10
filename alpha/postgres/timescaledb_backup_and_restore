@@ -1,0 +1,10 @@
+https://docs.timescale.com/timescaledb/latest/how-to-guides/backup-and-restore/pg-dump-and-restore/#backup-entiredb
+pg_dump -Fc -f exampledb.bak exampledb
+
+CREATE DATABASE exampledb;
+\c exampledb
+CREATE EXTENSION IF NOT EXISTS timescaledb;
+SELECT timescaledb_pre_restore();
+
+\! pg_restore -Fc -d exampledb exampledb.bak
+SELECT timescaledb_post_restore();
