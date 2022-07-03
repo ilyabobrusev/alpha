@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1000"
+   height="1000"
+   viewBox="0 0 264.58333 264.58334"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="thumbsup.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title11">Charon</title>
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.27496365"
+     inkscape:cx="329.13441"
+     inkscape:cy="421.87395"
+     inkscape:window-width="2560"
+     inkscape:window-height="1383"
+     inkscape:window-x="0"
+     inkscape:window-y="33"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     units="px"
+     showguides="false"
+     inkscape:guide-bbox="true"
+     inkscape:snap-global="true"
+     inkscape:snap-bbox="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid35"
+       dotted="true"
+       empspacing="25" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="hand"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#405980;stroke-width:14.5521;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 17.280377,94.860849 H 90.04077 l -2e-6,145.906001 h -29.85064"
+       id="path190"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#405980;stroke-width:14.5521;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 110.49989,103.42413 c 0,0 2.51207,-7.302778 4.50804,-22.975136 22.04861,-22.048607 43.57391,-73.1321087 44.09722,-73.4953737 l 22.04862,7.3495377 C 192.91303,29.002234 166.4547,80.448994 166.4547,80.448994 l 58.7963,1e-5 c 11.63646,4.17441 18.32596,13.97613 17.84825,19.911596 -0.65886,8.1861 -10.10613,16.74454 -10.10613,16.74454 0,0 11.98267,9.78548 11.36475,20.43207 -0.54919,9.46225 -6.11458,11.64713 -13.21914,17.04994 8.60903,7.11855 8.64286,13.97457 7.64857,19.1029 -1.44498,7.45285 -15.77387,16.58175 -15.77387,16.58175 0,0 3.43286,10.98935 1.75129,17.21694 -1.4069,5.21037 -7.21667,10.82503 -12.54756,13.5763 -4.90195,2.5299 -18.96096,6.31684 -23.71385,6.37472 0,0 -36.65242,0 -44.1635,0 -7.51107,0 -21.9265,-11.93221 -29.33188,-11.2518"
+       id="path2392"
+       sodipodi:nodetypes="ccccccscscscssczc" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#405980;stroke-width:14.5521;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+       d="M 115.00793,216.18796 H 90.040768"
+       id="path2330" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#405980;stroke-width:14.5521;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+       d="M 110.49989,103.42413 H 90.040767"
+       id="path2330-4"
+       sodipodi:nodetypes="cc" />
+  </g>
+  <metadata
+     id="metadata9">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:title>Charon</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Anton Karmanov</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>

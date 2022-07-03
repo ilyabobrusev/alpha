@@ -1,0 +1,72 @@
+﻿\subtitlepage{SaltStack}{Администрирование}
+
+\begin{Frame}{Установка}
+
+  \only{\overlaypic{south east}{width=80pt}{rocket}}
+
+  \begin{center}
+    0.6.0 \dots{} 2018.3.0 $\to$ 2019.2.0 $\to$ 3000 \dots{} \bfseries{3004.1}
+  \end{center}
+
+  \vfill
+
+  \pause{}
+
+  \begin{itemize}[<+-| alert@ +>]
+    \item Salt Bootstrap\footnote{%
+      \url{https://github.com/saltstack/salt-bootstrap}}
+    \vfill
+    \item Из репозитория дистрибутива
+    \vfill
+    \item Из репозитория SaltStack\footnote<3->{\url{https://repo.saltproject.io/}}
+    \vfill
+    \item PyPI: \texttt{pip install salt}
+    \vfill
+  \end{itemize}
+\end{Frame}
+
+\liveframe{}
+
+\begin{Frame}{Конфиг}
+  \begin{itemize}
+    \item \texttt{/etc/salt/master} \ExampleIcon{}
+    \item \texttt{/etc/salt/minion} \ExampleIcon{}
+  \end{itemize}
+
+  \vfill
+  \pause{}
+
+  \inlineicon{\faInfoCircle} Можно два в одном\only<2>{\dots}
+  \pause{} (но не нужно)
+
+  \vfill
+  \pause{}
+
+  \begin{block}{В помощь}
+    \setbeamertemplate{itemize items}{\faTerminal}
+    \small
+    \begin{itemize}
+      \item \texttt{salt-run fileserver.dir\_list [saltenv=ОКРУЖЕНИЕ]}
+      \item \texttt{salt-run fileserver.file\_list [saltenv=ОКРУЖЕНИЕ]}
+    \end{itemize}
+  \end{block}
+
+\end{Frame}
+
+\begin{Frame}{Пара слов о файлах}
+  \begin{itemize}[<+-| alert@ +>]
+    \item[\faSync] Конфиг перечитывается в рантайме
+    \item[\faFolder] Данные времени исполнения в \texttt{/var/cache/salt/}
+  \end{itemize}
+\end{Frame}
+
+\begin{Frame}{Запуск}
+  \begin{itemize}[<+-| alert@ +>]
+    \vfill
+    \item \texttt{salt-master} (команда и служба)\vfill
+    \item \texttt{salt-minion} (команда и служба)\vfill
+    \item[\faBug] Ключ \texttt{--log-level=debug}
+    \vfill
+  \end{itemize}
+
+\end{Frame}

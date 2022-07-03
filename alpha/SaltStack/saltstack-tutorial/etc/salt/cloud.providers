@@ -1,0 +1,5 @@
+local-kvm:
+  driver: libvirt
+  url: qemu:///system
+
+# vi: ft=yaml

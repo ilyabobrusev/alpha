@@ -1,0 +1,188 @@
+\subtitlepage{Jinja}{Шаблонизация формул}
+
+\begin{Frame}[c]{Минутка истории}
+  \overlaypic{south east}{width=75pt}{jinja-logo}
+
+  \begin{centering}
+    \huge
+    Дзиндзя — синтоистский храм
+    \footnote{Потому что temple созвучно с template}\\
+  \end{centering}
+
+  \vfill
+
+  \begin{itemize}[<+-| @alert ->]
+    \item Синтаксис шаблонизатора
+      \href{https://www.djangoproject.com/}{Django}, больше возможностей
+    \item На Python и для Python
+    \item Поддерживает расширения
+  \end{itemize}
+\end{Frame}
+
+\begin{Frame}[t]{Причины использовать шаблонизатор}
+  \overlaypic{south east}{width=80pt}{thumbsup}
+  \begin{itemize}[<+-| alert@ +>]
+    \item Уменьшается дублирование кода
+    \item Доступны grains, pillars, любые внешние данные
+    \item Гибкость: условное включение кода
+  \end{itemize}
+\end{Frame}
+
+\begin{Frame}[c]{Причины НЕ использовать шаблонизатор}
+  \centering
+  \overlaypic{south east}{width=80pt}{thumbsdown}
+
+  \only<+->{%
+    { \huge \bfseries СЛОЖНО\\ }
+    Очень легко написать запутанный
+    неподдерживаемый код\footnote<2>{Как и в случае с зависимостями}
+  }
+
+\end{Frame}
+
+\Setsubsection{Синтаксис}
+\begin{frame}[fragile]
+  \frametitle{\Insertsubsection}
+  \framesubtitle{Окружения}
+
+  \begin{columns}
+    \begin{column}{0.40\textwidth}
+      \begin{itemize}[<+-| @alert ->]
+        \item \texttt{\{\{ \}\}} --- выводимая инструкция \baselinespace{}
+        \item \texttt{\{\% \%\}} --- блок [Jinja-кода] \baselinespace{}
+        \item \texttt{\{{\# \#}\}} --- комментарий
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      \begin{minted}[gobble=8, linenos=false, frame=lines]{jinja}
+        <ul>
+        {% for s in ['Мир', 'Труд', 'Май',] %}
+          {# Этот текст будет удалён шаблонизатором #}
+          <li>{{ s }}</li>
+        {% endfor %}
+        </ul>
+      \end{minted}
+    \end{column}
+  \end{columns}
+
+  \vfill
+
+  \onslide<+->
+\end{frame}
+
+\begin{frame}{Синтаксис}
+  \framesubtitle{Подрезка пробелов}
+   \begin{itemize}[<+-| alert@ +>]
+     \item[\faCut] Минусы убирают пробельные символы при подстановке
+     \item[{\faArrowAltCircleLeft[regular]}] \texttt{\{\%- КОД\_JINJA \%\}} ---
+       подрезаются символы слева
+     \item[{\faArrowAltCircleRight[regular]}] \texttt{\{\% КОД\_JINJA -\%\}}
+       --- подрезаются символы справа
+     \item[\faParagraph] \texttt{'\textbackslash{}n'} --- это тоже пробельный
+       символ
+     \item[\faBan] Плюсы отменяют подрезку, указанную в конфиге шаблонизатора
+   \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{\Insertsubsection}
+  \framesubtitle{Инструкции}
+
+  \setminted{linenos=false, frame=none}
+
+  \begin{itemize}[<+-| @alert ->]
+    \item Переменные\\
+      \begin{minted}[gobble=8]{jinja}
+        {% set my_list = [1, 2, 3, 4]} %}
+      \end{minted}
+    \item Цикл for
+      \begin{minted}[gobble=8]{jinja}
+        {% for i in range(10) %}
+        {{ i }}
+        {% endfor %}
+      \end{minted}
+    \item Условный оператор
+      \begin{minted}[gobble=8]{jinja}
+        {% if True %} Правда взаправду правда {% else %} Неправда {% endif %}
+      \end{minted}
+    \item Фильтры и конвееры
+      \begin{minted}[gobble=8]{jinja}
+        {{ ['соль', 'мука', 'шаблонизатор'] | join(', ') | capitalize }}
+      \end{minted}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Синтаксис}
+  \framesubtitle{Макросы}
+
+  \overlaypic{south east}{width=75pt}{books}
+
+  \centering
+  \inlineicon{\faFire}
+  А ещё есть макросы --- это как процедуры\pause,\\
+  но мы их пропустим.
+\end{frame}
+
+\Setsubsection{Рендеринг произвольного файла}
+\begin{frame}[t, fragile]
+  \ExampleNote{}
+
+  \frametitle{\Insertsubsection}
+  \begin{minted}[gobble=4]{py}
+    import jinja2
+
+    filename = 'template.txt'
+
+    with open(filename, 'r') as f:
+        template = jinja2.Template(f.read())
+
+    print(template.render())
+  \end{minted}
+\end{frame}
+
+\begin{Frame}[c]{Jinja и SaltStack}
+  \begin{itemize}[<+-| @alert ->]
+    \item[\faCube] Jinja подключается как text renderer \vfill
+    \item[\faCube] Jinja используется по умолчанию \vfill
+    \item[\faCube] Доступны специфичные для SaltStack словари (\texttt{grains},
+      \texttt{pillars}) и специальный объект \texttt{salt}
+  \end{itemize}
+\end{Frame}
+
+\begin{Frame}[t]{Jinja в формулах}
+  \ExampleNote{}
+
+  \inputminted[firstnumber=1, firstline=5,]{salt}{../srv/salt/jinja_sample.sls}
+  $\nearrow$\footnote{Есть salt.states.win\_powercfg, но раньше он падал
+  (\href{https://github.com/saltstack/salt/issues/57393}{\#57393})}
+
+  \vfill{}
+
+  \scriptsize
+  \inlineicon{\faCubes} \pause{} \texttt{salt-call slsutil.renderer
+  <путь-к-файлу>} чтобы отрендерить формулу.
+\end{Frame}
+
+\begin{frame}[t]{Jinja в формулах}
+  \ExampleNote{}
+
+  \framesubtitle{Pillar}
+  \inputminted[firstnumber=1, firstline=5]{salt}{%
+    ../srv/salt/jinja_pillar_sample.sls}
+
+  \vfill{}
+
+  \scriptsize
+  \inlineicon{\faCubes} \texttt{salt-call saltutil.refresh\_pillar}
+  чтобы синхронизировать пиллары.
+\end{frame}
+
+\begin{frame}[c]{Полезные ссылки}
+  \setbeamertemplate{itemize items}[square]
+  \begin{itemize}
+    \item[\faLink] \uhref{https://jinja.palletsprojects.com/}{Документация Jinja}
+    \item[\faLink] \uhref{%
+        https://docs.saltproject.io/en/latest/topics/jinja/index.html
+      }{Раздел документации SaltStack про Jinja}
+  \end{itemize}
+\end{frame}

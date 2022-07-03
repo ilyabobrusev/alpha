@@ -1,0 +1,15 @@
+worker_processes 1;
+events { worker_connections 1024; }
+
+http {
+  upstream site {
+  {%- for addrs in salt['mine.get']('rpm-hosts', 'network.ip_addrs', tgt_type='nodegroup').values() %}
+    server {{ addrs[0] }};
+  {%- endfor %}
+  }
+
+  server {
+    listen 80 default_server;
+    location / { proxy_pass http://site; }
+  }
+}

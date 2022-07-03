@@ -1,0 +1,32 @@
+﻿\mode<presentation>
+
+\RequirePackage{tikz}
+\RequirePackage[sfdefault,medium]{roboto}
+\RequirePackage{hyperref}
+\RequirePackage{fontawesome5}
+
+\graphicspath{{bundled-img/}}
+
+\definecolor{HeaderColor}{rgb}{0.25, 0.35, 0.50}
+\definecolor{AccentColor}{rgb}{0.40, 0.50, 0.80}
+\definecolor{MarkerColor}{rgb}{0.75, 0.30, 0.30}
+\definecolor{TextDominant}{gray}{0.25}
+
+\usefonttheme{default}
+
+\setbeamercovered{dynamic}
+
+\setbeamertemplate{navigation symbols}{}
+
+\setbeamertemplate{itemize items}{\faCube}
+\setbeamertemplate{enumerate items}[default]
+
+\setbeamerfont{frametitle}{size=\LARGE, series=\bfseries}
+\setmonofont[Scale=MatchLowercase]{Hack}
+
+\setbeamercolor{frametitle}{fg=White, bg=HeaderColor}
+\setbeamercolor{structure}{fg=AccentColor}
+\setbeamercolor{normal text}{fg=TextDominant}
+\setbeamercolor{alerted text}{fg=MarkerColor}
+
+\mode<all>

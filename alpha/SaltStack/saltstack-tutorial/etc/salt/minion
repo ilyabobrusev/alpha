@@ -1,0 +1,46 @@
+﻿# По умолчанию salt
+master: localhost
+# По умолчанию берётся hostname
+id: salt-cats-red
+
+# Применять хайстейт при запуске
+startup_states: highstate
+
+# Значение local означает не синхронизироваться с мастером
+file_client: remote
+
+# Пути для локального файлового клиента
+file_roots:
+  base:
+    - /srv/salt/
+    - /root/salt/
+
+# Для локального файлового клиента
+pillar_roots:
+  base:
+    - /srv/pillar/
+
+# Произвольные статические крупички
+grains:
+  roles:
+    - storage
+    - gateway
+
+# Выключаем модули из синхронизации
+extmod_blacklist:
+  grains:
+    - dmidecode
+  modules:
+    - lfn
+    - registry
+    - drives
+    - boot_grinder
+    - software
+    - printers
+
+# Уровень журналирования в терминал
+log_level: info
+# Уровень жунралирования в лог-файл
+log_level_logfile: info
+
+# vi: ft=yaml

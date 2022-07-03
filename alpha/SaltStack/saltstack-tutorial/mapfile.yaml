@@ -1,0 +1,8 @@
+﻿centos8:
+  - salt-owls-red
+  - salt-owls-blue
+  - salt-cats-red
+
+debian10:
+  - salt-cats-blue
+  - salt-owls-green

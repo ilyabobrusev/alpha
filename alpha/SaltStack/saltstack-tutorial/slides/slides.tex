@@ -1,0 +1,83 @@
+﻿\input{includes/preamble}
+\input{includes/reader.tex}
+
+\title{Пособие по SaltStack}
+
+\begin{document}
+
+\section{Введение}
+
+\begin{bg-frame}
+  \vspace{1.50\baselineskip}
+  {\Huge \inserttitle\\}
+  \rule{180pt}{\rulewidth}\\
+  \insertauthor{} \insertcontacts{}\\
+  \vspace{0.25\baselineskip}
+  \inserthomepage{}
+
+  \newlength{\blockheight}
+  \setlength{\blockheight}{\dimexpr(\textheight)-\baselineskip}
+  \begin{textblock*}{\paperwidth} (-1em, \blockheight)
+    \tiny \raggedleft{}
+    \shadowtext{сборка документа \insertdate{}}
+  \end{textblock*}
+
+\end{bg-frame}
+
+\begin{Frame}[t]{Обо мне}
+  \begin{columns}[c]
+    \begin{column}{0.35\textwidth}
+      \begin{figure}
+        \roundpic[]{105pt}{snowy}
+      \end{figure}
+    \end{column}
+    \begin{column}{0.65\textwidth}
+      {\large \insertauthor{}}
+      \baselinespace{}
+      \insertreaderbrief{}
+    \end{column}
+  \end{columns}
+\end{Frame}
+
+\begin{Frame}[c]{Структура пособия}
+  \centering
+
+  \smartdiagramset{%
+    back arrow disabled=true,
+    module y sep=40pt,
+    font=\scriptsize,
+    text width=8em,
+  }
+
+  \smartdiagramanimated[flow diagram]{%
+    Пара вводных слов,
+    Администрирование\\ системы,
+    Базовая эксплуатация,
+    Углублённые темы
+  }
+\end{Frame}
+
+\input{includes/topic-introduction}
+
+\input{includes/topic-sysop}
+
+\input{includes/topic-basic-exploitation}
+
+\input{includes/topic-jinja}
+
+\input{includes/topic-advanced}
+
+\section{Заключение}
+\begin{custom-bg-frame}{toad}
+\end{custom-bg-frame}
+
+\begin{bg-frame}
+  \vspace{2.0\baselineskip}
+  {\huge Спасибо за внимание!}\\
+  \rule{180pt}{\rulewidth}\\
+  \insertauthor{} \insertcontacts{}\\
+  \vspace{0.25\baselineskip}
+  \inserthomepage{}
+\end{bg-frame}
+
+\end{document}
