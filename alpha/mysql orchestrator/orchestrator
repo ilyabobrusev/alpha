@@ -10,7 +10,7 @@ CREATE USER 'orchestrator'@'orch_host' IDENTIFIED BY 'orch_topology_password';
 GRANT SUPER, PROCESS, REPLICATION SLAVE, RELOAD ON *.* TO 'orchestrator'@'orch_host';
 GRANT SELECT ON mysql.slave_master_info TO 'orchestrator'@'orch_host';
 GRANT SELECT ON ndbinfo.processes TO 'orchestrator'@'orch_host'; -- Only for NDB Cluster
-
+GRANT SELECT ON meta.cluster TO orchestrator;
 
 #orchestrator.conf.json
 "MySQLTopologyUser": "orchestrator",
@@ -41,17 +41,20 @@ orchestrator-client -c set-writeable -i host_name:3306
 #Сменить мастер принудительно (отключит текущий мастер от кластера)
 orchestrator-client -c force-master-failover -i new_master:3306
 
+#Поменять хост мастера в кластере (автоматический выбор мастера)
+orchestrator-client -c graceful-master-takeover-auto -i cluster:3306
+
 #Поменять хост мастера в кластере
 orchestrator-client -c graceful-master-takeover -a current_master:3306 -d new_master:3306
 orchestrator-client -c start-slave -i old_master:3306
 orchestrator-client -c set-writeable -i old_master:3306 #если нужно
-
-
-#Покане понятно
-#orchestrator-client -c can-replicate-from -i repl:3306 -d master:3306
 
 #Slave manipulation
 orchestrator-client -c stop-slave -i slave1:3306
 orchestrator-client -c start-slave -i slave1:3306
 orchestrator-client -c restart-slave -i slave1:3306
 
+#Покане понятно
+#orchestrator-client -c can-replicate-from -i repl:3306 -d master:3306
+
+#orchestrator-client -c recover -i failed.instance.com

@@ -1,0 +1,141 @@
+root@d11-20:/home/q# orchestrator-client -c help
+Usage: orchestrator-client -c <command> [flags...]
+Example: orchestrator-client -c which-master -i some.replica
+Options:
+
+  -h, --help
+    print this help
+  -c <command>, --command <command>
+    indicate the operation to perform (see listing below)
+  -a <alias>, --alias <alias>
+    cluster alias
+  -o <owner>, --owner <owner>
+    name of owner for downtime/maintenance commands
+  -r <reason>, --reason <reason>
+    reason for downtime/maintenance operation
+  -u <duration>, --duration <duration>
+    duration for downtime/maintenance operations
+  -R <promotion rule>, --promotion-rule <promotion rule>
+    rule for 'register-candidate' command
+  -U <orchestrator_api>, --api <orchestrator_api>
+    override $orchestrator_api environment variable,
+    indicate where the client should connect to.
+  -P <api path>, --path <api path>
+    With '-c api', indicate the specific API path you wish to call
+  -b <username:password>, --auth <username:password>
+    Specify when orchestrator uses basic HTTP auth.
+  -e <header:user>, --headers-auth <header:user>
+    Specify when orchestrator uses headers auth.
+  -q <query>, --query <query>
+    Indicate query for 'restart-replica-statements' command
+  -l <pool name>, --pool <pool name>
+    pool name for pool related commands
+  -H <hostname> -h <hostname>
+    indicate host for resolve and raft operations
+  -S <seconds> --seconds
+    seconds for delaying replication
+
+    help                                     Show available commands
+    which-api                                Output the HTTP API to be used
+    api                                      Invoke any API request; provide --path argument
+    async-discover                           Lookup an instance, investigate it asynchronously. Useful for bulk loads
+    discover                                 Lookup an instance, investigate it
+    forget                                   Forget about an instance's existence
+    forget-cluster                           Forget about a cluster
+    topology                                 Show an ascii-graph of a replication topology, given a member of that topology
+    topology-tabulated                       Show an ascii-graph of a replication topology, given a member of that topology, in tabulated format
+    topology-tags                            Show an ascii-graph of a replication topology and instance tags, given a member of that topology
+    snapshot-topologies                      Trigger topology snapshot (recording host/master settings for all hosts)
+    clusters                                 List all clusters known to orchestrator
+    clusters-alias                           List all clusters known to orchestrator
+    search                                   Search for instances matching given substring
+    instance"|"which-instance                Output the fully-qualified hostname:port representation of the given instance, or error if unknown
+    which-master                             Output the fully-qualified hostname:port representation of a given instance's master
+    which-replicas                           Output the fully-qualified hostname:port list of replicas of a given instance
+    which-broken-replicas                    Output the fully-qualified hostname:port list of broken replicas of a given instance
+    which-cluster-instances                  Output the list of instances participating in same cluster as given instance
+    which-cluster                            Output the name of the cluster an instance belongs to, or error if unknown to orchestrator
+    which-cluster-alias                      Output the alias of the cluster an instance belongs to, or error if unknown to orchestrator
+    which-cluster-master                     Output the name of a writable master in given cluster
+    all-clusters-masters                     List of writeable masters, one per cluster
+    all-instances                            The complete list of known instances
+    which-cluster-osc-replicas               Output a list of replicas in a cluster, that could serve as a pt-online-schema-change operation control replicas
+    which-cluster-osc-running-replicas       Output a list of healthy, replicating replicas in a cluster, that could serve as a pt-online-schema-change operation control replicas
+    downtimed                                List all downtimed instances
+    dominant-dc                              Name the data center where most masters are found
+    submit-masters-to-kv-stores              Submit a cluster's master, or all clusters' masters to KV stores
+    relocate                                 Relocate a replica beneath another instance
+    relocate-replicas                        Relocates all or part of the replicas of a given instance under another instance
+    match                                    Matches a replica beneath another (destination) instance using Pseudo-GTID
+    match-up                                 Transport the replica one level up the hierarchy, making it child of its grandparent, using Pseudo-GTID
+    match-up-replicas                        Matches replicas of the given instance one level up the topology, making them siblings of given instance, using Pseudo-GTID
+    move-up                                  Move a replica one level up the topology
+    move-below                               Moves a replica beneath its sibling. Both replicas must be actively replicating from same master.
+    move-equivalent                          Moves a replica beneath another server, based on previously recorded "equivalence coordinates"
+    move-up-replicas                         Moves replicas of the given instance one level up the topology
+    make-co-master                           Create a master-master replication. Given instance is a replica which replicates directly from a master.
+    take-master                              Turn an instance into a master of its own master; essentially switch the two.
+    move-gtid                                Move a replica beneath another instance via GTID
+    move-replicas-gtid                       Moves all replicas of a given instance under another (destination) instance using GTID
+    repoint                                  Make the given instance replicate from another instance without changing the binglog coordinates. Use with care
+    repoint-replicas                         Repoint all replicas of given instance to replicate back from the instance. Use with care
+    take-siblings                            Turn all siblings of a replica into its sub-replicas.
+    tags                                     List tags for a given instance
+    tag-value                                List tags for a given instance
+    tag                                      Add a tag to a given instance. Tag in "tagname" or "tagname=tagvalue" format
+    untag                                    Remove a tag from an instance
+    untag-all                                Remove a tag from all matching instances
+    tagged                                   List instances tagged by tag-string. Format: "tagname" or "tagname=tagvalue" or comma separated "tag0,tag1=val1,tag2" for intersection of all.
+    submit-pool-instances                    Submit a pool name with a list of instances in that pool
+    which-heuristic-cluster-pool-instances   List instances of a given cluster which are in either any pool or in a specific pool
+    begin-downtime                           Mark an instance as downtimed
+    end-downtime                             Indicate an instance is no longer downtimed
+    begin-maintenance                        Request a maintenance lock on an instance
+    end-maintenance                          Remove maintenance lock from an instance
+    register-candidate                       Indicate the promotion rule for a given instance
+    register-hostname-unresolve              Assigns the given instance a virtual (aka "unresolved") name
+    deregister-hostname-unresolve            Explicitly deregister/dosassociate a hostname with an "unresolved" name
+    stop-replica                             Issue a STOP SLAVE on an instance
+    stop-replica-nice                        Issue a STOP SLAVE on an instance, make effort to stop such that SQL thread is in sync with IO thread (ie all relay logs consumed)
+    start-replica                            Issue a START SLAVE on an instance
+    restart-replica                          Issue STOP and START SLAVE on an instance
+    reset-replica                            Issues a RESET SLAVE command; use with care
+    detach-replica                           Stops replication and modifies Master_Host into an impossible yet reversible value.
+    reattach-replica                         Undo a detach-replica operation
+    detach-replica-master-host               Stops replication and modifies Master_Host into an impossible yet reversible value.
+    reattach-replica-master-host             Undo a detach-replica-master-host operation
+    skip-query                               Skip a single statement on a replica; either when running with GTID or without
+    which-gtid-errant                        Get errant GTID set (empty results if no errant GTID)
+    locate-gtid-errant                       List binary logs containing errant GTID
+    gtid-errant-reset-master                 Remove errant GTID transactions by way of RESET MASTER
+    gtid-errant-inject-empty                 Apply errant GTID as empty transactions on cluster's master
+    enable-semi-sync-master                  Enable semi-sync (master-side)
+    disable-semi-sync-master                 Disable semi-sync (master-side)
+    enable-semi-sync-replica                 Enable semi-sync (replica-side)
+    disable-semi-sync-replica                Disable semi-sync (replica-side)
+    restart-replica-statements               Given `-q "<query>"` that requires replication restart to apply, wrap query with stop/start slave statements as required to restore instance to same replication state. Print out set of statements
+    delay-replication                        Issue a CHANGE MASTER TO DELAY=seconds preserving the replication threads state
+    can-replicate-from                       Check if an instance can potentially replicate from another, according to replication rules
+    can-replicate-from-gtid                  Check if an instance can potentially replicate from another, according to replication rules and assuming Oracle GTID
+    is-replicating                           Check if an instance is replicating at this time (both SQL and IO threads running)
+    is-replication-stopped                   Check if both SQL and IO threads state are both strictly stopped.
+    set-read-only                            Turn an instance read-only, via SET GLOBAL read_only := 1
+    set-writeable                            Turn an instance writeable, via SET GLOBAL read_only := 0
+    flush-binary-logs                        Flush binary logs on an instance
+    purge-binary-logs                        Purge binary logs on an instance
+    last-pseudo-gtid                         Dump last injected Pseudo-GTID entry on a server
+    recover                                  Do auto-recovery given a dead instance, assuming orchestrator agrees there's a problem. Override blocking.
+    graceful-master-takeover                 Gracefully promote a new master. Either indicate identity of new master via '-d designated.instance.com' or setup replication tree to have a single direct replica to the master.
+    graceful-master-takeover-auto            Gracefully promote a new master. orchestrator will attempt to pick the promoted replica automatically
+    force-master-failover                    Forcibly discard master and initiate a failover, even if orchestrator doesn't see a problem. This command lets orchestrator choose the replacement master
+    force-master-takeover                    Forcibly discard master and promote another (direct child) instance instead, even if everything is running well
+    ack-cluster-recoveries                   Acknowledge recoveries for a given cluster; this unblocks pending future recoveries
+    ack-all-recoveries                       Acknowledge all recoveries
+    disable-global-recoveries                Disallow orchestrator from performing recoveries globally
+    enable-global-recoveries                 Allow orchestrator to perform recoveries globally
+    check-global-recoveries                  Show the global recovery configuration
+    replication-analysis                     Request an analysis of potential crash incidents in all known topologies
+    raft-leader                              Get identify of raft leader, assuming raft setup
+    raft-health                              Whether node is part of a healthy raft group
+    raft-leader-hostname                     Get hostname of raft leader, assuming raft setup
+    raft-elect-leader                        Request raft re-elections, provide hint for new leader's identity
