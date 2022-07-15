@@ -1,9 +1,30 @@
 #my.cnf
-log_slave_updates
-binlog_format = ROW
-gtid_mode = ON
-enforce_gtid_consistency
+server-id                       = 1234
+skip_slave_start
+gtid_mode                       = on
+enforce_gtid_consistency        = on
+auto_increment_increment        = 1
+auto_increment_offset           = 1
+relay-log                       = /var/lib/mysql/relaylog/relay-bin
+relay-log-index                 = /var/lib/mysql/relaylog/relay-bin.index
+log-bin                         = /var/lib/mysql/binlog/log-bin
+log-bin-index                   = /var/lib/mysql/binlog/log-bin.index
+log-slave-updates
+binlog_format                   = ROW
+bind-address                    = 0.0.0.0
+report_host                     = fqdn
+super_read_only                 = 1
 
+CREATE USER replica;
+ALTER USER replica IDENTIFIED WITH mysql_native_password BY 'pass';
+GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO replica;
+
+change master to master_host='d11-24.dom.com', master_port=3306, master_user='replica', master_password='superpass', master_auto_position=1;
+
+create database meta;
+create table meta.cluster ( anchor tinyint not null, cluster_name varchar(128) charset ascii not null default '', cluster_domain varchar(128) charset ascii not null default '', primary key (anchor));
+replace into meta.cluster values (1, 'clustername', 'dom.com');
+GRANT SELECT ON meta.cluster TO orchestrator;
 
 #User for maged servers
 CREATE USER 'orchestrator'@'orch_host' IDENTIFIED BY 'orch_topology_password';
@@ -15,9 +36,22 @@ GRANT SELECT ON meta.cluster TO orchestrator;
 #orchestrator.conf.json
 "MySQLTopologyUser": "orchestrator",
 "MySQLTopologyPassword": "orch_topology_password",
+"MySQLHostnameResolveMethod": "@@report_host",
+"DetectClusterAliasQuery": "select ifnull(max(cluster_name), '') as cluster_alias from meta.cluster where anchor = 1",
+"DetectClusterDomainQuery": "select ifnull(max(cluster_name), '') as cluster_alias from meta.cluster where anchor = 1",
+"CoMasterRecoveryMustPromoteOtherCoMaster": false,
+"DetachLostSlavesAfterMasterFailover": true,
+"ApplyMySQLPromotionAfterMasterFailover": true,
+"PreventCrossDataCenterMasterFailover": false,
+"PreventCrossRegionMasterFailover": false,
+"MasterFailoverDetachReplicaMasterHost": false,
+"MasterFailoverLostInstancesDowntimeMinutes": 0,
+"PostponeReplicaRecoveryOnLagMinutes": 0,
+
 "RecoverMasterClusterFilters": [
   "*"
-]________________________________________________________________________
+]
+___________________________________________________________________________
 
 
 orchestrator-client -b "admin:admin" -c clusters #if basic auth is enabled
@@ -58,3 +92,16 @@ orchestrator-client -c restart-slave -i slave1:3306
 #orchestrator-client -c can-replicate-from -i repl:3306 -d master:3306
 
 #orchestrator-client -c recover -i failed.instance.com
+
+
+
+
+___________________________________________________________________________
+
+https://programmer.ink/think/mysql-sets-the-database-to-read-only.html
+
+show global variables like '%read_only%';
+
+set global super_read_only = 1;
+set global super_read_only = 0;
+
