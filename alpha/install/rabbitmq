@@ -1,0 +1,28 @@
+nano /etc/yum.repos.d/rabbitmq-server.repo
+[rabbitmq-server]
+name=rabbitmq-server
+baseurl=https://packagecloud.io/rabbitmq/rabbitmq-server/el/8/$basearch
+repo_gpgcheck=1
+gpgcheck=0
+enabled=1
+gpgkey=https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+
+dnf install -y rabbitmq-server
+systemctl enable rabbitmq-server.service --now
+systemctl status rabbitmq-server.service
+firewall-cmd --zone=public --permanent --add-port={4369,25672,5671,5672,15672,61613,61614,1883,8883}/tcp
+firewall-cmd --reload
+rabbitmq-plugins enable rabbitmq_management
+chown -R rabbitmq:rabbitmq /var/lib/rabbitmq/
+rabbitmqctl list_users
+rabbitmqctl add_user admin password
+rabbitmqctl set_user_tags admin administrator
+rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
+rabbitmq-plugins list
+rabbitmq-plugins enable rabbitmq_prometheus
+systemctl restart rabbitmq-server.service
+firewall-cmd --permanent --add-port=15692/tcp
+firewall-cmd --reload

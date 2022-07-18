@@ -1,0 +1,26 @@
+{{/* Writer - bobrusev.i.al@sberbank.ru */}}
+{{ if eq .Status "firing" }}
+{{ range .Alerts }}
+Status - {{ .Status | toUpper }}
+{{ .Annotations.summary }}
+{{ .Annotations.description }}
+Timestamp:
+Started problem - {{ .StartsAt.Local.Format "15:04:05 MSK 2006-01-02" }}
+Labels:
+{{ range .Labels.SortedPairs }} - {{ .Name }}: {{ .Value }}
+{{ end }}
+{{ end }}
+{{ end }}
+{{ if eq .Status "resolved" }}
+{{ range .Alerts }}
+Status - {{ .Status | toUpper }}
+{{ .Annotations.summary }}
+{{ .Annotations.description }}
+Timestamp:
+Started problem - {{ .StartsAt.Local.Format "15:04:05 MSK 2006-01-02" }}
+Resolved problem - {{ .EndsAt.Local.Format "15:04:05 MSK 2006-01-02" }}
+Labels:
+{{ range .Labels.SortedPairs }} - {{ .Name }}: {{ .Value }}
+{{ end }}
+{{ end }}
+{{ end }}

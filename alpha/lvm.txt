@@ -1,0 +1,8 @@
+https://www.dmosk.ru/instruktions.php?object=lvm
+
+
+https://codeby.net/threads/kak-dobavit-dopolnitelnyj-vtoroj-zhestkij-disk-v-linux-lvm-i-uvelichit-razmer-xranilischa.67786/
+
+
+Особенность расширения LVM тома на CentOS 7 (resize2fs not work with xfs)
+xfs_growfs /dev/centos/root

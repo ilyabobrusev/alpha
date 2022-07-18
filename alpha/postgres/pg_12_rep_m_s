@@ -1,0 +1,67 @@
+#master
+sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+sudo dnf -qy module disable postgresql
+sudo dnf install -y postgresql12-server
+
+sudo /usr/pgsql-12/bin/postgresql-12-setup initdb
+sudo systemctl enable --now postgresql-12
+
+nano /var/lib/pgsql/12/data/postgresql.conf
+listen_addresses = '*'
+wal_log_hints = on
+
+nano /var/lib/pgsql/12/data/pg_hba.conf
+host    all             all             0.0.0.0/0               md5
+host    replication     replication     192.168.122.131/32      md5
+host    replication     replication     192.168.122.132/32	md5
+
+sudo systemctl restart postgresql-12
+su - postgres
+
+CREATE USER replication REPLICATION PASSWORD 'pass';
+CREATE USER q SUPERUSER PASSWORD 'q';
+CREATE DATABASE q OWNER q;
+
+CREATE USER rewind_user PASSWORD 'pass';
+GRANT EXECUTE ON function pg_catalog.pg_ls_dir(text, boolean, boolean) TO rewind_user;
+GRANT EXECUTE ON function pg_catalog.pg_stat_file(text, boolean) TO rewind_user;
+GRANT EXECUTE ON function pg_catalog.pg_read_binary_file(text) TO rewind_user;
+GRANT EXECUTE ON function pg_catalog.pg_read_binary_file(text, bigint, bigint, boolean) TO rewind_user;
+
+#slave
+sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+sudo dnf -qy module disable postgresql
+sudo dnf install -y postgresql12-server
+
+mkdir -p /var/lib/pgsql/12/data/
+chown postgres:postgres -R /var/lib/pgsql/
+chmod 0700 -R /var/lib/pgsql/
+su - postgres
+
+pg_basebackup -h 192.168.122.131 -U replication -D /var/lib/pgsql/12/data/ -R -P 
+
+sudo systemctl enable --now postgresql-12
+sudo systemctl restart postgresql-12
+
+#test
+#master
+SELECT * FROM pg_stat_replication;
+SELECT count(*) FROM pg_stat_replication;
+
+#slave
+select pg_is_in_recovery(),pg_is_wal_replay_paused(), pg_last_wal_receive_lsn(), pg_last_wal_replay_lsn(), pg_last_xact_replay_timestamp();
+
+select pg_promote();
+
+
+
+#after on new slave (old master)
+systemctl stop postgresql-12.service
+/usr/pgsql-12/bin/pg_rewind -D /var/lib/pgsql/12/data --source-server="host=192.168.122.132 user=rewind_user password=pass dbname=postgres port=5432" -P
+
+nano /var/lib/pgsql/12/data/postgresql.auto.conf
+primary_conninfo = 'user=replication password=pass host=192.168.122.132 port=5432 sslmode=prefer sslcompression=0 gssencmode=prefer krbsrvname=postgres target_session_attrs=any'
+
+touch /var/lib/pgsql/12/data/standby.signal
+chmod 0600 /var/lib/pgsql/12/data/standby.signal
+sudo systemctl start postgresql-12

@@ -1,0 +1,14 @@
+https://www.robustperception.io/high-availability-prometheus-alerting-and-notification
+
+
+vi /etc/prometheus/prometheus.yml
+
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - alertmanager:9093
+      - 192.168.122.21:9093
+      - 192.168.122.22:9093
+      - 192.168.122.23:9093

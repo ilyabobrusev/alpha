@@ -1,0 +1,61 @@
+#upload file
+#repo - http://srv01:7071/service/rest/repository/browse/test/
+curl -v -u qwesrt --upload-file file_name http://srv01:7071/repository/test/file_name
+curl -v -u qwesrt:pass --upload-file file_name http://srv01:7071/repository/test/file_name
+
+#https://www.fosslinux.com/27838/installing-sonatype-nexus-repository-oss-on-centos-7.htm
+yum update -y
+yum -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel
+cd /opt
+wget https://download.sonatype.com/nexus/3/latest-unix.tar.gz
+tar -xvzf latest-unix.tar.gz
+mv nexus-3.20.1-01 nexus
+mv sonatype-work nexusdata
+useradd --system --no-create-home nexus
+chown -R nexus:nexus /opt/nexus
+chown -R nexus:nexus /opt/nexusdata
+vi /opt/nexus/bin/nexus.vmoptions
+-Xms2703m
+-Xmx2703m
+-XX:MaxDirectMemorySize=2703m
+-XX:+UnlockDiagnosticVMOptions
+-XX:+LogVMOutput
+-XX:LogFile=../nexusdata/nexus3/log/jvm.log
+-XX:-OmitStackTraceInFastThrow
+-Djava.net.preferIPv4Stack=true
+-Dkaraf.home=.
+-Dkaraf.base=.
+-Dkaraf.etc=etc/karaf
+-Djava.util.logging.config.file=etc/karaf/java.util.logging.properties
+-Dkaraf.data=../nexusdata/nexus3
+-Dkaraf.log=../nexusdata/nexus3/log
+-Djava.io.tmpdir=../nexusdata/nexus3/tmp
+-Dkaraf.startLocalConsole=false
+###
+vim /opt/nexus/bin/nexus.rc
+run_as_user="nexus"
+vi /opt/nexus/etc/nexus-default.properties
+#Change application-host=0.0.0.0 to application-host=127.0.0.1.
+vi /etc/security/limits.conf
+#Set nexus - nofile 65536
+vi /etc/systemd/system/nexus.service
+[Unit]
+Description=Nexus Service
+After=syslog.target network.target
+
+[Service]
+Type=forking
+LimitNOFILE=65536
+ExecStart=/opt/nexus/bin/nexus start
+ExecStop=/opt/nexus/bin/nexus stop
+User=nexus
+Group=nexus
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+###
+systemctl daemon-reload
+systemctl enable nexus.service --now
+tail -f /opt/nexusdata/nexus3/log/nexus.log
+netstat -tunlp | grep 8081

@@ -1,0 +1,81 @@
+#nano my.sh
+yum install -y mariadb mariadb-server
+systemctl start mariadb
+systemctl enable mariadb.service
+firewall-cmd --permanent --add-port=3306/tcp
+firewall-cmd --reload
+/usr/bin/mysql_secure_installation
+systemctl restart mariadb
+systemctl status mariadb
+_________________________________________________
+yum install -y mariadb mariadb-server
+systemctl start mariadb
+systemctl enable mariadb.service
+firewall-cmd --permanent --add-port=3306/tcp
+firewall-cmd --reload
+
+#setup script
+/usr/bin/mysql_secure_installation
+
+mysql -uroot -p
+Zxcv1234
+create database <dbname> character set utf8 collate utf8_bin;
+grant all privileges on <dbname>.* to <user>@localhost/'%' identified by '<pass>';
+FLUSH PRIVILEGES;
+__________________________________________________________________________________
+#update mariadb -v 10.1
+nano /etc/yum.repos.d/mariadb.repo
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.1/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+
+systemctl stop mariadb
+yum -y update
+systemctl start mysql
+systemctl enable mysql
+mysql_upgrade -uroot -p
+_____________________________________________________________________
+#install mysql-5.7
+#https://dev.mysql.com/downloads/repo/yum/
+wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+rpm -ivh mysql57-community-release-el7-11.noarch.rpm
+yum install mysql-server
+systemctl start mysqld
+systemctl enable mysqld
+systemctl status mysqld
+grep 'temporary password' /var/log/mysqld.log
+mysql_secure_installation
+mysqladmin -u root -p version
+__________________________________________________________
+#timezone
+mysql_tzinfo_to_sql /usr/share/zoneinfo |mysql -u root mysql -p
+SET GLOBAL time_zone = 'Europe/Moscow';
+SET time_zone = 'Europe/Moscow'
+__________________________________________________________
+
+#nano my.sh - no ipv6
+echo "[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.1/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1" > /etc/yum.repos.d/mariadb.repo
+yum install -y mysql mysql-server
+systemctl start mysql
+systemctl enable mysql
+/usr/bin/mysql_secure_installation
+systemctl restart mysql
+systemctl status mysql
+
+__________________________________________________________
+
+dnf install -y mariadb-server
+ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+systemctl enable --now httpd
+mysql_secure_installation
+firewall-cmd --permanent --add-port=3306/tcp
+firewall-cmd --reload
+firewall-cmd --list-all
+
+

@@ -1,0 +1,28 @@
+wget -O splunk-7.2.4-8a94541dcfac-Linux-x86_64.tgz 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=7.2.4&product=splunk&filename=splunk-7.2.4-8a94541dcfac-Linux-x86_64.tgz&wget=true'
+sudo tar xvzf splunk-7.2.4-8a94541dcfac-Linux-x86_64.tgz -C /opt
+cd /opt/splunk/bin/
+sudo ./splunk start --accept-license
+sudo ./splunk enable boot-start
+#sudo ./splunk enable boot-start -user USER
+#or
+/opt/splunk/bin/splunk start --accept-license
+/opt/splunk/bin/splunk enable boot-start
+
+sudo firewall-cmd --permanent --add-port=8000/tcp
+sudo firewall-cmd --reload
+
+sudo ufw allow 8000
+sudo ufw reload
+
+
+echo 'SPLUNK_HOME=/opt/splunk' >> ~/.bashrc
+echo 'export PATH=$PATH:$SPLUNK_HOME/bin/' >> ~/.bashrc
+source ~/.bashrc
+
+
+
+splunc.com
+qwesrt@rambler.ru
+Zxcv!234
+
+https://habr.com/ru/company/tssolution/blog/352944/

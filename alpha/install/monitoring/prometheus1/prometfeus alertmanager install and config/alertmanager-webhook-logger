@@ -1,0 +1,36 @@
+https://github.com/tomtom-international/alertmanager-webhook-logger
+
+go get -u github.com/tomtom-international/alertmanager-webhook-logger
+#cd $env:GOPATH/src/github.com/tomtom-international/alertmanager-webhook-logger
+cd /home/$USER/go/src/github.com/tomtom-international/alertmanager-webhook-logger
+go build
+firewall-cmd --permanent --add-port=6725/tcp
+firewall-cmd --reload
+cp alertmanager-webhook-logger /usr/local/bin/
+useradd --no-create-home --shell /bin/false alertmanager-webhook-logger
+chown -R alertmanager-webhook-logger:alertmanager-webhook-logger /usr/local/bin/alertmanager-webhook-logger
+cat <<EOF | tee /etc/systemd/system/alertmanager-webhook-logger.service
+[Unit]
+Description=alertmanager-webhook-logger Service
+After=network.target
+
+[Service]
+User=alertmanager-webhook-logger
+Group=alertmanager-webhook-logger
+Type=simple
+ExecStart=/usr/local/bin/alertmanager-webhook-logger
+ExecReload=/bin/kill -HUP \$MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+systemctl enable alertmanager-webhook-logger
+systemctl start alertmanager-webhook-logger
+systemctl status alertmanager-webhook-logger
+
+
+
+
+

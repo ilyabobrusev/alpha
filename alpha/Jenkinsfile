@@ -1,0 +1,35 @@
+node('label') {
+    ansiColor('xterm') {
+        withCredentials([string(credentialsId: 'vault_key_id', variable: 'vault_pass')]) {
+            withEnv(['ANSIBLE_FORCE_COLOR=true', 'GIT_SSL_NO_VERIFY=1']) {
+                stage ('Git'){
+                    git_project = 'ssh://git@hostname:7999/srv/reponame.git'
+					git_branch = 'master'//"$BRANCH"
+					cred_id = "ssh_key_id-jenkins_for_git_repo"
+					checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: "*/${git_branch}"]], doGenerateSubmoduleConfigurations: false,
+					extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${env.WORKSPACE}"], [$class: 'SubmoduleOption', disableSubmodules: false,
+					parentCredentials: true, recursiveSubmodules: true, reference: '', timeout: 1, trackingSubmodules: false]], submoduleCfg: [],
+					userRemoteConfigs: [[credentialsId: cred_id, url: git_project]]]
+                }
+                stage ('Decrypt ssh key'){
+                  sh "chmod 0600 ./ssh_keys/id_rsa"
+                  withCredentials([string(credentialsId: 'vault_key_id', variable: 'vault_pass')]) {
+                    writeFile file: 'vault.password', text: vault_pass
+                    sh "ansible-vault decrypt --vault-password-file vault.password ./ssh_keys/id_rsa"
+                }
+                }
+                stage ('Deploy'){
+                    ansiblePlaybook(
+                        installation: 'ansible',
+                        playbook: 'ansible-playbook.yml',
+                        inventory: 'inventory',
+                        vaultCredentialsId: 'vault_key_id',
+                        colorized: true)
+                }
+                stage ('Clean'){
+                    cleanWs()
+                }
+            }
+        }
+    }
+}

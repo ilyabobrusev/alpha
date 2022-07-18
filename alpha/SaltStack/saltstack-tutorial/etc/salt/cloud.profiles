@@ -1,0 +1,20 @@
+---
+
+_template: &defaults
+  provider: local-kvm
+  base_domain: null
+  ip_source: ip-learning
+  ssh_username: user
+  password: password
+  minion:
+    master: 192.168.122.1
+
+centos8:
+  <<: *defaults
+  base_domain: template_CentOS_Stream_8
+
+debian10:
+  <<: *defaults
+  base_domain: template_Debian_10
+
+# vi: ft=yaml

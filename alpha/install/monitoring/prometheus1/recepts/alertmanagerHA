@@ -1,0 +1,41 @@
+nano /etc/systemd/system/alertmanager.service
+
+[Unit]
+Description=Alertmanager Service
+After=network.target
+
+[Service]
+EnvironmentFile=-/etc/default/alertmanager
+User=alertmanager
+Group=alertmanager
+Type=simple
+ExecStart=/usr/local/bin/alertmanager \
+          --cluster.peer=192.168.122.22:9094 \
+          --cluster.peer=192.168.122.23:9094 \
+          --config.file=/etc/alertmanager/alertmanager.yml \
+          --storage.path=/var/lib/prometheus/alertmanager \
+          $ALERTMANAGER_OPTS
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+___________________________________________________________
+
+nano /etc/alertmanager/alertmanager.yml
+
+global:
+  resolve_timeout: 1m
+  smtp_smarthost: 'smtp.rambler.ru:465'
+  smtp_from: 'user@rambler.ru'
+  smtp_auth_username: 'user@rambler.ru'
+  smtp_auth_password: 'pass'
+route:
+  receiver: send_email
+receivers:
+- name: send_email
+  email_configs:
+  - to: user@rambler.ru
+    send_resolved: true
+    require_tls: false

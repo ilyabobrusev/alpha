@@ -1,0 +1,83 @@
+https://kernelboot.com/%D1%80%D0%B0%D0%B7%D0%B2%D1%91%D1%80%D1%82%D1%8B%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-openldap-%D1%81%D0%B5%D1%80%D0%B2%D0%B5%D1%80%D0%B0-%D0%BD%D0%B0-centos-7/
+
+{SSHA}FjAAn21KrXE7C2gmkROr1BN2sRtGu9Ab
+
+ubuntu
+https://castix.wordpress.com/2009/04/05/openldap-installation-and-adding-objects-using-phpldapadmin-and-ldapadd/
+
+https://medium.com/how-to-config/how-to-install-and-configure-openldap-and-phpldapadmin-on-an-centos-server-6-5-df8ac08e33b1
+
+https://www.youtube.com/watch?time_continue=362&v=_zLeO68wZA0
+______________________________________________________________________________________________________________________________
+#actual
+
+https://kernelboot.com/%D1%80%D0%B0%D0%B7%D0%B2%D1%91%D1%80%D1%82%D1%8B%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-openldap-%D1%81%D0%B5%D1%80%D0%B2%D0%B5%D1%80%D0%B0-%D0%BD%D0%B0-centos-7/
+
+{SSHA}esuqyTyQJhscKQ9knvqsh8sOz9GkscPP
+
+
+yum -y install openldap openldap-servers openldap-servers-sql openldap-devel compat-openldap openldap-clients
+systemctl start slapd
+systemctl enable slapd
+systemctl status slapd
+firewall-cmd --permanent --add-service=ldap
+firewall-cmd --reload
+slappasswd -h {SSHA} -s MyPa$$w0rd
+vi /etc/openldap/slapd.d/database.ldif
+
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+replace: olcSuffix
+olcSuffix: dc=ldap,dc=alpha,dc=loc
+
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+replace: olcRootDN
+olcRootDN: cn=qwesrt,dc=ldap,dc=alpha,dc=loc
+
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+replace: olcRootPW
+olcRootPW: {SSHA}esuqyTyQJhscKQ9knvqsh8sOz9GkscPP
+
+ldapmodify -Y EXTERNAL  -H ldapi:/// -f /etc/openldap/slapd.d/database.ldif
+vi /etc/openldap/slapd.d/monitor.ldif
+
+dn: olcDatabase={1}monitor,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: {0}to * by dn.base="gidNumber=0+uidNumber=0,cn=peercred,cn=external, cn=auth" read by dn.base="cn=qwesrt,dc=ldap,dc=alpha,dc=loc" read by * none
+
+ldapmodify -Y EXTERNAL  -H ldapi:/// -f /etc/openldap/slapd.d/monitor.ldif
+cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG
+chown ldap:ldap /var/lib/ldap/*
+ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
+ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif
+ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif
+vi /etc/openldap/slapd.d/base.ldif
+
+dn: dc=ldap,dc=alpha,dc=loc
+dc: ldap
+objectClass: top
+objectClass: domain
+
+dn: cn=qwesrt ,dc=ldap,dc=alpha,dc=loc
+objectClass: organizationalRole
+cn: ldapadm
+description: LDAP Manager
+
+dn: ou=Peoples,dc=ldap,dc=alpha,dc=loc
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Groups,dc=ldap,dc=alpha,dc=loc
+objectClass: organizationalUnit
+ou: Group
+
+ldapadd -x -W -D "cn=qwesrt,dc=ldap,dc=alpha,dc=loc" -f /etc/openldap/slapd.d/base.ldif
+
+
+
+#connect
+dc=ldap,dc=alpha,dc=loc
+cn=qwesrt,dc=ldap,dc=alpha,dc=loc

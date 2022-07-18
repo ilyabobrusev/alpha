@@ -1,0 +1,11 @@
+https://www.dmosk.ru/miniinstruktions.php?mini=firewalld-centos
+
+firewall-cmd --list-all
+firewall-cmd --permanent --add-port=80/tcp
+firewall-cmd --reload
+
+# disable service if necessary
+systemctl stop firewalld
+systemctl disable firewalld
+
+

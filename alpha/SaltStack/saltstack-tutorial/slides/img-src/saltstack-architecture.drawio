@@ -1,0 +1,125 @@
+<mxfile host="Electron" modified="2021-09-06T11:48:36.147Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/14.9.6 Chrome/91.0.4472.164 Electron/13.2.3 Safari/537.36" etag="dzZcSq6o6Hlvs4NoSD-o" compressed="false" version="14.9.6" type="device">
+  <diagram id="2z6JPPAAh2iBQROSkTh9" name="Страница 1">
+    <mxGraphModel dx="1178" dy="667" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="583" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ATTV--BBoIfni6NzLBWh-27" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Comic Relief;startArrow=none;startFill=0;endArrow=classic;endFill=1;exitX=0.004;exitY=0.474;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="ATTV--BBoIfni6NzLBWh-6" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="356.06" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-6" value="" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Comic Relief;sketch=1;fillStyle=solid;" parent="1" vertex="1">
+          <mxGeometry x="513.06" y="163" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-26" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Comic Relief;startArrow=none;startFill=0;endArrow=classic;endFill=1;exitX=0.998;exitY=0.185;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="JZNoBTLTVRBmB2GNvQEA-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="513.06" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-37" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Comic Relief;startArrow=none;startFill=0;endArrow=classic;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="JZNoBTLTVRBmB2GNvQEA-2" target="ATTV--BBoIfni6NzLBWh-8" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="363.06" y="330" as="sourcePoint" />
+            <mxPoint x="503.06" y="390" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="423.06" y="289" />
+              <mxPoint x="423.06" y="362" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-50" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Comic Relief;startArrow=none;startFill=0;endArrow=classic;endFill=1;exitX=-0.013;exitY=0.752;exitDx=0;exitDy=0;exitPerimeter=0;dashed=1;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" source="JZNoBTLTVRBmB2GNvQEA-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="161.06" y="240" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="133.06" y="345" />
+              <mxPoint x="133.06" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-52" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;fontFamily=Comic Relief;startArrow=none;startFill=0;endArrow=classic;endFill=1;entryX=0;entryY=0.686;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" target="JZNoBTLTVRBmB2GNvQEA-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="153.06" y="330" as="targetPoint" />
+            <mxPoint x="163.06" y="250" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="143.06" y="250" />
+              <mxPoint x="143.06" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JZNoBTLTVRBmB2GNvQEA-2" value="" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;fontFamily=Comic Relief;fillStyle=solid;" parent="1" vertex="1">
+          <mxGeometry x="163.06" y="177" width="190" height="223" as="geometry" />
+        </mxCell>
+        <mxCell id="JZNoBTLTVRBmB2GNvQEA-3" value="Хост-мастер" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;sketch=1;fontFamily=Comic Relief;" parent="1" vertex="1">
+          <mxGeometry x="213.06" y="177" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="JZNoBTLTVRBmB2GNvQEA-4" value="Рабочие процессы" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fontFamily=Comic Relief;glass=0;fillColor=#ffcc99;strokeColor=#36393d;" parent="1" vertex="1">
+          <mxGeometry x="523.06" y="192" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JZNoBTLTVRBmB2GNvQEA-9" value="Пиллары" style="rounded=1;whiteSpace=wrap;html=1;glass=0;sketch=1;fontFamily=Comic Relief;fillColor=#cce5ff;strokeColor=#36393d;" parent="1" vertex="1">
+          <mxGeometry x="263.06" y="259" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-1" value="Грейны" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Comic Relief;sketch=1;fillColor=#ffcc99;strokeColor=#36393d;" parent="1" vertex="1">
+          <mxGeometry x="613.06" y="242" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-5" value="Модули" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Comic Relief;sketch=1;fillColor=#ffcc99;strokeColor=#36393d;" parent="1" vertex="1">
+          <mxGeometry x="523.06" y="242" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-7" value="Хост-миньон" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Comic Relief;sketch=1;" parent="1" vertex="1">
+          <mxGeometry x="558.06" y="162" width="90" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-38" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;sketch=1;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Comic Relief;startArrow=none;startFill=0;endArrow=classic;endFill=1;exitX=0;exitY=0.4;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="ATTV--BBoIfni6NzLBWh-8" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="356.06" y="280" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="433.06" y="350" />
+              <mxPoint x="433.06" y="280" />
+              <mxPoint x="356.06" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-8" value="" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Comic Relief;sketch=1;fillStyle=solid;" parent="1" vertex="1">
+          <mxGeometry x="513.06" y="302" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-9" value="Рабочие процессы" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fontFamily=Comic Relief;glass=0;fillColor=#ffcc99;strokeColor=#36393d;" parent="1" vertex="1">
+          <mxGeometry x="523.06" y="332" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-10" value="Грейны" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Comic Relief;sketch=1;fillColor=#ffcc99;strokeColor=#36393d;" parent="1" vertex="1">
+          <mxGeometry x="613.06" y="382" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-11" value="Модули" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Comic Relief;sketch=1;fillColor=#ffcc99;strokeColor=#36393d;" parent="1" vertex="1">
+          <mxGeometry x="523.06" y="382" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-12" value="Хост-миньон" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Comic Relief;sketch=1;" parent="1" vertex="1">
+          <mxGeometry x="558.06" y="302" width="90" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-14" value="Рабочие процессы мастера" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fontFamily=Comic Relief;glass=0;fillColor=#cce5ff;strokeColor=#36393d;" parent="1" vertex="1">
+          <mxGeometry x="173.06" y="207" width="170" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-15" value="Формулы" style="rounded=1;whiteSpace=wrap;html=1;glass=0;sketch=1;fontFamily=Comic Relief;fillColor=#cce5ff;strokeColor=#36393d;" parent="1" vertex="1">
+          <mxGeometry x="183.06" y="259" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-30" value="Задания" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;glass=0;sketch=1;fontFamily=Comic Relief;" parent="1" vertex="1">
+          <mxGeometry x="363.06" y="192" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-31" value="Результаты" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;glass=0;sketch=1;fontFamily=Comic Relief;" parent="1" vertex="1">
+          <mxGeometry x="457.06" y="222" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-34" value="Задания" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;glass=0;sketch=1;fontFamily=Comic Relief;" parent="1" vertex="1">
+          <mxGeometry x="363.06" y="307" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-35" value="Результаты" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;glass=0;sketch=1;fontFamily=Comic Relief;" parent="1" vertex="1">
+          <mxGeometry x="453.06" y="302" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-44" value="Рабочие процессы миньона" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fontFamily=Comic Relief;glass=0;dashed=1;fillColor=#ffcc99;strokeColor=#36393d;fillStyle=dashed;" parent="1" vertex="1">
+          <mxGeometry x="173.06" y="307" width="170" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-45" value="Грейны" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Comic Relief;sketch=1;dashed=1;fillColor=#ffcc99;strokeColor=#36393d;fillStyle=dashed;" parent="1" vertex="1">
+          <mxGeometry x="263.06" y="357" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ATTV--BBoIfni6NzLBWh-46" value="Модули" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Comic Relief;sketch=1;dashed=1;fillColor=#ffcc99;strokeColor=#36393d;fillStyle=dashed;" parent="1" vertex="1">
+          <mxGeometry x="183.06" y="357" width="70" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

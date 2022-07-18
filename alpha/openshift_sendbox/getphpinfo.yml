@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"phpinfo:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"phpinfo\")].image"}]'
+    openshift.io/generated-by: OpenShiftNewApp
+  creationTimestamp: "2021-10-10T20:51:59Z"
+  generation: 8
+  labels:
+    app: phpinfo
+    app.kubernetes.io/component: phpinfo
+    app.kubernetes.io/instance: phpinfo
+  name: phpinfo
+  namespace: qwesrt-dev
+  resourceVersion: "221031102"
+  uid: 9e5ec47e-21f9-4c9e-9868-519229dd91a7
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      deployment: phpinfo
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      creationTimestamp: null
+      labels:
+        deployment: phpinfo
+    spec:
+      containers:
+      - image: image-registry.openshift-image-registry.svc:5000/qwesrt-dev/phpinfo@sha256:dac74fe6cbe936016cffa81ea4feda737a99c37be1ceea453da3610a5ceab6c8
+        imagePullPolicy: IfNotPresent
+        name: phpinfo
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2021-10-10T20:51:59Z"
+    lastUpdateTime: "2021-10-10T20:52:55Z"
+    message: ReplicaSet "phpinfo-54ccfbfc8f" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2021-10-18T18:36:43Z"
+    lastUpdateTime: "2021-10-18T18:36:43Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 8
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

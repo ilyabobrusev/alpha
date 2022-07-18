@@ -1,0 +1,167 @@
+﻿\documentclass[aspectratio=169,dvipsnames,c]{beamer}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{fontawesome5}
+\usepackage{xeCJK}
+\usepackage{tabularx}
+
+\usepackage[absolute,overlay]{textpos}
+\usepackage{pgf-pie}
+
+% Подчёркивания
+\usepackage{ulem}
+\renewcommand{\ULdepth}{1.0pt}
+
+\newcommand\Insertsubsection{}
+\newcommand\Setsubsection[1]{
+  \subsection{#1}
+  \renewcommand\Insertsubsection{#1}
+}
+
+% Гиперссылки
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=AccentColor,
+  filecolor=AccentColor,
+  urlcolor=AccentColor,
+}
+
+\newcommand\uhref[2]{{\color{AccentColor} \uline{\href{#1}{#2}}}}
+
+\newcommand\ExampleIcon{{\color{AccentColor} \faFlask}}
+
+\newcommand\ExampleNote{%
+  \begin{textblock}{1}(15, 15)
+    \ExampleIcon{}
+  \end{textblock}
+}
+
+\newcommand\subtitlepage[2]{
+  \subtitle{#1}
+  \section{#1: #2}
+  \begin{bg-frame}
+    \vspace{1.75\baselineskip}
+    {\Huge \insertsubtitle\\}
+    \vspace{0.5\baselineskip}
+    {\large #2}
+  \end{bg-frame}
+}
+
+% Включение исходного кода.
+\usepackage{minted}
+\setminted{%
+  breaklines,
+  fontsize=\scriptsize,
+  frame=leftline,
+  linenos,
+  showspaces,
+  space=\char"22C5,
+  spacecolor=Black!40,
+  style=friendly, % Стили можно посмотреть командой pygmentize -L styles
+}
+
+\usepackage{smartdiagram}
+\smartdiagramset{%
+  module shape=rectangle,
+  border color=Black!80,
+  font=\scriptsize,
+  text color=White,
+  uniform color list=AccentColor for all items
+}
+\usesmartdiagramlibrary{additions}
+
+% Отключает градиенты в рисунках smartdiagram, может повредить TikZ-графику
+\tikzset{module/.append style={top color=\col,bottom color=\col}}
+\tikzset{every shadow/.style={fill=none,shadow scale=0}}
+
+\usepackage{shadowtext}
+\shadowcolor{Black}
+\shadowoffset{0.5pt}
+
+\usetheme{custom}
+
+\graphicspath{{bundled-img/}{img/}{icons/}}
+\hypersetup{colorlinks=true}
+
+\usepackage{relsize}
+
+\newcommand\inlineicon[1]{
+  {\larger[2] \color{AccentColor} \raisebox{-0.08\baselineskip}{#1}}
+}
+
+\newcommand\baselinespace{\vspace{\baselineskip}}
+
+\newlength{\rulewidth}
+\setlength{\rulewidth}{0.4pt}
+
+\newcommand\roundpic[3][]{
+  \begin{tikzpicture}[#1]
+    \node[
+      circle,
+      minimum width = #2,
+      path picture = {
+          \node[] at (path picture bounding box.center){
+            \includegraphics[width=#2]{#3}};
+      }
+    ]{};
+  \end{tikzpicture}
+}
+
+% Requires to build twice to calculate position
+\newcommand\overlaypic[3]{
+  \begin{tikz}[remember picture, overlay]
+    \node[anchor=#1] at (current page.#1) {\includegraphics[#2]{#3}};
+  \end{tikz}
+}
+
+\newenvironment{Frame}[2][]
+{%
+  \subsection{#2}
+
+  \begin{frame}[environment=Frame, {#1}]
+    \frametitle{#2}
+}
+{%
+  \end{frame}
+}
+
+\newenvironment{custom-bg-frame}[1]
+  {%
+    \begingroup
+      \setbeamertemplate{background}{%
+        \includegraphics[
+          width=\paperwidth,
+          height=\paperheight,
+          keepaspectratio]{#1}
+      }
+      \color{White}
+      \begin{frame}[c]
+      \centering
+  }
+  {%
+      \end{frame}
+    \endgroup
+  }
+
+\newenvironment{bg-frame}
+  { \begin{custom-bg-frame}{background.jpg} }
+  { \end{custom-bg-frame} }
+
+\newcommand\liveframe{
+  \begin{bg-frame}
+    \vspace{36pt}
+    {\fontsize{60pt}{\baselineskip}\selectfont \bfseries LIVE}
+  \end{bg-frame}
+}
+
+\newwrite\tempfile
+\immediate\openout\tempfile=slidelist.txt
+
+\newcounter{SlideNumber}
+\addtobeamertemplate{frametitle}{}{%
+  \stepcounter{SlideNumber}
+  \immediate\write\tempfile{%
+    \theSlideNumber\space\insertframetitle%
+  }
+}

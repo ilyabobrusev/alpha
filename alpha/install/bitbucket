@@ -1,0 +1,48 @@
+https://syncweb.ru/about/blog/ustanovka-sobstvennogo-repozitoriya-na-primere-bitbucket
+
+dnf install -y epel-release mc net-tools
+useradd supp
+passwd supp
+dnf -y install git
+dnf -y install postgresql postgresql-server
+/usr/bin/postgresql-setup initdb
+systemctl enable --now postgresql
+nano /var/lib/pgsql/data/pg_hba.conf
+host bitbucket bitbucketuser 127.0.0.1/32 md5
+su - postgres
+psql
+CREATE ROLE bitbucketuser WITH LOGIN PASSWORD 'UserPass' VALID UNTIL 'infinity';
+CREATE DATABASE bitbucket WITH ENCODING='UTF8' OWNER=bitbucketuser CONNECTION LIMIT=-1;
+systemctl restart postgresql
+
+https://www.atlassian.com/software/bitbucket/download
+wget https://www.atlassian.com/software/stash/downloads/binary/atlassian-bitbucket-7.8.0-x64.bin
+chmod a+x ./atlassian-bitbucket-7.8.0-x64.bin
+./atlassian-bitbucket-7.8.0-x64.bin
+
+firewall-cmd --permanent --new-service=bitbucket-www
+firewall-cmd --permanent --service=bitbucket-www --set-description="Bitbucket is more than just Git code management. Bitbucket gives teams one place to plan projects, collaborate on code, test, and deploy. Service make a access via www."
+firewall-cmd --permanent --service=bitbucket-www --set-short="Bitbucket www access"
+firewall-cmd --permanent --service=bitbucket-www --add-port=7990/tcp
+firewall-cmd --permanent --zone=public --add-service=bitbucket-www
+
+firewall-cmd --permanent --new-service=bitbucket-ssh
+firewall-cmd --permanent --service=bitbucket-ssh --set-description="Bitbucket is more than just Git code management. Bitbucket gives teams one place to plan projects, collaborate on code, test, and deploy. Service make a access via ssh."
+firewall-cmd --permanent --service=bitbucket-ssh --set-short="Bitbucket ssh access"
+firewall-cmd --permanent --service=bitbucket-ssh --add-port=7999/tcp
+firewall-cmd --permanent --zone=public --add-service=bitbucket-ssh 
+
+firewall-cmd --reload
+firewall-cmd --list-all
+
+#or
+#firewall-cmd --permanent --zone=public --add-port=7990/tcp
+#firewall-cmd --permanent --zone=public --add-port=7999/tcp
+#firewall-cmd --reload
+
+systemctl daemon-reload
+systemctl status atlbitbucket
+systemctl start atlbitbucket
+systemctl stop atlbitbucket
+systemctl enable atlbitbucket 
+

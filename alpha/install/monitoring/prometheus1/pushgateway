@@ -1,0 +1,6 @@
+https://www.dmosk.ru/miniinstruktions.php?mini=pushgateway-prometheus
+
+echo "Temperature +17" | curl --data-binary @- http://localhost:9091/metrics/job/temperature_metrics/instance/localhost
+curl -X DELETE http://localhost:9091/metrics/job/temperature_metrics/instance/localhost
+
+

@@ -1,0 +1,73 @@
+https://habr.com/ru/post/310460/
+https://docs.docker.com/engine/install/ubuntu/
+https://docs.docker.com/engine/reference/commandline/ps/
+
+#info
+https://habr.com/ru/post/310460/
+https://badcode.ru/docker-tutorial-dlia-novichkov-rassmatrivaiem-docker-tak-iesli-by-on-byl-ighrovoi-pristavkoi/
+
+apt-get remove docker docker-engine docker.io containerd runc
+apt-get update -y
+apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+apt-key fingerprint 0EBFCD88
+add-apt-repository    "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt-get update
+apt-get install docker-ce docker-ce-cli containerd.io
+apt-cache madison docker-ce
+docker run hello-world
+user:~$ sudo usermod -aG docker $USER
+
+
+docker pull busybox
+docker pull ubuntu
+docker images
+docker run busybox
+docker run busybox echo "hello from busybox"
+docker ps
+docker ps -a
+docker run -it busybox sh
+docker rm 305297d7a235 ff0a5c3750b9
+docker rm $(docker ps -a -q -f status=exited)
+docker run --rm -d -p 8888:80 prakhar1989/static-site
+docker push q/catnip
+docker login
+docker network ls
+docker network inspect bridge
+docker inspect container
+docker system df
+docker system prune -a
+
+docker run -d --hostname lt01.loc -p 443:4438 -p 80:808 -p 22:228 --name gitlab  --restart always gitlab/gitlab-ee:latest
+
+
+docker run --rm -it gitlab/gitlab-runner-helper:x86_64-6d9dd510
+docker tag  gitlab/gitlab-runner-helper:x86_64-6d9dd510 gitlab-runner-helper:11.2.0
+
+
+
+
+apt install gitlab-runner
+systemctl enable enable --now gitlab-runner
+systemctl status gitlab-runner
+gitlab-runner register   --non-interactive   --url "http://lt01.loc:7070/"   --registration-token "fypBfQzbyqFMxxEF8n6i"   --executor "docker"   --docker-image ubuntu:latest   --description "docker-runner"   --tag-list "docker"   --run-untagged="true"   --locked="false"
+
+___________________________________
+#centos
+
+#net
+iptables -t filter -F
+iptables -t filter -X
+systemctl restart docker
+#or
+firewall-cmd --zone=public --add-masquerade --permanent
+
+docker run -d \
+  --hostname gitlab.co241.loc \
+  --publish 443:443 --publish 80:80 --publish 22:22 \
+  --name gitlab \
+  --restart always \
+  -v /gl/etc/gitlab:/etc/gitlab \
+  -v /gl/var/log/gitlab:/var/log/gitlab \
+  -v /gl/var/opt/gitlab:/var/opt/gitlab \
+  gitlab/gitlab-ce:latest

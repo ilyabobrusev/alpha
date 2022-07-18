@@ -1,0 +1,11 @@
+https://topnet.com.ua/ansible-ustanovka-i-nastrojka-na-centos/
+https://medium.com/@brad.simonin/learning-ansible-with-centos-7-linux-12461043fd02
+
+
+yum install ansible
+nano /etc/ansible/host
+
+ansible all -a 'uptime'
+ansible all -m ping
+ansible all -m command -a 'yum install -y htop nload'
+ansible all -m command -a 'yum -y update'

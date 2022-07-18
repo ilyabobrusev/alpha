@@ -1,0 +1,13 @@
+https://github.com/prometheus-community/windows_exporter/releases/download/v0.15.0/windows_exporter-0.15.0-amd64.msi
+
+msiexec /i windows_exporter-0.15.0-amd64.msi ENABLED_COLLECTORS=cpu,cs,logical_disk,net,os,service,system,textfile,tcp,process TEXTFILE_DIR="C:\windows_exporter\"
+
+https://github.com/prometheus-community/windows_exporter/blob/master/README.md
+https://support.rdb24.com/hc/ru/articles/360026563334-Using-prometheus-exporter-on-Windows-Server-Hyper-V-Server
+
+msiexec /i windows_exporter-0.16.0-amd64.msi ENABLED_COLLECTORS=cpu,cs,logical_disc,os,system,process
+
+sc create MyService binPath=C:\MyServise\MyService.exe DisplayName="My New Service" type=own start=auto
+sc create MyService binPath= C:\MyServise\MyService.exe DisplayName= "My New Service" type= own start= auto
+
+sc create windows_exporter binPath="C:\windows_exporter\windows_exporter-0.18.1-amd64.exe --collectors.enabled="cpu,cs,logical_disk,net,os,service,system,tcp,process"" DisplayName="windows_exporter" type=own start=auto

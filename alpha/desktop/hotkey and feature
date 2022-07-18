@@ -1,0 +1,9 @@
+#hotkey command
+xfce4-terminal --drop-down
+#Правка->Особые действия
+#Open terminal in containing directory #F4
+exo-open --working-directory %d --launch TerminalEmulator
+#Пример для пользовательского действия
+exo-open --working-directory %f --launch TerminalEmulator
+#Поискать в файлах внутри этого каталога #CTRL+SHFT+F
+catfish --path=%f

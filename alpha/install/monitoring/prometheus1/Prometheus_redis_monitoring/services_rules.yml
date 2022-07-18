@@ -1,0 +1,81 @@
+1.Запущен ли Redis (redis_is_running)
+2.Выполняется ли сброс/сохранение данных из памяти на диск
+3.Использование памяти Redis-ом(относительно всей ОЗУ доступной на хосте)
+4-5.Увеличение количества подключений к Redis(разное для разных инстансов)
+6.Уменьшение количества подключений к Redis
+7.Появление evicted-ключей
+
+groups:
+- name: redis
+  rules:
+  - alert: redis_is_running
+    expr: redis_up == 0
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      summary: "Critical: Redis is down on the host {{ $labels.instance }}."
+      description: "Redis has been down for more than 30 seconds"
+
+  - alert: redis_missing_rdb_backup
+    expr: time() - redis_rdb_last_save_timestamp_seconds > 60 * 60
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      description: "Critical: Missing RDB-backup  on the host {{ $labels.instance }} for more than 5 minutes"
+      summary: "Missing RDB-backup"
+
+  - alert: redis_memory_usage
+    expr: redis_memory_used_bytes / redis_total_system_memory_bytes * 100 > 40
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      description: "Warning: Redis high memory(>40%) usage on the host {{ $labels.instance }} for more than 5 minutes"
+      summary: "Redis memory usage {{ humanize $value}}% of the host memory"
+
+  - alert: redis_too_many_connections
+    expr: redis_connected_clients{instance!~"server1.mydomain.com.+"} > 50
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      description: "Warning: Redis has many connections on the host {{ $labels.instance }} for more than 5 minutes"
+      summary: "Redis number of connections {{ $value }}"
+
+  - alert: redis_too_many_connections_server1.mydomain.com
+    expr: redis_connected_clients{instance=~"server1.mydomain.com.+"} > 160
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      description: "Warning: Redis has many connections on the host {{ $labels.instance }} for more than 5 minutes"
+      summary: "Redis number of connections {{ $value }}"
+
+  - alert: redis_not_enough_connections
+    expr: redis_connected_clients{instance=~"server1.+|server2.+|server3.+"} < 5
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      description: "Warning: Redis has not enough connections on the host {{ $labels.instance }} for more than 5 minutes"
+      summary: "Redis number of connections {{ $value }}"
+
+  - alert: redis_rejected_connections
+    expr: increase(redis_rejected_connections_total[1m]) > 0
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      description: "Critical: Redis rejected connections on the host {{ $labels.instance }}"
+      summary: "Redis rejected connections are {{ $value }}"
+
+  - alert: redis_evicted_keys
+    expr: increase(redis_evicted_keys_total[1m]) > 0
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      description: "Critical: Redis evicted keys on the host {{ $labels.instance }}"
+      summary: "Redis evicted keys are {{ $value }}"

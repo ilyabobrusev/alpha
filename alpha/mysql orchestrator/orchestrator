@@ -1,0 +1,107 @@
+#my.cnf
+server-id                       = 1234
+skip_slave_start
+gtid_mode                       = on
+enforce_gtid_consistency        = on
+auto_increment_increment        = 1
+auto_increment_offset           = 1
+relay-log                       = /var/lib/mysql/relaylog/relay-bin
+relay-log-index                 = /var/lib/mysql/relaylog/relay-bin.index
+log-bin                         = /var/lib/mysql/binlog/log-bin
+log-bin-index                   = /var/lib/mysql/binlog/log-bin.index
+log-slave-updates
+binlog_format                   = ROW
+bind-address                    = 0.0.0.0
+report_host                     = fqdn
+super_read_only                 = 1
+
+CREATE USER replica;
+ALTER USER replica IDENTIFIED WITH mysql_native_password BY 'pass';
+GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO replica;
+
+change master to master_host='master_host', master_port=3306, master_user='replica', master_password='pass', master_auto_position=1;
+
+create database meta;
+create table meta.cluster ( anchor tinyint not null, cluster_name varchar(128) charset ascii not null default '', cluster_domain varchar(128) charset ascii not null default '', primary key (anchor));
+replace into meta.cluster values (1, 'clustername', 'dom.com');
+GRANT SELECT ON meta.cluster TO orchestrator;
+
+#User for maged servers
+CREATE USER 'orchestrator'@'orch_host' IDENTIFIED BY 'orch_topology_password';
+GRANT SUPER, PROCESS, REPLICATION SLAVE, RELOAD ON *.* TO 'orchestrator'@'orch_host';
+GRANT SELECT ON mysql.slave_master_info TO 'orchestrator'@'orch_host';
+GRANT SELECT ON ndbinfo.processes TO 'orchestrator'@'orch_host'; -- Only for NDB Cluster
+GRANT SELECT ON meta.cluster TO orchestrator;
+
+#orchestrator.conf.json
+"MySQLTopologyUser": "orchestrator",
+"MySQLTopologyPassword": "orch_topology_password",
+"MySQLHostnameResolveMethod": "@@report_host",
+"DetectClusterAliasQuery": "select ifnull(max(cluster_name), '') as cluster_alias from meta.cluster where anchor = 1",
+"DetectClusterDomainQuery": "select ifnull(max(cluster_name), '') as cluster_alias from meta.cluster where anchor = 1",
+"CoMasterRecoveryMustPromoteOtherCoMaster": false,
+"DetachLostSlavesAfterMasterFailover": true,
+"ApplyMySQLPromotionAfterMasterFailover": true,
+"PreventCrossDataCenterMasterFailover": false,
+"PreventCrossRegionMasterFailover": false,
+"MasterFailoverDetachReplicaMasterHost": false,
+"MasterFailoverLostInstancesDowntimeMinutes": 0,
+"PostponeReplicaRecoveryOnLagMinutes": 0,
+
+"RecoverMasterClusterFilters": [
+  "*"
+]
+___________________________________________________________________________
+
+
+orchestrator-client -b "admin:admin" -c clusters #if basic auth is enabled
+orchestrator-client -c clusters
+orchestrator-client -c topology -i cluster_name:3306
+orchestrator-client -c topology-tabulated -i cluster_name:3306
+orchestrator-client -c discover -i ip_host:3306
+orchestrator-client -c forget -i ip_host:3306
+
+#Переместить сервер в топологии
+#Например есть мастер host1 и к нему подключены слэйвы, host2 и host3
+#Делаем host2 слэйвом для host3
+orchestrator-client -c relocate -i host2:3306 -d host3:3306
+#Обратно делаем host2 слэйвом для host1
+orchestrator-client -c relocate -i host2:3306 -d host1:3306
+
+#Перевод сервера в режим чтения и обратно
+orchestrator-client -c set-read-only -i host_name:3306
+orchestrator-client -c set-writeable -i host_name:3306
+
+#Сменить мастер принудительно (отключит текущий мастер от кластера)
+orchestrator-client -c force-master-failover -i new_master:3306
+
+#Поменять хост мастера в кластере (автоматический выбор мастера)
+orchestrator-client -c graceful-master-takeover-auto -i cluster:3306
+
+#Поменять хост мастера в кластере
+orchestrator-client -c graceful-master-takeover -a current_master:3306 -d new_master:3306
+orchestrator-client -c start-slave -i old_master:3306
+orchestrator-client -c set-writeable -i old_master:3306 #если нужно
+
+#Slave manipulation
+orchestrator-client -c stop-slave -i slave1:3306
+orchestrator-client -c start-slave -i slave1:3306
+orchestrator-client -c restart-slave -i slave1:3306
+
+#Покане понятно
+#orchestrator-client -c can-replicate-from -i repl:3306 -d master:3306
+
+#orchestrator-client -c recover -i failed.instance.com
+
+
+
+
+___________________________________________________________________________
+
+https://programmer.ink/think/mysql-sets-the-database-to-read-only.html
+
+show global variables like '%read_only%';
+
+set global super_read_only = 1;
+set global super_read_only = 0;
+

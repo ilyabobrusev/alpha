@@ -1,0 +1,15 @@
+/usr/bin/mysql_secure_installation
+
+
+# mysql -uroot -p
+create database <dbname> character set utf8 collate utf8_bin;
+grant all privileges on <dbname>.* to <user>@localhost identified by '<pass>';
+FLUSH PRIVILEGES;
+
+zabbix
+postfix
+roundcube
+crm
+wordpress
+
+mydb myuser

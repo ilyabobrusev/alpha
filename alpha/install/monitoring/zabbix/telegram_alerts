@@ -1,0 +1,39 @@
+https://kosmuxa.ru/post/492
+
+/newbot
+
+/getgroupid
+-11111111111111
+Добавить в друзья @getmyid_bot
+Переслать из чата id которого требуется, этому боту любое сообщение
+Получаем Forwarded from chat: -18301263947193
+
+
+
+/getid
+999999999
+
+
+#apt install -y torsocks
+
+nano /usr/lib/zabbix/alertscripts/t.me.sh
+
+#!/bin/sh
+ 
+CHAT_ID=$1
+SUBJ=$2
+EXT=$3
+MESSAGE="$2 - $3"
+URL="https://api.telegram.org/bot111111111:AAAAAAAAAAAAAAAAAA-1111111111111111111/sendMessage"
+ 
+#torsocks curl -s -X POST $URL -d chat_id=$CHAT_ID -d text="$MESSAGE"
+curl -s -X POST $URL -d chat_id=$CHAT_ID -d text="$MESSAGE"
+
+
+name telega
+type script
+script name t.me.sh
+Script parameters
+{ALERT.SENDTO}
+{ALERT.SUBJECT}
+{ALERT.MESSAGE}

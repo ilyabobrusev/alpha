@@ -1,0 +1,52 @@
+https://tradenark.com.ua/centos/own-dns-server-centos-7/
+
+yum -y install bind
+
+nano /etc/named.conf 
+
+options {
+        listen-on port 53 { any; };
+        listen-on-v6 port 53 { ::1; }; # Если планируете использовать IPv6
+        directory       "/var/named";
+        dump-file       "/var/named/data/cache_dump.db";
+        statistics-file "/var/named/data/named_stats.txt";
+        memstatistics-file "/var/named/data/named_mem_stats.txt";
+        allow-query     { any; };
+        ...
+# в конец файла
+zone "alpha.loc" IN {
+                type master;
+                file "/etc/named/alpha.loc.zone";
+                allow-update { none; };
+        };
+
+nano  /etc/named/alpha.loc.zone
+
+$TTL 86400
+@       IN  SOA     ns1.alpha.loc. ns2.alpha.loc. (
+        2017011301      ;Serial
+        3600    ;Refresh
+        1800    ;Retry
+        604800  ;Expire
+        86400   ;Minimum TTL
+)
+        IN      NS      ns1.alpha.loc.
+        IN      NS      ns2.alpha.loc.
+        IN      MX      10      mail.alpha.loc.
+
+@       IN      A       192.168.1.211
+ns1     IN      A       192.168.1.211
+ns2     IN      A       192.168.1.211
+mail    IN      A       192.168.1.211
+www     IN      A       192.168.1.211
+
+#next
+named-checkconf /etc/named.conf
+named-checkzone alpha.loc /etc/named/alpha.loc.zone
+systemctl enable named
+systemctl start named
+systemctl restart named
+
+firewall-cmd --permanent --add-port=53/udp
+firewall-cmd --permanent --add-port=53/tcp
+firewall-cmd --reload

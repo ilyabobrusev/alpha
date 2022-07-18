@@ -1,0 +1,18 @@
+
+sudo -u postgres
+createuser --pwprompt zabbix
+createdb -O zabbix zabbix
+
+
+ALTER USER zabbix WITH PASSWORD 'zabbix';
+
+
+nano  /var/lib/pgsql/9.6/data/pg_hba.conf
+
+psql -h 127.0.0.1 -U postgres
+
+
+http://blogid.by/linux/2018/10/monitoring-postgresql-v-zabbix/
+
+
+https://www.youtube.com/watch?v=ub0ptsqGJAw

@@ -1,0 +1,25 @@
+apt update -y
+apt -y install vim bash-completion wget
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
+apt update -y
+apt install -y postgresql-13 postgresql-client-13
+systemctl status postgresql
+systemctl stop postgresql
+apt -y install python3-pip python3-dev libpq-dev
+pip3 install --upgrade setuptools pip
+pip install psycopg2-binary
+pip install psycopg2
+pip install patroni[etcd]
+pg_config --bindir
+/usr/lib/postgresql/13/bin
+/usr/local/bin/patroni
+mkdir /etc/patroni/
+vi /etc/patroni/patroni.yml
+mkdir -p /task13/patroni/
+chown postgres:postgres -R /task13/patroni/ /etc/patroni/
+vi /etc/systemd/system/patroni.service
+systemctl daemon-reload
+systemctl enable --now patroni
+systemctl status patroni
+patronictl -c /etc/patroni/patroni.yml list

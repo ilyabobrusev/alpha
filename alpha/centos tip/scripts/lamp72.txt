@@ -1,0 +1,21 @@
+yum -y update
+yum -y install epel-release
+yum -y install htop nano mc wget curl yum-utils httpd mariadb mariadb-server
+yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+yum-config-manager --enable remi-php72
+yum -y install php php-gd php-json php-mysql php-curl php-mbstring php-intl php-mcrypt php-imagick php-xml php-zip
+systemctl start mariadb
+systemctl enable mariadb.service
+systemctl start httpd
+systemctl enable httpd
+firewall-cmd --permanent --add-port=80/tcp
+firewall-cmd --reload
+yum -y update
+/usr/bin/mysql_secure_installation
+systemctl restart mariadb
+systemctl status httpd
+systemctl status mariadb
+echo ""
+echo ""
+echo "Lamp server instaled!!!"
+echo ""

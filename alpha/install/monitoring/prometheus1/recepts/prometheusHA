@@ -1,0 +1,100 @@
+nano /etc/systemd/system/prometheus.service
+
+[Unit]
+Description=Prometheus Service
+After=network.target
+
+[Service]
+User=prometheus
+Group=prometheus
+Type=simple
+ExecStart=/usr/local/bin/prometheus \
+--config.file /etc/prometheus/prometheus.yml \
+--storage.tsdb.path /var/lib/prometheus/ \
+--storage.tsdb.retention.time=7d \
+--web.console.templates=/etc/prometheus/consoles \
+--web.console.libraries=/etc/prometheus/console_libraries \
+--web.enable-admin-api
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+____________________________________________________________________________________________________
+
+nano /etc/prometheus/prometheus.yml
+
+# my global config
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+  external_labels:
+    dc: promet-test1
+
+# Alertmanager configuration
+alerting:
+  alert_relabel_configs:
+  - source_labels: [dc]
+    regex: (.+)\d+
+    target_label: dc
+  alertmanagers:
+  - static_configs:
+    - targets: ['192.168.122.21:9093', '192.168.122.22:9093', '192.168.122.23:9093']
+      # - alertmanager:9093
+      # - 192.168.122.21:9093
+      # - 192.168.122.22:9093
+      # - 192.168.122.23:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+  - "alert.rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+    - targets: ['localhost:9090']
+
+  - job_name: 'node_exporter_pr24_pr25'
+    static_configs:
+    - targets: ['192.168.122.30:9100']
+
+  - job_name: 'federate'
+    scrape_interval: 15s
+
+    honor_labels: true
+    metrics_path: '/federate'
+
+    params:
+      'match[]':
+        - '{__name__!=""}'
+
+    static_configs:
+      - targets:
+        - '192.168.122.26:9090'
+_______________________________________________________________________________________
+
+nano /etc/prometheus/alert.rules.yml
+
+groups:
+- name: alert.rules
+  rules:
+  - alert: InstanceDown
+    expr: up == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has been down
+        for more than 1 minute.'
+      summary: Instance {{ $labels.instance }} down
+      text: 'Hello world'

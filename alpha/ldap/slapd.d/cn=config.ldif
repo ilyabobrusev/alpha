@@ -1,0 +1,17 @@
+# AUTO-GENERATED FILE - DO NOT EDIT!! Use ldapmodify.
+# CRC32 585aa4b8
+dn: cn=config
+objectClass: olcGlobal
+cn: config
+olcArgsFile: /var/run/openldap/slapd.args
+olcPidFile: /var/run/openldap/slapd.pid
+olcTLSCACertificatePath: /etc/openldap/certs
+olcTLSCertificateFile: "OpenLDAP Server"
+olcTLSCertificateKeyFile: /etc/openldap/certs/password
+structuralObjectClass: olcGlobal
+entryUUID: 48ca36b2-3d1a-1039-9c21-4dc496e22b1f
+creatorsName: cn=config
+createTimestamp: 20190717200744Z
+entryCSN: 20190717200744.716250Z#000000#000#000000
+modifiersName: cn=config
+modifyTimestamp: 20190717200744Z

@@ -1,0 +1,20 @@
+CREATE DATABASE dbase01;
+CREATE USER user01 WITH password 'user01';
+GRANT ALL ON DATABASE dbase01 TO user01;
+
+create group admins;
+create user qwesrt with password 'Bkmz1420007' superuser;
+alter user qwesrt with createdb createrole;
+grant admins to qwesrt;
+
+select * from pg_group;
+select * from pg_shadow;
+select * from pg_database;
+SELECT * from pg_tables;
+select * from pg_tables where schemaname='public';
+SELECT version();
+SELECT * from pg_config;
+
+\du
+
+psql -l

@@ -1,0 +1,161 @@
+    1  vi /etc/sysconfig/network-scripts/ifcfg-ens33
+    2  vi /etc/sysconfig/network-scripts/ifcfg-ens33
+    3  ip a
+    4  ip link up ens33
+    5  ip up ens33
+    6  ip link ens33 up
+    7  systemctl status network
+    8  systemctl stop network
+    9  systemctl start network
+   10  ping 8.8.8.
+   11  ping 8.8.8.8
+   12  ping www.google.com
+   13  ip a
+   14  hostnamectl status
+   15  hostnamectl status
+   16  hostnamectl set-hostname alpha.loc
+   17  hostname
+   18  exit
+   19  exit
+   20  yum -y update
+   21  yum install epel-release
+   22  yum -y install nano htop mc thunar wget curl
+   23  reboot
+   24  nano /etc/openldap/slapd.d/cn\=config/olcDatabase\=\{1\}monitor.ldif
+   25  nano /etc/openldap/slapd.d/cn\=config/olcDatabase\=\{1\}monitor.ldif
+   26  vi /etc/sysconfig/network-scripts/ifcfg-ens33
+   27  systemctl restart network
+   28  yum install -y openldap*
+   29  systemctl start slapd
+   30  systemctl enable slapd
+   31  systemctl status' slapd
+   32  systemctl status slapd
+   33  slappasswd
+   34  cd /etc/openldap/slapd.d/cn\=config
+   35  ls
+   36  nano olcDatabase\=\{2\}hdb.ldif
+   37  cd
+   38  nano db.ldif
+   39  ldapmodify -Y EXTERNAL -H ldapi:/// -f db.idif
+   40  ls
+   41  ldapmodify -Y EXTERNAL -H ldapi:/// -f db.ldif
+   42  cat -n db.ldif
+   43  nano db.ldif
+   44  nano db.ldif
+   45  ldapmodify -Y EXTERNAL -H ldapi:/// -f db.ldif
+   46  nano db.ldif
+   47  ldapmodify -Y EXTERNAL -H ldapi:/// -f db.ldif
+   48  nano db.ldif
+   49  ldapmodify -Y EXTERNAL -H ldapi:/// -f db.ldif
+   50  nano db.ldif
+   51  ldapmodify -Y EXTERNAL -H ldapi:/// -f db.ldif
+   52  cd /etc/openldap/slapd.d/cn\=config
+   53  nano olcDatabase\=\{2\}hdb.ldif
+   54  cd
+   55  cd /etc/openldap/slapd.d/cn\=config
+   56  nano olcDatabase\=\{2\}hdb.ldif
+   57  ls
+   58  nano olcDatabase\=\{1\}monitor.ldif
+   59  cd
+   60  ls
+   61  cat -n db.ldif
+   62  nano monitor.ldif
+   63  ldapmodify -Y EXTERNAL -H ldapi:/// -f monitor.ldif
+   64  nano monitor.ldif
+   65  cd /etc/openldap/slapd.d/cn\=config
+   66  nano monitor.ldif
+   67  nano olcDatabase\=\{1\}monitor.ldif
+   68  ls -al
+   69  cd
+   70  nano olcDatabase\=\{1\}monitor.ldif
+   71  ldapmodify -Y EXTERNAL -H ldapi:/// -f monitor.ldif
+   72  nano monitor.ldif
+   73  ldapmodify -Y EXTERNAL -H ldapi:/// -f monitor.ldif
+   74  cd /etc/openldap/slapd.d/cn\=config
+   75  nano olcDatabase\=\{1\}monitor.ldif
+   76  cd
+   77  ls
+   78  nano mon
+   79  nano monitor.ldif
+   80  nano db.ldif
+   81  cd
+   82  cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG
+   83  chown ldap:ldap /var/lib/ldap/*
+   84  ldapmodify -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
+   85  nano /etc/openldap/schema/cosine.ldif
+   86  ldapmodify -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
+   87  nano /etc/openldap/schema/cosine.ldif
+   88  ldapmodify -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
+   89  nano /etc/openldap/schema/cosine.ldif
+   90  ldapmodify -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
+   91  nano /etc/openldap/schema/cosine.ldif
+   92  ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
+   93  ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif
+   94  ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif
+   95  cd
+   96  nano base.ldif
+   97  nano base.ldif
+   98  ldapadd -x -W -D "cn=ldapadm,dc=alpha,dc=com" -f base.ldif
+   99  ldapadd -x -W -D "cn=ldapadm,dc=alpha,dc=com" -f base.ldif
+  100  ldapadd -x -W -D "cn=ldapadm,dc=alpha,dc=com" -f base.ldif
+  101  ldapadd -x -W -D "cn=ldapadm,dc=alpha,dc=com" -f base.ldif zXCV1234
+  102  ldapadd -x -W -D "cn=ldapadm,dc=alpha,dc=com" -f base.ldif
+  103  slappasswd
+  104  nano db.ldif
+  105  ldapmodify -Y EXTERNAL -H ldapi:/// -f db.ldif
+  106  ldapadd -x -W -D "cn=ldapadm,dc=alpha,dc=com" -f base.ldif
+  107  systemctl restart slapd
+  108  ldapadd -x -W -D "cn=ldapadm,dc=alpha,dc=com" -f base.ldif
+  109  nano db.ldif
+  110  nano base.ldif
+  111  nano db.ldif
+  112  nano base.ldif
+  113  nano db.ldif
+  114  nano monitor.ldif
+  115  reboot
+  116  33
+  117  ldapadd -x -W -D "cn=ldapadm,dc=alpha,dc=com" -f base.ldif
+  118  ls
+  119  ls /home/q/
+  120  cd
+  121  ls
+  122  pwd
+  123  ldapadd -x -W -D "cn=ldapadm,dc=alpha,dc=com" -f base.ldif
+  124  nano /etc/openldap/slapd.conf
+  125  slaptest
+  126  history
+  127  nano /var/lib/ldap/DB_CONFIG
+  128  ldapadd -x -W -D "cn=ldapadm,dc=alpha,dc=com" -f base.ldif
+  129  ldapadd -x -W -D "cn=ldapadm,dc=alpha,dc=com" -f base.ldif
+  130  nano 
+  131  nano /etc/ldap/slapd.con
+  132  nano /etc/openldap/ldap.conf
+  133  cd /etc/openldap/slapd.d/
+  134  mc
+  135  cd
+  136  ldapsearch  -D cn="ldapadm,dc=alpha,dc=loc" -W -b "dc=alpha,dc=loc" objectClass=*
+  137  ldapsearch  -D cn="ldapadm,dc=alpha,dc=loc" -W -b "dc=alpha,dc=loc" objectClass=*
+  138  ldapsearch  -D cn="ldapadm,dc=alpha,dc=loc" -W -b "dc=alpha,dc=loc" objectClass=*
+  139  ldapsearch  -D cn="ldapadm,dc=alpha,dc=loc" -W -b "dc=alpha,dc=loc" objectClass=*
+  140  ldapadd -x -W -D "cn=ldapadm,dc=alpha,dc=com" -f base.ldif
+  141  vi base.ldif
+  142  ldapsearch  -D cn="ldapadm,dc=alpha,dc=loc" -W -b "dc=alpha,dc=loc" objectClass=*
+  143  slappasswd
+  144  nano db.ldif
+  145  nano db.ldif
+  146  ldapmodify -Y EXTERNAL -H ldapi:/// -f db.ldif
+  147  cd /etc/openldap/slapd.d/cn\=config/olcDatabase={2}hdb.ldif
+  148  nano /etc/openldap/slapd.d/cn\=config/olcDatabase={2}hdb.ldif
+  149  nano /etc/openldap/slapd.d/cn\=config/olcDatabase={2}hdb.ldif
+  150  cd
+  151  nano monitor.ldif
+  152  ldapsearch  -D cn="ldapadm,dc=alpha,dc=loc" -W -b "dc=alpha,dc=loc" objectClass=*
+  153  ldapadd -x -W -D "cn=ldapadm,dc=alpha,dc=loc" -f base.ldif
+  154  ldapsearch  -D cn="ldapadm,dc=alpha,dc=loc" -W -b "dc=alpha,dc=loc" objectClass=*
+  155  ldapsearch  -D cn="ldapadm,dc=alpha,dc=loc" -W -b "dc=alpha,dc=loc" objectClass=*
+  156  poweroff
+  157  history
+  158  poweroff
+  159  clear
+  160  history
+

@@ -1,0 +1,9 @@
+https://www.dmosk.ru/instruktions.php?object=postfix-centos
+https://serveradmin.ru/nastroyka-postfix-dovecot-centos-7/#_postfix
+
+install postfix
+
+dovecot взять полностью весь конфиг (в дефолте всё закоментить)
+postfix установить, в дефолтный конф добавить кастомные настройки
+
+

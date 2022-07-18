@@ -1,0 +1,33 @@
+﻿\author{Антон Карманов}
+
+\newcommand\insertcontacts{%
+  \hypersetup{urlcolor=White}
+  \href{%
+    mailto:Антон Карманов <a.karmanov@inventati.org>
+  }{%
+    \faEnvelope{} a.karmanov@inventati.org
+  }
+}
+
+\newcommand{\homepage}{%
+  https://gitlab.com/bergentroll-docs/saltstack-tutorial
+}
+
+\newcommand{\inserthomepage}{%
+  \hypersetup{urlcolor=White}
+  \href{%
+    \homepage
+  }{%
+    \faIcon{git-alt} \homepage{}
+  }
+}
+
+\newcommand\insertreaderbrief{
+  \setbeamertemplate{itemize item}[circle]
+  \begin{itemize}
+    \item Инженер АО <<Гринатом>>
+    \item За свободное ПО
+    \item За открытый контент
+    \item Люблю выдержанный чай \char"8336
+  \end{itemize}
+}

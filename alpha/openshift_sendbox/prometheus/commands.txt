@@ -1,0 +1,15 @@
+https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/
+
+https://github.com/debianmaster/openshift-examples/tree/master/promethus
+
+oc new-app centos/php-73-centos7~https://github.com/ilyabobrusev/phpinfo.git --name phpinfo
+oc expose svc/phpinfo
+oc new-app ubuntu/grafana
+oc expose svc/grafana
+oc new-app ubuntu/prometheus
+oc expose service/prometheus
+oc create -f prom-configmap.yml
+oc set volume deployment/prometheus --add --name=prom-k8s -m /etc/prometheus -t configmap --configmap-name=prom-k8s
+oc apply -f prom-configmap.yml
+
+oc get deployment/phpinfo -o yaml > getphpinfo.yml

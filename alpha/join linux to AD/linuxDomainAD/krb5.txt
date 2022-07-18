@@ -1,0 +1,17 @@
+[libdefaults]
+        default_realm = ALPHA.LOC
+[realm]
+        ALPHA.LOC = {
+                kdc = dc1.alpha.loc
+                        }
+
+___________________________________
+
+[libdefaults]
+        default_realm = ALPHA.LOC
+
+[realm]
+        ALPHA.LOC = {
+                kdc = dc1.alpha.loc
+                        }
+

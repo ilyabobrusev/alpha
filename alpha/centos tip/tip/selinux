@@ -1,0 +1,5 @@
+#disable service
+vi /etc/sysconfig/selinux
+SELINUX=disabled
+
+reboot or setenforce 0

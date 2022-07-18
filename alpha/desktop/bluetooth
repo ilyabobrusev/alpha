@@ -1,0 +1,6 @@
+sudo apt-get -y install bluez*
+sudo apt-get -y install blueman
+modprobe btusb
+sudo systemctl restart bluetooth
+sudo vi /etc/bluetooth/main.conf
+#ControllerMode = bredr

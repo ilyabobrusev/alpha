@@ -1,0 +1,34 @@
+{{if eq .Status "firing"}}
+Status: <b>{{.Status | str_UpperCase}} 🔥</b>
+
+{{- range $val := .Alerts }}
+  --Problem timestamp:
+  Started: {{ $val.StartsAt | str_FormatDate }}
+  --Labels:
+  {{ range $key, $value := $val.Labels -}}
+  {{$key}}: {{$value}}
+  {{ end -}}
+  --Annotattions:
+  {{ range $key, $value := $val.Annotations -}}
+  {{$key}}: {{$value}}
+  {{ end -}}
+{{- end -}}
+{{ end }}
+
+{{if eq .Status "resolved"}}
+Status: <b>{{.Status | str_UpperCase}} ✅</b>
+
+{{- range $val := .Alerts }}
+  --Problem timestamp:
+  Started: {{ $val.StartsAt | str_FormatDate }}
+  Resolved: {{ $val.EndsAt | str_FormatDate }}
+  --Labels:
+  {{ range $key, $value := $val.Labels -}}
+  {{$key}}: {{$value}}
+  {{ end -}}
+  --Annotattions:
+  {{ range $key, $value := $val.Annotations -}}
+  {{$key}}: {{$value}}
+  {{ end -}}
+{{- end -}}
+{{ end }}

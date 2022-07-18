@@ -1,0 +1,49 @@
+yum install -y mdadm
+mdadm --zero-superblock --force /dev/sd{b,c}
+mdadm --create --verbose /dev/md0 -l 0 -n 2 /dev/sd{b,c}
+mkdir /etc/mdadm
+echo "DEVICE partitions" > /etc/mdadm/mdadm.conf
+mdadm --detail --scan --verbose | awk '/ARRAY/ {print}' >> /etc/mdadm/mdadm.conf
+cat /etc/mdadm/mdadm.conf
+lsblk
+mkfs.ext4 /dev/md0
+mkdir /raid
+mount /dev/md0 /raid
+vi /etc/fstab
+#/dev/md0                /raid                   ext4    defaults        1 2
+df -h
+umount /raid
+mount -a
+lsblk
+df -h
+cat /proc/mdstat
+
+#delete raid
+fuser -mv /raid
+umount /raid
+mdadm -S /dev/md0
+mdadm --zero-superblock --force /dev/sd{b,c}
+
+
+
+#raid info
+cat /proc/mdstat
+mdadm --detail /dev/md0
+
+#fail mark
+mdadm --manage /dev/md0 --fail /dev/sda1
+
+#detach disk
+mdadm --manage /dev/md0 --remove /dev/sda1
+mdadm --manage /dev/md0 --detached /dev/sda1
+
+#add disk
+mdadm --manage /dev/md0 --add /dev/sda3
+
+#resize raid
+mdadm --grow /dev/md0 --size=max
+resize2fs /dev/md0
+
+#disk info
+mdadm --examine /dev/sda1
+mdamd --assemble --scan

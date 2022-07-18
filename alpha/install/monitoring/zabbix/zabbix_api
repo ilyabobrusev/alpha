@@ -1,0 +1,52 @@
+https://www.zabbix.com/documentation/current/ru/manual/api/reference/host/create
+https://sbcode.net/zabbix/zabbix-api-examples/
+
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"jsonrpc": "2.0", "method": "user.login", "params": {"user": "user_name", "password": "user_pass"}, "id": 1, "auth": null}' \
+  "http://srv01/api_jsonrpc.php"
+  
+  
+{"jsonrpc":"2.0","result":"token00000000000000aaaaaaaaaa","id":1}
+
+
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"jsonrpc": "2.0", "method": "user.logout", "params": {}, "id": 1, "auth": "token00000000000000aaaaaaaaaa"}' \
+  "http://srv01/api_jsonrpc.php"
+
+
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"jsonrpc": "2.0", "method": "host.get", "params": {"output": ["hostid", "host"], "selectInterfaces": ["interfaceid", "ip"]}, "id": 2, "auth": "token00000000000000aaaaaaaaaa"}' \
+  "http://srv01/api_jsonrpc.php"
+
+
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"jsonrpc": "2.0", "method": "host.create", "params": {"host": "test_host", "interfaces": [{"type": 1,"main": 1,"useip": 1,"ip": "192.168.100.100","dns": "","port": "10050"}],"groups": [{"groupid": "20"}],"templates": [{"templateid": "10347"}],"inventory_mode": 0,"inventory": {"macaddress_a": "01234","macaddress_b": "56768"}},"auth": "token00000000000000aaaaaaaaaa","id": 1}' \
+  "http://srv01/api_jsonrpc.php"
+
+
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"jsonrpc": "2.0", "method": "host.create", "params": {"host": "test_host2", "interfaces": [{"type": 1,"main": 1,"useip": 1,"ip": "192.168.100.102","dns": "","port": "10050"}],"groups": [{"groupid": "20"}],"templates": [{"templateid": "10347"}],"inventory_mode": 0},"auth": "token00000000000000aaaaaaaaaa","id": 1}' \
+  "http://srv01/api_jsonrpc.php"
+
+
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"jsonrpc": "2.0","method": "host.delete","params": ["10348","10349"],"auth": "token00000000000000aaaaaaaaaa","id": 1}' \
+  "http://srv01/api_jsonrpc.php"
+
+
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"jsonrpc": "2.0","method": "hostgroup.create","params": {"name": "test"},"auth": "token00000000000000aaaaaaaaaa","id": 1}' \
+  "http://srv01/api_jsonrpc.php"
+
+
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"jsonrpc": "2.0","method": "hostgroup.delete","params": ["22","23"],"auth": "token00000000000000aaaaaaaaaa","id": 1}' \
+  "http://srv01/api_jsonrpc.php"

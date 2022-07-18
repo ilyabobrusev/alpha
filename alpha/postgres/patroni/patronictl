@@ -1,0 +1,21 @@
+patronictl --help
+patronictl -c /opt/app/patroni/etc/postgresql.yml list
+patronictl -c /opt/app/patroni/etc/postgresql.yml failover
+patronictl -c /opt/app/patroni/etc/postgresql.yml edit-config postgres
+patronictl -c /opt/app/patroni/etc/postgresql.yml show-config postgres
+patronictl -c /opt/app/patroni/etc/postgresql.yml restart postgres
+patronictl -c /opt/app/patroni/etc/postgresql.yml restart postgres pg_node2
+patronictl -c /opt/app/patroni/etc/postgresql.yml pause postgres
+patronictl -c /opt/app/patroni/etc/postgresql.yml resume postgres
+
+
+#edit-config
+loop_wait: 10
+maximum_lag_on_failover: 1048576
+postgresql:
+  parameters:
+    shared_buffers: 512MB
+  use_pg_rewind: true
+  use_slots: true
+retry_timeout: 10
+ttl: 30

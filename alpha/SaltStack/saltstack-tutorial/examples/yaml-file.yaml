@@ -1,0 +1,19 @@
+---
+
+state:
+  name: доминатор2010
+  description: >-
+    Сильнейший воин
+    на этом побережье
+  health: 100
+  online: true
+  party: []
+
+inventory:
+  shield: null
+  bag:
+    - flask: red potion
+    - flask: blue potion
+    - unknown_charm:
+
+...

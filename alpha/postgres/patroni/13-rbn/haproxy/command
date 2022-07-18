@@ -1,0 +1,5 @@
+apt -y install haproxy
+vi /etc/haproxy/haproxy.cfg
+systemctl restart haproxy
+systemctl status haproxy
+psql -U root -d postgres -h haproxy_ip -c "select inet_server_addr();"

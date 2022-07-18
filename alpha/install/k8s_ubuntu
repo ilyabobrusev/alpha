@@ -1,0 +1,25 @@
+apt -y update
+apt -y install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+apt -y update
+apt-cache policy docker-ce
+apt -y install docker-ce
+systemctl enable --now docker
+systemctl status docker
+docker run -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/server:preview
+docker run -d --restart=unless-stopped -p 7070:80 -p 7073:443 rancher/server:preview
+#https://phoenixnap.com/kb/install-rancher-on-ubuntu
+docker run -d --restart=unless-stopped -p 8080:8080 rancher/server:stable
+
+#docker command
+https://linux-notes.org/ostanovit-udalit-vse-docker-kontejnery/
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+docker rmi $(docker images -q)
+docker volume ls
+docker volume rm
+docker volume rm $(docker volume ls -q)
+rm -rf /var/lib/docker*
+systemctl restart docker
+docker exec -ti cont_name /bin/bash

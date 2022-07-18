@@ -1,0 +1,11 @@
+http://linux-notes.org/replikatsiya-mysql-v-vide-master-slave/
+
+https://andreyex.ru/centos-7/kak-nastroit-replikaciyu-mysql-na-centos/
+
+1
+ssh root@185.146.157.67
+2
+ssh root@62.109.27.160
+
+yum -y install wget nano mc
+

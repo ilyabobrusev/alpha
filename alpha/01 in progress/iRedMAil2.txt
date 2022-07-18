@@ -1,0 +1,29 @@
+https://serveradmin.ru/ustanovka-i-nastroyka-iredmail/
+https://docs.iredmail.org/install.iredmail.on.rhel.html
+
+
+* URLs of installed web applications:
+*
+* - Roundcube webmail: https://mylinuxmail.info/mail/
+* - SOGo groupware: https://mylinuxmail.info/SOGo/
+* - netdata (monitor): https://mylinuxmail.info/netdata/
+*
+* - Web admin panel (iRedAdmin): https://mylinuxmail.info/iredadmin/
+*
+* You can login to above links with below credential:
+*
+* - Username: postmaster@mail.mylinuxmail.info
+* - Password: Bkmz1420007
+*
+*
+********************************************************************
+* Congratulations, mail server setup completed successfully. Please
+* read below file for more information:
+*
+*   - /root/iRedMail-0.9.9/iRedMail.tips
+*
+* And it's sent to your mail account postmaster@mail.mylinuxmail.info.
+*
+********************* WARNING **************************************
+*
+* Please reboot your system to enable all mail services.

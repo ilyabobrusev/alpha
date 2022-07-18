@@ -1,0 +1,47 @@
+https://www.techsupportpk.com/2020/02/how-to-create-highly-available-postgresql-cluster-centos-rhel-8.html
+
+192.168.1.200 etcd_node1, haproxy_node1
+192.168.1.201 pg_node1
+192.168.1.202 pg_node2
+
+###all nodes###
+dnf -y install epel-release
+dnf config-manager --set-enabled PowerTools
+dnf -y install yum-utils
+dnf -y update
+
+###etcd_node1, haproxy_node1###
+dnf -y install http://mirror.centos.org/centos/7/extras/x86_64/Packages/etcd-3.3.11-2.el7.centos.x86_64.rpm
+nano /etc/etcd/etcd.conf
+systemctl enable etcd --now
+systemctl status etcd
+
+dnf -y install haproxy
+cp -p /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bkp
+nano /etc/haproxy/haproxy.cfg
+haproxy -c -V -f /etc/haproxy/haproxy.cfg
+systemctl enable haproxy --now
+systemctl status haproxy
+#http://192.168.1.200:7000
+
+###pg_node{1,2}###
+dnf -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+yum-config-manager --enable pgdg12
+dnf -qy module disable postgresql
+dnf -y install postgresql12-server postgresql12 postgresql12-devel
+
+dnf -y install https://github.com/cybertec-postgresql/patroni-packaging/releases/download/1.6.5-1/patroni-1.6.5-1.rhel7.x86_64.rpm
+
+cp -p /opt/app/patroni/etc/postgresql.yml.sample /opt/app/patroni/etc/postgresql.yml
+
+#pg_node1
+nano /opt/app/patroni/etc/postgresql.yml
+
+#pg_node2
+nano /opt/app/patroni/etc/postgresql.yml
+
+###pg_node{1,2}###
+systemctl enable patroni --now
+systemctl status patroni
+
+#psql -h 192.168.1.200 -p 5000 -U postgres

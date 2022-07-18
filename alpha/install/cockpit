@@ -1,0 +1,7 @@
+yum -y install cockpit
+systemctl start cockpit
+systemctl enable cockpit.socket
+firewall-cmd --add-service=cockpit
+firewall-cmd --add-service=cockpit --permanent
+firewall-cmd --reload
+http://<your-server-IP>:9090

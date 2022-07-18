@@ -1,0 +1,15 @@
+nano /etc/sysconfig/network-scripts/ifcfg-enp0s3
+
+TYPE="Ethernet"
+PROXY_METHOD="none"
+BROWSER_ONLY="no"
+BOOTPROTO="static"
+DEFROUTE="yes"
+NAME="enp0s3"
+UUID="89bb98e3-6a0a-4ef3-a795-1e8f9bb0775b"
+DEVICE="enp0s3"
+ONBOOT="yes"
+IPADDR=192.168.1.190
+NETMASK=255.255.255.0
+GATEWAY=192.168.1.254
+DNS1=192.168.1.254

@@ -1,0 +1,25 @@
+#servers
+q	1234
+root	1234
+
+#mysql
+root	1234
+zabbix	1234
+observer	1234
+
+#zabbix
+Admin	1234
+
+#Grafana
+admin	1234
+
+#Splunk
+admin	1234
+
+#mWiki
+admin
+1234
+
+#nextcloud
+admin
+1234

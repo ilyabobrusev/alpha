@@ -1,0 +1,187 @@
+https://www.dmosk.ru/instruktions.php?object=prometheus-linux#node-autoruns
+https://www.dmosk.ru/instruktions.php?object=prometheus-linux
+https://prometheus.io/download/
+https://habr.com/ru/company/selectel/blog/275803/
+https://habr.com/ru/post/441136/
+https://rtfm.co.ua/prometheus-zapusk-servera-s-alertmanager-cadvisor-i-grafana/#Alertmanager
+https://habr.com/ru/post/308610/
+
+
+#prometheus
+wget https://github.com/prometheus/prometheus/releases/download/v2.21.0/prometheus-2.21.0.linux-amd64.tar.gz
+ firewall-cmd --permanent --add-port={9090,9093,9094,9100}/tcp --add-port=9094/udp
+ firewall-cmd --reload
+ firewall-cmd --list-all
+ mkdir /etc/prometheus
+ mkdir /var/lib/prometheus
+ tar zxvf prometheus-*.linux-amd64.tar.gz
+ cd prometheus-*.linux-amd64
+ cp prometheus promtool /usr/local/bin/
+ cp -r console_libraries consoles prometheus.yml /etc/prometheus/
+ useradd --no-create-home --shell /bin/false prometheus
+ chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus/
+ chown prometheus:prometheus /usr/local/bin/{prometheus,promtool}
+#/usr/local/bin/prometheus --config.file /etc/prometheus/prometheus.yml --storage.tsdb.path /var/lib/prometheus/ --web.console.templates=/etc/prometheus/consoles --web.console.libraries=/etc/prometheus/console_libraries --storage.tsdb.retention.time 7d
+ vi /etc/systemd/system/prometheus.service
+--------
+[Unit]
+Description=Prometheus Service
+After=network.target
+
+[Service]
+User=prometheus
+Group=prometheus
+Type=simple
+ExecStart=/usr/local/bin/prometheus \
+--config.file /etc/prometheus/prometheus.yml \
+--storage.tsdb.path /var/lib/prometheus/ \
+--storage.tsdb.retention.time=7d \
+--web.console.templates=/etc/prometheus/consoles \
+--web.console.libraries=/etc/prometheus/console_libraries \
+--web.enable-admin-api
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+--------
+ systemctl daemon-reload
+ systemctl enable prometheus
+ systemctl start prometheus
+ systemctl status prometheus
+
+#alert_manager
+ wget https://github.com/prometheus/alertmanager/releases/download/v0.21.0/alertmanager-0.21.0.linux-amd64.tar.gz
+ mkdir /etc/alertmanager /var/lib/prometheus/alertmanager
+ tar zxvf alertmanager-*.linux-amd64.tar.gz
+ cd alertmanager-*.linux-amd64
+ cp alertmanager amtool /usr/local/bin/
+ cp alertmanager.yml /etc/alertmanager/
+ useradd --no-create-home --shell /bin/false alertmanager
+ chown -R alertmanager:alertmanager /etc/alertmanager/ /var/lib/prometheus/alertmanager/
+ chown alertmanager:alertmanager /usr/local/bin/{alertmanager,amtool}
+ vi /etc/systemd/system/alertmanager.service
+--------
+[Unit]
+Description=Alertmanager Service
+After=network.target
+
+[Service]
+EnvironmentFile=-/etc/default/alertmanager
+User=alertmanager
+Group=alertmanager
+Type=simple
+ExecStart=/usr/local/bin/alertmanager \
+          --config.file=/etc/alertmanager/alertmanager.yml \
+          --storage.path=/var/lib/prometheus/alertmanager \
+          $ALERTMANAGER_OPTS
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+--------
+ systemctl daemon-reload
+ systemctl enable alertmanager
+ systemctl start alertmanager
+ systemctl status alertmanager
+
+#node_exporter
+ wget https://github.com/prometheus/node_exporter/releases/download/v1.0.1/node_exporter-1.0.1.linux-amd64.tar.gz
+ firewall-cmd --permanent --add-port=9100/tcp
+ firewall-cmd --reload
+ tar zxvf node_exporter-*.linux-amd64.tar.gz
+ cd node_exporter-*.linux-amd64
+ cp node_exporter /usr/local/bin/
+ useradd --no-create-home --shell /bin/false nodeusr
+ chown -R nodeusr:nodeusr /usr/local/bin/node_exporter
+ vi /etc/systemd/system/node_exporter.service
+--------
+[Unit]
+Description=Node Exporter Service
+After=network.target
+
+[Service]
+User=nodeusr
+Group=nodeusr
+Type=simple
+ExecStart=/usr/local/bin/node_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+--------
+ systemctl daemon-reload
+ systemctl enable node_exporter
+ systemctl start node_exporter
+ systemctl status node_exporter
+
+
+#add_node_exporter_clients
+vi /etc/prometheus/prometheus.yml
+scrape_configs:
+
+  - job_name: 'node_exporter_clients'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.111.182:9100','192.168.0.15:9100']
+
+-----------------------------------------------
+
+/etc/prometheus/prometheus.yml
+
+global:
+	scrape_interval: 15s	# как часто опрашивать exporter-ы
+
+storage:
+	tsdb:
+	  path: /var/lib/prometheus # где хранить данные
+	  retention:
+	    time: 15d	# как долго хранить данные
+
+scrape_configs:
+	- job_name: 'prometheus'
+	  static_configs:
+	    - targets: ['localhost:9090']
+	- job_name: 'app'
+	  static_configs:
+	    - targets: ['localhost:9100', 'localhost:9102', 'localhost:9103', 'localhost:9187']
+
+-----------------------------------------------
+
+#Можно выносить в отдельные файлы:
+scrape_configs:
+...
+
+  - job_name: 'my_internet'
+    file_sd_configs:
+      - files:
+	- /etc/prometheus/targets/my_internet.yml
+
+#my_internet.yml
+- targets:
+  - www.openmit.space:9100
+  labels:
+    contur: internet
+    role: web-server, mail-server
+    
+-----------------------------------------------
+
+#access to target with auth
+  - job_name: Name
+    metrics_path: /path/to/metrics
+    scheme: https
+    lts_config:
+      insecure_skip_verify: true
+    static_config:
+      - targets: ['target.name']
+        labels:
+	  lab1: info1
+	  lab2: info2
+    basic_auth:
+      username: user
+      password: pass
+      
+kill -HUP 1111
+tail /var/log/messages

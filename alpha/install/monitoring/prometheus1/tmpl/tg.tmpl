@@ -1,0 +1,13 @@
+{{/* Writer - bobrusev.i.al@sberbank.ru */}}
+{{if eq .Status "firing"}}
+Status: <b>{{.Status }} 🔥</b>
+{{  .CommonAnnotations }}
+Labels:
+{{ .CommonLabels }}
+{{ end }}
+{{ if eq .Status "resolved"}}
+Status: <b>{{.Status }} ✅</b>
+{{ .CommonAnnotations }}
+Labels:
+{{ .CommonLabels }}
+{{ end }}

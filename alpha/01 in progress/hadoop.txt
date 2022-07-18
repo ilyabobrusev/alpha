@@ -1,0 +1,10 @@
+https://bitworks.software/2018-08-01-hadoop-cluster-installation-basic-version.html
+
+https://bigdata-intips.blogspot.com/2015/10/hadoopwith-spark.html
+
+export JAVA_LIBRARY_PATH=$HADOOP_HOME/lib/native:$JAVA_LIBRARY_PATH
+
+
+
+
+https://tecadmin.net/install-apache-hive-on-centos-rhel/

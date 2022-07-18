@@ -1,0 +1,21 @@
+- hosts: test
+  become: yes
+
+  tasks:
+
+  - name: Copy prometheus.yml
+    copy:
+      src: /home/ansible/prometheus.yml
+      dest: /etc/prometheus/prometheus.yml
+      owner: prometheus
+      group: prometheus
+      mode: 0755
+    notify:
+      - Copy prometheus.yml
+
+  handlers:
+  - name: Copy prometheus.yml
+    service:
+      name: prometheus
+      state: restarted
+

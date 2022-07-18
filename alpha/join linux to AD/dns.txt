@@ -1,0 +1,6 @@
+#nmcli connection modify "Проводное соединение 1" ipv4.dns 192.168.2.11
+#nmcli connection up "Проводное соединение 1"
+
+nano /etc/dhcp/dhclient.conf
+supersede domain-name "alpha.loc";
+prepend domain-name-servers 192.168.2.11;

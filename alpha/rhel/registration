@@ -1,0 +1,17 @@
+https://www.youtube.com/watch?v=hnuyHqxvuoU
+
+https://developers.redhat.com/
+
+sudo sybscription-manager register --auto-attach
+
+
+sudo subscription-manager remove --all
+sudo subscription-manager unregister
+sudo subscription-manager clean
+
+sudo subscription-manager register
+sudo subscription-manager refresh
+sudo subscription-manager register --auto-attach --force
+
+sudo subscription-manager list --available
+sudo subscription-manager attach --pool=<Pool-ID>

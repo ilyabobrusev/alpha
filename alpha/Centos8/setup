@@ -1,0 +1,15 @@
+dnf -y update
+dnf -y install epel-release
+dnf -y install htop strace nload sysstat iotop mc nano nmap tree wget curl yum-utils bind-utils net-tools ncdu
+timedatectl set-timezone Europe/Moscow
+
+#kvm mv
+dnf -y install qemu-guest-agent
+systemctl enable --now qemu-guest-agent
+
+#locale
+localectl set-locale LANG=en_US.UTF-8
+localectl
+dnf install -y langpacks-en glibc-all-langpacks
+dnf install -y glibc-langpack-en
+

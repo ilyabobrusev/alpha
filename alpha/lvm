@@ -1,0 +1,138 @@
+#links
+https://www.youtube.com/watch?v=awK1LT2oPXM
+https://www.youtube.com/watch?v=3LJILXKf9XY
+
+
+lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+
+e2fsck /dev/ubuntu-vg/ubuntu-lv
+e2fsck -f /dev/ubuntu-vg/ubuntu-lv
+resize2fs -p /dev/ubuntu-vg/ubuntu-lv 30G
+or
+lvreduce -r -L -45G /dev/ubuntu-vg/ubuntu-lv
+
+lvcreate -L 15G -n vol_tmp ubuntu-vg
+mkfs.ext4 /dev/ubuntu-vg/vol_tmp 
+mount /dev/ubuntu-vg/vol_tmp /tmp
+
+lvcreate -L 5G -n vol_root ubuntu-vg
+mkfs.ext4 /dev/ubuntu-vg/vol_root 
+mount /dev/ubuntu-vg/vol_root /root
+
+
+lvcreate -L 20G -n vol_var ubuntu-vg
+mkfs.ext4 /dev/ubuntu-vg/vol_var
+mount /dev/ubuntu-vg/vol_var /var
+
+
+
+lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+resize2fs /dev/ubuntu-vg/ubuntu-lv
+lvextend -L 100G /dev/ubuntu-vg/ubuntu-lv
+lvextend -L +10G /dev/ubuntu-vg/ubuntu-lv
+
+
+lvrename /dev/ubuntu-vg/ubuntu-lv /dev/ubuntu-vg/vol_main
+lvrename ubuntu-vg ubuntu-lv vol_main
+nano /boot/grub/grub.cfg
+
+
+
+ls -al /dev/disk/by-id/
+vi /etc/fstab
+
+
+
+
+
+
+pvcreate /dev/sdb1
+vgextend ubuntu-vg /dev/sdb1
+
+
+
+
+
+
+
+
+https://losst.ru/sozdanie-i-nastrojka-lvm-linux
+https://access.redhat.com/documentation/ru-ru/red_hat_enterprise_linux/6/html/logical_volume_manager_administration/lv_rename
+https://access.redhat.com/documentation/ru-ru/red_hat_enterprise_linux/6/html/logical_volume_manager_administration/lv_reduce
+https://access.redhat.com/documentation/ru-ru/red_hat_enterprise_linux/6/html/logical_volume_manager_administration/lv_extend
+https://access.redhat.com/documentation/ru-ru/red_hat_enterprise_linux/6/html/logical_volume_manager_administration/index
+
+
+
+
+
+dpkg-reconfigure unattended-upgrades
+apt -y remove unattended-upgrades
+apt -y update
+apt -y upgrade
+
+
+
+___________________________________________
+Cetos 7
+
+
+lvcreate -L 15G -n root centos
+mkfs.xfs /dev/centos/root 
+mount /dev/centos/root /root
+lvextend -L +10G /dev/centos/root
+lvextend -L 15G /dev/centos/tmp
+
+
+lvrename /dev/centos/sys /dev/centos/system
+lvrename centos sys system
+nano /boot/grub/grub.cfg
+
+
+
+
+
+_________________________________________
+#practic
+pvcreate /dev/md0 
+vgcreate vg_raid /dev/md0
+
+lvcreate -L 150G -n lv_iso vg_raid
+mkfs.ext4 /dev/vg_raid/lv_iso
+mount /dev/vg_raid/lv_iso /raid/iso
+
+lvcreate -L 250G -n lv_kvm vg_raid
+mkfs.ext4 /dev/vg_raid/lv_kvm
+mount /dev/vg_raid/lv_kvm /raid/kvm
+lvextend -L 400G /dev/vg_raid/lv_kvm
+
+
+nano /etc/fstab
+/dev/mapper/vg_raid-lv_iso	/raid/iso		ext4	defaults	0 0
+/dev/mapper/vg_raid-lv_kvm	/raid/kvm	        ext4	defaults        0 0
+
+
+#remove lvm parts
+umount /raid/iso
+umount /raid/kvm/
+lvremove /dev/vg_raid/lv_iso 
+lvremove /dev/vg_raid/lv_kvm 
+vgchange -a n vg_raid
+vgremove vg_raid
+
+
+fdisk /dev/sda
+pvresize /dev/sda2
+
+___________________________________
+#Информация по дискам:
+df -h, lsblk, pvs, vgs, lvs, pvdisplay, vgdisplay, lvdisplay
+#Добавление диска в lvm и расширение раздела
+pvcreate /dev/sdc
+lvmdiskscan -l
+vgextend rootvg /dev/sdc
+lvextend -L +100G /dev/mapper/rootvg-data
+#lvextend -l +100%FREE /dev/mapper/rootvg-data
+resize2fs /dev/mapper/rootvg-data
+#xfs_growfs /dev/mapper/rootvg-data
+

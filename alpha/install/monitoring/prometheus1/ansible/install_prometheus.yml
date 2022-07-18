@@ -1,0 +1,100 @@
+- hosts: test 
+  become: yes
+ 
+  tasks:
+ 
+  - name: Open 9090 port
+    firewalld:
+      port: 9090/tcp
+      permanent: yes
+      state: enabled
+    notify:
+      - Open 9090 port
+
+  - name: Add the user 'prometheus'
+    user:
+      name: prometheus
+      shell: /bin/false
+      create_home: no
+
+  - name: Create /etc/prometheus and /var/lib/prometheus
+    file:
+      path: "{{ item }}"
+      owner: prometheus
+      group: prometheus
+      mode: '0755'
+      state: directory
+    loop:
+      - /etc/prometheus
+      - /var/lib/prometheus
+
+  - name: Download prometheus
+    unarchive:
+      src: /tmp/prometheus-2.21.0.linux-amd64.tar.gz
+      dest: /tmp
+
+  - name: Cp prometheus and promtool to /usr/local/bin/
+    copy:
+      src: "{{ item }}"
+      dest: /usr/local/bin/
+      remote_src: yes
+      owner: prometheus
+      group: prometheus
+      mode: 0755
+    loop:
+      - /tmp/prometheus-2.21.0.linux-amd64/prometheus
+      - /tmp/prometheus-2.21.0.linux-amd64/promtool
+
+
+  - name: Cp consoles, console_libraries and prometheus.yml to /etc/prometheus/
+    copy:
+      src: "{{ item }}"
+      dest: /etc/prometheus/
+      remote_src: yes
+      owner: prometheus 
+      group: prometheus
+      mode: 0755
+    loop:
+      - /tmp/prometheus-2.21.0.linux-amd64/console_libraries
+      - /tmp/prometheus-2.21.0.linux-amd64/consoles
+      - /tmp/prometheus-2.21.0.linux-amd64/prometheus.yml
+
+  - name: Add unit /etc/systemd/system/prometheus.service
+    copy:
+      content: |
+        [Unit]
+        Description=Prometheus Service
+        After=network.target
+        
+        [Service]
+        User=prometheus
+        Group=prometheus
+        Type=simple
+        ExecStart=/usr/local/bin/prometheus \
+        --config.file /etc/prometheus/prometheus.yml \
+        --storage.tsdb.path /var/lib/prometheus/ \
+        --storage.tsdb.retention.time=7d \
+        --web.console.templates=/etc/prometheus/consoles \
+        --web.console.libraries=/etc/prometheus/console_libraries \
+        --web.enable-admin-api
+        ExecReload=/bin/kill -HUP $MAINPID
+        Restart=on-failure
+        
+        [Install]
+        WantedBy=multi-user.target
+      dest: /etc/systemd/system/prometheus.service
+    notify:
+      - Add unit /etc/systemd/system/prometheus.service
+
+  handlers:
+    - name: Open 9090 port
+      service:
+        name: firewalld
+        state: reloaded
+
+    - name: Add unit /etc/systemd/system/prometheus.service
+      systemd:
+        daemon-reload: true
+        enabled: true
+        state: restarted
+        name: prometheus

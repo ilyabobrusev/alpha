@@ -1,0 +1,15 @@
+	#instal on srv agent wol
+yum -y install ethtool
+	#chek support wol
+sudo ethtool eenp2s0f1 | grep -i wake-on
+	#example output
+	Supports Wake-on:pumbg	#if there is a letter <g> then ok 
+	Wake-on: g		#if there is a letter <d>,
+				 must be met: ethtool -s enp2s0f1 wol g
+#get mac
+ifconfig enp2s0f1 | grep -i ether
+
+#instal on admin client
+apt install wakeonlan
+#execute for wol
+wakeonlan -p 8 10:C3:7B:2F:62:47(mac-addr)

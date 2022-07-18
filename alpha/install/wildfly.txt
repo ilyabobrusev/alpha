@@ -1,0 +1,99 @@
+https://baks.dev/article/centos/how-to-install-wildfly-jboss-on-centos-7
+
+yum install java-1.8.0-openjdk-devel -y
+groupadd -r wildfly
+useradd -r -g wildfly -d /opt/wildfly -s /sbin/nologin wildfly
+WILDFLY_VERSION=16.0.0.Final
+wget https://download.jboss.org/wildfly/$WILDFLY_VERSION/wildfly-$WILDFLY_VERSION.tar.gz -P /tmp
+tar xf /tmp/wildfly-$WILDFLY_VERSION.tar.gz -C /opt/
+ln -s /opt/wildfly-$WILDFLY_VERSION /opt/wildfly
+chown -RH wildfly: /opt/wildfly
+mkdir -p /etc/wildfly
+cp /opt/wildfly/docs/contrib/scripts/systemd/wildfly.conf /etc/wildfly/
+
+nano /etc/wildfly/wildfly.conf
+# The configuration you want to run
+WILDFLY_CONFIG=standalone.xml
+
+# The mode you want to run
+WILDFLY_MODE=standalone
+
+# The address to bind to
+WILDFLY_BIND=0.0.0.0
+
+cp /opt/wildfly/docs/contrib/scripts/systemd/launch.sh /opt/wildfly/bin/
+sh -c 'chmod +x /opt/wildfly/bin/*.sh'
+cp /opt/wildfly/docs/contrib/scripts/systemd/wildfly.service /etc/systemd/system/
+systemctl daemon-reload
+systemctl enable --now wildfly
+systemctl status wildfly
+firewall-cmd --zone=public --permanent --add-port={8080,9990}/tcp
+firewall-cmd --reload
+/opt/wildfly/bin/add-user.sh
+
+#Check wf instalation
+http://<your_domain_or_IP_address>:8080
+
+cd /opt/wildfly/bin/
+./jboss-cli.sh --connect
+
+
+nano /etc/wildfly/wildfly.conf
+# The configuration you want to run
+WILDFLY_CONFIG=standalone.xml
+
+# The mode you want to run
+WILDFLY_MODE=standalone
+
+# The address to bind to
+WILDFLY_BIND=0.0.0.0
+
+# The address console to bind to
+WILDFLY_CONSOLE_BIND=0.0.0.0
+
+
+
+nano /opt/wildfly/bin/launch.sh
+#!/bin/bash
+
+if [ "x$WILDFLY_HOME" = "x" ]; then
+    WILDFLY_HOME="/opt/wildfly"
+fi
+
+if [[ "$1" == "domain" ]]; then
+    $WILDFLY_HOME/bin/domain.sh -c $2 -b $3 -bmanagement $4
+else
+    $WILDFLY_HOME/bin/standalone.sh -c $2 -b $3 -bmanagement $4
+fi
+
+
+
+systemctl restart wildfly
+nano /etc/systemd/system/wildfly.service
+[Unit]
+Description=The WildFly Application Server
+After=syslog.target network.target
+Before=httpd.service
+
+[Service]
+Environment=LAUNCH_JBOSS_IN_BACKGROUND=1
+EnvironmentFile=-/etc/wildfly/wildfly.conf
+User=wildfly
+LimitNOFILE=102642
+PIDFile=/var/run/wildfly/wildfly.pid
+ExecStart=/opt/wildfly/bin/launch.sh $WILDFLY_MODE $WILDFLY_CONFIG $WILDFLY_BIND $WILDFLY_CONSOLE_BIND
+StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+mkdir /var/run/wildfly/
+chown wildfly: /var/run/wildfly/
+systemctl daemon-reload
+systemctl restart wildfly
+systemctl status wildfly
+
+#Check wf remote webconsole
+http://<your_domain_or_IP_address>:9990

@@ -1,0 +1,3 @@
+nano /run/resolvconf/resolv.conf
+
+http://ubuntu.fliplinux.com/etc-resolv-conf-ubuntu-12-04.html

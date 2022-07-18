@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+{% set id = grains['id'] %}
+
+<html lang='ru'>
+  <head>
+    <meta charset="utf-8">
+    <title>Миньон {{ id }}</title>
+
+    <style type=text/css>
+      body {
+        background-color: cadetblue;
+        text-align: center;
+        line-height: 1.5;
+      }
+
+      div {
+        margin: auto;
+        padding: 0.5cm 1.5cm;
+        background-color: white;
+        text-align: left;
+        width: 60%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <h1>{{ id }}</h1>
+
+      <h2>Грейны</h2>
+
+      <ul>
+        {% for k, v in grains.items() %}
+        <li>{{ k }}: {{ v }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>

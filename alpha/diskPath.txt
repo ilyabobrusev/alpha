@@ -1,0 +1,1 @@
+https://access.redhat.com/documentation/ru-ru/red_hat_enterprise_linux/6/html/installation_guide/s2-diskpartrecommend-x86

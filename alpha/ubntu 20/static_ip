@@ -1,0 +1,15 @@
+vi /etc/netplan/00-installer-config.yaml
+
+network:
+  ethernets:
+    enp1s0:
+      dhcp4: no
+      dhcp6: no
+      addresses: [192.168.122.11/24, ]
+      gateway4: 192.168.122.1
+      nameservers:
+          addresses: [192.168.122.1, ]
+  version: 2
+
+
+# netplan apply

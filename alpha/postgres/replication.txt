@@ -1,0 +1,3 @@
+https://www.8host.com/blog/replikaciya-baz-dannyx-postgresql-po-tipu-masterslave/
+
+https://eax.me/postgresql-replication/

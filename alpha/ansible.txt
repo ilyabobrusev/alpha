@@ -1,0 +1,8 @@
+https://www.youtube.com/watch?v=3eRQDA7Y-lA&list=PLg5SS_4L6LYufspdPupdynbMQTBnZd31N&index=7
+
+sudo dnf update -y
+sudo dnf install python3 -y
+python3 --version
+sudo dnf install -y epel-release
+sudo dnf install -y ansible
+qwe

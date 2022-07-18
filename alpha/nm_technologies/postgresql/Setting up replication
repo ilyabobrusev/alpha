@@ -1,0 +1,53 @@
+Создание кластеров
+pg_createcluster 10 master --start -p 5555 -d /var/lib/postgresql/10/master
+pg_createcluster 10 slave --start -p 6666 -d /var/lib/postgresql/10/slave
+
+#Master
+
+Создаём Базы
+CREATE DATABASE testdb01;
+
+Создаём таблицы
+CREATE TABLE tab01 (
+  id             SERIAL PRIMARY KEY,
+  name           VARCHAR(100) NOT NULL,
+  title          VARCHAR(100) NULL
+);
+
+Заполняем таблицы
+INSERT INTO tab01 VALUES 
+(DEFAULT, 'n1', 't1'), 
+(DEFAULT, 'n2', 't2'), 
+(DEFAULT, 'n3', 't3'), 
+(DEFAULT, 'n4', 't4'), 
+(DEFAULT, 'n5', 't5');
+
+Создаём публикации
+\c testdb01
+CREATE PUBLICATION pub_testdb01 FOR TABLE tab01, tab03, tab05, tab07, tab09;
+\c testdb03
+CREATE PUBLICATION pub_testdb03 FOR TABLE tab02, tab04, tab06, tab08, tab10;
+
+Создаём пользователя для репликации, с привелегией replication и предоставляем права на чтение таблиц которые требуется реплицыровать
+
+#Slave
+
+Создаем базы
+Создаём одноимённые таблицы в базах котрые будем реплецировать
+
+Подписываемся на обновления таблиц
+\c testdb01
+CREATE SUBSCRIPTION sub_testdb01
+  CONNECTION 'host=127.0.0.1 port=5555 user=log_repl password=log_repl dbname=testdb01'
+  PUBLICATION pub_testdb01;
+\c testdb03
+CREATE SUBSCRIPTION sub_testdb03
+  CONNECTION 'host=127.0.0.1 port=5555 user=log_repl password=log_repl dbname=testdb03'
+  PUBLICATION pub_testdb03;
+
+
+Проверяем репликацию прочитав данные из таблиц
+Или используя инструменты postgresql
+На мастере \dRp, select * from pg_stat_replication;, select * from pg_replication_slots;
+На стейве \dRs, select * from pg_stat_subscription;
+На обоих SELECT * FROM pg_stat_activity;

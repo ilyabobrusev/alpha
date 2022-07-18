@@ -1,0 +1,40 @@
+yum install gcc
+yum install python-pip
+pip install --upgrade pip
+yum install python-devel
+yum install postgresql-devel
+yum install python-ldap
+pip install ldap2pg==4.12
+ldap2pg --version
+
+#ldap
+host    all             all          0.0.0.0/0               ldap ldapserver=mylinuxdns.info ldapbasedn="dc=ldap, dc=alpha, dc=loc" ldapsearchattribute=uid
+LDAPURI="ldap://mylinuxdns.info" LDAPBINDDN="uid=pg,ou=peoples,dc=ldap,dc=alpha,dc=loc" LDAPPASSWORD="Zxcv1234" ldap2pg --config /var/lib/pgsql/data/ldap2pg.yml --real
+*/15 * * * * LDAPURI="ldap://mylinuxdns.info" LDAPBINDDN="uid=pg,ou=peoples,dc=ldap,dc=alpha,dc=loc" LDAPPASSWORD="Zxcv1234" ldap2pg --config /var/lib/pgsql/data/ldap2pg.yml --real 1>/dev/null 2>&1 || true
+
+- ldap:
+    base: OU=Groups,DC=ldap,DC=alpha,DC=loc
+    filter: "(cn=pgusers*)"
+  role:
+    name: '{memberUid}'
+    options: LOGIN
+    parent:
+    - ldap_roles
+    - owners
+
+
+#AD
+host    all             all                     0.0.0.0/0               ldap ldapserver="srv.dom" ldapprefix="" ldapsuffix="@SRV.DOM"
+LDAPURI="ldap://srv.dom" LDAPBINDDN=user LDAPPASSWORD=pass ldap2pg --config /var/lib/pgsql/10/data/ldap2pg.yml --real
+*/15 * * * * LDAPURI="ldap://srv.dom" LDAPBINDDN=user LDAPPASSWORD=pass ldap2pg --config /var/lib/pgsql/10/data/ldap2pg.yml --real 1>/dev/null 2>&1 || true
+
+- ldap:
+    base: OU=Users,DC=dom,DC=loc
+    filter: '(& (objectClass=User) (memberOf=CN=server-postgres-access,DC=dom,DC=loc))'
+    scope: sub
+  role:
+    name: '{samaccountname}'
+    options: LOGIN
+    parent:
+    - ldap_roles
+    - owners

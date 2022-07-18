@@ -1,0 +1,137 @@
+#nano zabbix_agent_install.sh
+yum install -y yum-utils
+rpm -ivh https://repo.zabbix.com/zabbix/4.2/rhel/7/x86_64/zabbix-release-4.2-1.el7.noarch.rpm
+yum-config-manager --enable rhel-7-server-optional-rpms
+yum install -y zabbix-agent
+firewall-cmd --permanent --add-port=10050/tcp
+firewall-cmd --reload
+vi /etc/zabbix/zabbix_agentd.conf
+systemctl start zabbix-agent
+systemctl enable zabbix-agent
+systemctl status zabbix-agent
+
+Server=192.168.1.213
+ServerActive=192.168.1.213
+Hostname=name #name for zabbix-server
+HostnameItem=system.hostname
+
+mylinuxzabbix.info
+
+Server=mylinuxzabbix.info
+ServerActive=mylinuxzabbix.info
+Hostname=name #name for zabbix-server
+HostnameItem=system.hostname
+
+
+cat /var/log/zabbix/zabbix_agentd.log
+_____________________________________________________________________
+rpm -ivh https://repo.zabbix.com/zabbix/4.2/rhel/7/x86_64/zabbix-release-4.2-1.el7.noarch.rpm
+yum install -y yum-utils
+yum-config-manager --enable rhel-7-server-optional-rpms
+yum install -y zabbix-agent
+systemctl start zabbix-agent
+systemctl enable zabbix-agent
+firewall-cmd --permanent --add-port=10050/tcp
+firewall-cmd --reload
+
+
+#add to zabbix-server
+nano /etc/zabbix/zabbix_agentd.conf
+
+Server=192.168.1.212
+ServerActive=192.168.1.212
+Hostname=co7-215-alpha #name for zabbix-server
+
+systemctl restart zabbix-agent
+
+_______________________________________________________________________
+
+#Windows hosts
+
+Создаем папку:
+mkdir C:\zabbix
+
+Качаем на офсайте:
+https://www.zabbix.com/download_agents
+
+Распаковываем архив и переносим в C:\zabbix, далее переходим в папку win64:
+cd win64
+
+Устанавливаем агент:
+zabbix_agentd.exe --config "c:\zabbix\zabbix_agentd.conf" --install
+
+Запускаем:
+zabbix_agentd.exe --config "c:\zabbix\zabbix_agentd.conf" --start
+
+Открываем порт 10050 на фаерволе:
+Netsh Advfirewall Firewall Add Rule name="Zabbix" dir=in action=allow description="Zabbix" profile=any localport=10050 protocol=tcp
+
+
+Остановить агент:
+zabbix_agentd.exe --config "c:\zabbix\zabbix_agentd.conf" --stop
+
+Удалить из служб:
+zabbix_agentd.exe --config "c:\zabbix\zabbix_agentd.conf" --uninstall
+
+_____________________________________________________________________________
+#Ubuntu 18.04 (bionic)
+wget https://repo.zabbix.com/zabbix/4.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_4.2-1+bionic_all.deb
+dpkg -i zabbix-release_4.2-1+bionic_all.deb
+apt update
+apt -y install zabbix-agent
+ufw allow 10050
+ufw reload
+
+nano /etc/zabbix/zabbix_agentd.conf
+Server=zabbix.alpha.loc
+ServerActive=zabbix.alpha.loc
+Hostname=name #name for zabbix-server
+HostnameItem=system.hostname
+
+systemctl start zabbix-agent
+systemctl enable zabbix-agent
+
+cat /var/log/zabbix/zabbix_agentd.log
+_____________________________________________________________________________
+
+Server=127.0.0.1
+ServerActive=127.0.0.1
+Hostname=Zabbix server
+
+
+_____________________________________________________________________________
+rpm -Uvh https://repo.zabbix.com/zabbix/4.4/rhel/7/x86_64/zabbix-release-4.4-1.el7.noarch.rpm
+yum-config-manager --enable rhel-7-server-optional-rpms
+yum -y install zabbix-agent
+firewall-cmd --permanent --add-port=10050/tcp
+#firewall-cmd --permanent --add-port=9100/tcp
+firewall-cmd --reload
+#vi /etc/zabbix/zabbix_agentd.conf
+sed -i "s/Server=127.0.0.1/Server=192.168.1.111/" /etc/zabbix/zabbix_agentd.conf
+sed -i "s/ServerActive=127.0.0.1/ServerActive=192.168.1.111/" /etc/zabbix/zabbix_agentd.conf
+sed -i "s/Hostname=Zabbix server/#Hostname=Zabbix server/" /etc/zabbix/zabbix_agentd.conf
+sed -i "s/# HostnameItem=system.hostname/HostnameItem=system.hostname/" /etc/zabbix/zabbix_agentd.conf
+systemctl enable --now zabbix-agent
+systemctl status zabbix-agent
+
+
+_________________________________________________________________________________
+CO7
+rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
+yum clean all
+yum install -y zabbix-get zabbix-agent zabbix-sender
+
+_________________________________________________________________________________
+CO8
+rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/8/x86_64/zabbix-release-5.0-1.el8.noarch.rpm
+dnf -y install zabbix-agent zabbix-get
+firewall-cmd --permanent --add-port=10050/tcp
+firewall-cmd --reload
+#vi /etc/zabbix/zabbix_agentd.conf
+sed -i "s/Server=127.0.0.1/Server=192.168.1.151/" /etc/zabbix/zabbix_agentd.conf
+sed -i "s/ServerActive=127.0.0.1/ServerActive=192.168.1.151/" /etc/zabbix/zabbix_agentd.conf
+sed -i "s/Hostname=Zabbix server/#Hostname=Zabbix server/" /etc/zabbix/zabbix_agentd.conf   #or# sed -i "s/Hostname=Zabbix server/Hostname=pg152/" /etc/zabbix/zabbix_agentd.conf
+sed -i "s/# HostnameItem=system.hostname/HostnameItem=system.hostname/" /etc/zabbix/zabbix_agentd.conf
+systemctl enable --now zabbix-agent
+systemctl status zabbix-agent
+cat /var/log/zabbix/zabbix_agentd.log
