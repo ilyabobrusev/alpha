@@ -1,0 +1,10 @@
+yum install yum-plugin-versionlock
+yum versionlock pkg-1.0
+yum versionlock pkg-*-1.0
+yum versionlock delete pkg-1.0
+yum versionlock status
+yum versionlock
+
+yum --showduplicates list pkg
+yum install pkg-1.0.0-1
+yum update -x 'pkg'
