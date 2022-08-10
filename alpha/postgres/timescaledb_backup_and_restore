@@ -8,3 +8,10 @@ SELECT timescaledb_pre_restore();
 
 \! pg_restore -Fc -d exampledb exampledb.bak
 SELECT timescaledb_post_restore();
+
+
+https://github.com/timescale/timescaledb-backup/blob/master/README.md
+
+
+ts-dump --db-URI=postgresql://postgres:pwd1@localhost:5432/tsdb --dump-dir=~/dumps/dump1 --verbose --jobs=2
+ts-restore --db-URI=postgresql://postgres:pwd1@localhost:5433/tsdb --dump-dir=~/dumps/dump1 --verbose --jobs=2
