@@ -1,13 +1,49 @@
-sr cli
+xe host-list
+xe pool-list
+xe pool-param-set name-label=xenpool uuid=pool123
 
-xe sr-list
-xe pbd-list
+xe pool-join master-address=xen.srv master-username=admin master-password=pass
+xe pool-eject host-uuid=uuid_host
 
-xe pbd-list sr-uuid=sr123
+xe host-param-get param-name=name-label uuid=`xe pool-list | grep master | awk '{print $4}'`
 
-xe pbd-unplug uuid=pbd123
-xe sr-forget uuid=sr123
-
+### sr cli ###
 
 lsblk
 xe sr-create device-config:device=/dev/sxx name-label="name" shared=false type=lvm
+
+xe sr-create content-type=user  type=nfs name-label="name" shared=true device-config:server=111.111.111.111 device-config:serverpath=/path/to/share
+xe sr-create content-type=iso  type=iso name-label="name" shared=true device-config:server=111.111.111.111 device-config:serverpath=/path/to/share
+xe pool-list
+xe sr-list name-label="name"
+xe pool-param-set uuid=pool123 default-SR=sr123
+xe sr-param-set uuid=sr123 name-description="description"
+
+xe sr-list
+xe pbd-list
+xe pbd-list sr-uuid=sr123
+xe pbd-unplug uuid=pbd123
+xe sr-forget uuid=sr123
+
+### ha ###
+
+xe sr-list name-label="name"
+xe pool-ha-enable heartbeat-sr-uuids=sruuid
+xe pool-ha-disable
+
+xe pool-ha-compute-max-host-failures-to-tolerate
+xe pool-list
+xe pool-param-set ha-host-failures-to-tolerate=2 uuid=pool123
+
+xe vm-list name-label="vm_name"
+xe vm-param-set uuid=vm123 ha-restart-priority=restart order=1
+
+### db problem ###
+Solution
+       1.  Check if the host is in emergency mode by running the following command #xe host-is-in-emergency-mode
+       2.  Edit  /etc/xensource/pool.conf to contain only the keyword master
+       3.  Rename the old state.db to back running the following command #mv /var/xapi/state.db /var/xapi/state.db_old       
+       4.  Restart toolstack #xe-toolstack-restart     
+       5.  Perform emergency network reset from xsconsole
+       6.  Reconfigure the management interface.
+       7.  Reboot the server    
