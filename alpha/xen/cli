@@ -1,0 +1,13 @@
+sr cli
+
+xe sr-list
+xe pbd-list
+
+xe pbd-list sr-uuid=sr123
+
+xe pbd-unplug uuid=pbd123
+xe sr-forget uuid=sr123
+
+
+lsblk
+xe sr-create device-config:device=/dev/sxx name-label="name" shared=false type=lvm
