@@ -38,6 +38,10 @@ xe pool-param-set ha-host-failures-to-tolerate=2 uuid=pool123
 xe vm-list name-label="vm_name"
 xe vm-param-set uuid=vm123 ha-restart-priority=restart order=1
 
+### network ###
+xe pif-list device=eth0
+xe pif-reconfigure-ip uuid=eth123 mode=static IP=1.1.1.2 netmask=255.255.255.0 gateway=1.1.1.1 DNS=1.1.1.3
+
 ### db problem ###
 Solution
        1.  Check if the host is in emergency mode by running the following command #xe host-is-in-emergency-mode
