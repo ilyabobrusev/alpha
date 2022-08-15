@@ -54,3 +54,9 @@ Solution
        5.  Perform emergency network reset from xsconsole
        6.  Reconfigure the management interface.
        7.  Reboot the server    
+
+### VG problem ###
+Solution
+       1. lvscan
+       2. vi /etc/lvm/lvm.conf, metadata_read_only = 0
+       3. vgchange -a y VG_XenStorage-vgxs123
