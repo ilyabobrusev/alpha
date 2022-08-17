@@ -1,0 +1,24 @@
+https://losst.ru/komanda-screen-linux
+
+screen
+screen -S screen_name
+
+screen -ls
+screen -r pid or screen_name or pid.screen_name
+
+Ctrl + a #command mode
+c - create new window
+w - show windows number list
+" - show windows name list
+1,2,3,4,5,6... - switch window
+n - next window
+p - past window
+S - horizon split
+| - vertical split
+TAB - switch split
+X - hide split
+Q - hide window but current
+A - rename window
+\ - close all session windows #tap "y"
+d - detached screen session
+? - help
