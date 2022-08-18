@@ -1,0 +1,21 @@
+apt-get -y install postgresql-14-cron
+#postgresql.conf
+shared_preload_libraries = 'pg_cron'
+cron.database_name = 'database'
+cron.use_background_workers = on
+max_worker_processes = 20
+
+#Connect via a unix domain socket
+#cron.host = '/tmp'
+#trust authentication for local connections in pg_hba.conf
+
+CREATE EXTENSION pg_cron;
+
+GRANT USAGE ON SCHEMA cron TO user;
+
+SELECT cron.schedule('cron_name', '0 10 * * *', 'VACUUM');
+#INSERT INTO cron.job (schedule, command, nodename, nodeport, database, username) VALUES ('* * * * *', 'VACUUM;', '', 5432, 'database', 'user');
+select * from cron.job;
+select * from cron.job_run_details;
+SELECT cron.unschedule('cron_name' );
+SELECT cron.unschedule(123);
