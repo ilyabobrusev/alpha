@@ -1,0 +1,69 @@
+#db size top
+SELECT d.datname AS Name, pg_catalog.pg_get_userbyid(d.datdba) AS Owner,
+CASE WHEN pg_catalog.has_database_privilege(d.datname, 'CONNECT')
+THEN pg_catalog.pg_size_pretty(pg_catalog.pg_database_size(d.datname))
+ELSE 'No Access'
+END AS SIZE
+FROM pg_catalog.pg_database d
+ORDER BY
+CASE WHEN pg_catalog.has_database_privilege(d.datname, 'CONNECT')
+THEN pg_catalog.pg_database_size(d.datname)
+ELSE NULL
+END DESC -- nulls first
+LIMIT 20;
+
+#db size
+SELECT pg_database.datname as "database_name", pg_size_pretty(pg_database_size(pg_database.datname)) as size 
+FROM pg_database ORDER by pg_database_size(pg_database.datname) 
+DESC;
+
+
+#table size top
+SELECT
+relname as "Table",
+pg_size_pretty(pg_total_relation_size(relid)) As "Size",
+pg_size_pretty(pg_total_relation_size(relid) - pg_relation_size(relid)) as "External Size"
+FROM pg_catalog.pg_statio_user_tables ORDER BY pg_total_relation_size(relid) DESC;
+
+#table top size (all shema)
+SELECT nspname || '.' || relname AS "relation",
+pg_size_pretty(pg_relation_size(C.oid)) AS "size"
+FROM pg_class C
+LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+WHERE nspname NOT IN ('pg_catalog', 'information_schema')
+ORDER BY pg_relation_size(C.oid) DESC
+LIMIT 20;
+
+#other table
+SELECT nspname || '.' || relname AS "relation",
+pg_size_pretty(pg_relation_size(C.oid)) AS "size"
+ROM pg_class C
+LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+WHERE nspname NOT IN ('pg_catalog', 'information_schema')
+ORDER BY pg_relation_size(C.oid) DESC;
+
+#othet table
+SELECT nspname || '.' || relname AS "relation",
+pg_size_pretty(pg_total_relation_size(C.oid)) AS "total_size"
+FROM pg_class C
+LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+WHERE nspname NOT IN ('pg_catalog', 'information_schema')
+AND C.relkind <> 'i'
+AND nspname !~ '^pg_toast'
+ORDER BY pg_total_relation_size(C.oid) DESC
+LIMIT 20;
+
+#top 1 table size
+SELECT 
+    relname AS "table_name", 
+    relpages AS "size_in_pages" 
+FROM 
+    pg_class 
+ORDER BY 
+    relpages DESC 
+LIMIT 
+    1;
+
+#table size
+SELECT pg_size_pretty( pg_total_relation_size( 'testtable1' ) );
+SELECT pg_size_pretty( pg_relation_size( 'testtable1' ) );
