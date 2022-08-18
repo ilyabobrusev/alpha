@@ -68,3 +68,5 @@ virsh resume co20
 virsh shutdown co20
 virt-clone --original=co20 --name=co21 --auto-clone
 
+for i in `virsh list | grep running | awk '{print $2}'`; do virsh shutdown $i; done
+
