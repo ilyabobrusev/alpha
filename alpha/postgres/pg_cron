@@ -14,7 +14,7 @@ CREATE EXTENSION pg_cron;
 GRANT USAGE ON SCHEMA cron TO user;
 
 SELECT cron.schedule('cron_name', '0 10 * * *', 'VACUUM');
-#INSERT INTO cron.job (schedule, command, nodename, nodeport, database, username) VALUES ('* * * * *', 'VACUUM;', '', 5432, 'database', 'user');
+#INSERT INTO cron.job (schedule, command, nodename, nodeport, database, username, jobname) VALUES ('* * * * *', 'VACUUM;', 'localhost', 5432, 'database', 'user', 'job_name');
 select * from cron.job;
 select * from cron.job_run_details;
 SELECT cron.unschedule('cron_name' );
