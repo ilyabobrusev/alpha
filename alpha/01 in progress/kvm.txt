@@ -60,6 +60,8 @@ WDC_WD10EZEX-08WN4A0_WD-WCC6Y0JVLX58
 
 _______________________________________________________
 
+https://winitpro.ru/index.php/2020/02/10/virsh-upravlenie-virtualnymi-mashinami-kvm/
+
 virsh list
 virsh list --all
 virsh start co20
