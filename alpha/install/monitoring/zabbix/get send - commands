@@ -1,0 +1,4 @@
+zabbix_sender -z 192.168.1.100 -k agent.ping -o 1 -s "Zabbix server"
+
+zabbix_get -s 127.0.0.1 -p 10050 -k "agent.ping"
+zabbix_get -s 127.0.0.1 -p 10050 -k "agent.ping" --tls-connect psk --tls-psk-identity "PSK ID" --tls-psk-file /etc/zabbix/zabbix_agentd.psk
