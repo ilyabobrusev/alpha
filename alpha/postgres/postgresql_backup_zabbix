@@ -1,0 +1,50 @@
+Backup:
+
+pg_dump \
+--dbname=DATABASE \
+--host=HOST \
+--username=USER \
+--file=zabbix44.dump \
+--format=custom \
+--blobs \
+--verbose \
+--exclude-table-data '*.history*' \
+--exclude-table-data '*.trends*'
+
+To ignore hypertables:
+
+pg_dump \
+--dbname=DATABASE \
+--host=HOST \
+--username=USER \
+--file=zabbix44.dump \
+--format=custom \
+--blobs \
+--verbose \
+--exclude-schema=_timescaledb_internal \
+--exclude-schema=_timescaledb_cache \
+--exclude-schema=_timescaledb_catalog \
+--exclude-schema=_timescaledb_config \
+--exclude-table-data '*.history*' \
+--exclude-table-data '*.trends*'
+
+With maximum compression:
+
+pg_dump \
+--dbname=DATABASE \
+--host=HOST \
+--username=USER \
+--file=zabbix40.pg10.dump \
+--format=custom \
+--compress=9 \
+--blobs \
+--verbose \
+--exclude-table-data '*.history*' \
+--exclude-table-data '*.trends*'
+
+Restore:
+
+pg_restore \
+--dbname=<database> \
+--host=<host> \
+zabbix44.dump
