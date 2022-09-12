@@ -67,3 +67,13 @@ LIMIT
 #table size
 SELECT pg_size_pretty( pg_total_relation_size( 'testtable1' ) );
 SELECT pg_size_pretty( pg_relation_size( 'testtable1' ) );
+
+
+#table index size
+SELECT
+   relname  as table_name,
+   pg_size_pretty(pg_total_relation_size(relid)) As "Total Size",
+   pg_size_pretty(pg_indexes_size(relid)) as "Index Size",
+   pg_size_pretty(pg_relation_size(relid)) as "Actual Size"
+   FROM pg_catalog.pg_statio_user_tables 
+ORDER BY pg_total_relation_size(relid) DESC LIMIT 10;
