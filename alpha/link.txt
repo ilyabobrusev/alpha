@@ -1,6 +1,7 @@
-http://zabbix.alpha.loc/zabbix/
-http://192.168.1.212/zabbix/
-http://grafana.alpha.loc:3000
-http://192.168.1.219:3000
-http://splunk.alpha.loc:8000
-http://192.168.1.217:8000
+https://sysadminium.ru/
+https://lk.realmanual.ru/login
+https://lk.rebrainme.com/
+
+https://ru.za1lib.org/
+https://ru.zlibrary.org/
+https://ru.bookos-z1.org
