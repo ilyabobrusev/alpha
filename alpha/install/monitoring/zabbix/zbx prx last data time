@@ -1,0 +1,13 @@
+Zabbix last time data received from proxy
+Zabbix internal
+zabbix[proxy,{HOST.HOST},lastaccess]
+unsign number
+unixtime
+1m
+
+
+{$PROXY_LASTACCESS_NODATA_DSTR}
+10m
+
+Zabbix - Not receiving data for > {$PROXY_LASTACCESS_NODATA_DSTR} from proxy {HOST.HOST}
+{KG Zabbix Proxy App:zabbix[proxy,{HOST.HOST},lastaccess].fuzzytime({$PROXY_LASTACCESS_NODATA_DSTR})}=0
