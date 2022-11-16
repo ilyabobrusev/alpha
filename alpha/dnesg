@@ -1,0 +1,13 @@
+# dmesg -T 
+# dmesg -T | less 
+# dmesg -T --level=emerg,alert,crit,err,warn 
+Ещё бывает полезно вывести сообщения из пространства пользователя. Туда попадает информация от systemd, которая может быть полезной. 
+# dmesg -u 
+Можно быстро узнать тип виртуализации, на которой работает виртуальная машинa. Systemd её пишет в момент запуска. Пример для KVM: 
+# dmesg -u | grep virtualization 
+systemd[1]: Detected virtualization kvm. 
+А вот для Hyper-V: 
+# dmesg -u | grep virtualization 
+systemd[1]: Detected virtualization microsoft. 
+# dmesg -H
+# dmesg -H -T
