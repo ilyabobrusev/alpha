@@ -1,11 +1,15 @@
 #https://winitpro.ru/index.php/2020/10/14/snmp-v-linux-centos/
 dnf install net-snmp net-snmp-utils -y
+#apt install snmpd snmp -y
 mv /etc/snmp/snmpd.conf /etc/snmp/snmpd.conf.orig
 nano /etc/snmp/snmpd.conf
-#rocommunity public
-#syslocation MSK-DC1
-#syscontact admin@build-centos.info
+rocommunity public
+syslocation MSK-DC1
+syscontact admin@build-centos.info
+includeAllDisks 10%
+
 systemctl enable snmpd.service --now
+#systemctl restart snmpd
 firewall-cmd --permanent --add-port={161,162}/{tcp,udp}
 firewall-cmd --reload
 #test
