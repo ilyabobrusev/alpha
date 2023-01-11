@@ -42,3 +42,15 @@ gitlab-ctl restart
 
 gitlab-rails console
 Notify.test_email('user@mlx.ru', 'Message Subject', 'Message Body').deliver_now
+
+
+# update
+https://docs.gitlab.com/ee/update/
+docker stop gitlab-ce
+docker rm gitlab-ce
+docker run -d --hostname gitlab.srv01.loc --publish 7080:7080 --publish 7022:22 --name gitlab-ce --restart always --volume /gitlab/config:/etc/gitlab --volume /gitlab/logs:/var/log/gitlab --volume /gitlab/data:/var/opt/gitlab gitlab/gitlab-ce:15.4.0-ce.0
+docker logs -f gitlab-ce
+docker stop gitlab-ce
+docker rm gitlab-ce
+docker run -d --hostname gitlab.srv01.loc --publish 7080:7080 --publish 7022:22 --name gitlab-ce --restart always --volume /gitlab/config:/etc/gitlab --volume /gitlab/logs:/var/log/gitlab --volume /gitlab/data:/var/opt/gitlab gitlab/gitlab-ce
+docker logs -f gitlab-ce
