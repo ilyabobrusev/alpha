@@ -1,6 +1,17 @@
 awk '{print $1}' /var/log/nginx/access.log | awk '{ cnt[$1]++ } END { for (id in cnt) {printf "%d %s\n", cnt[id], id}}' | sort -n -k1 -r | head
-
 awk '$9 == 404 {print $1}' /var/log/nginx/access.log | awk '{ cnt[$1]++ } END { for (id in cnt) {printf "%d %s\n", cnt[id], id}}' | sort -n -k1 -r | head
+
+BEGIN { FS=":" }  { print $NF }
+{ seen[$(NF-1)] ++ } END { for (i in seen) print i, ":", seen[i] }
+BEGIN { FS=":" } {n=split($2,a,","); for (i=1;i<=n;i++) print $1" "a[i];}
+#BEGIN { FS=":" } {n=split($2,a,",")-1; for (i=1;i<=n;i++) print $1" "a[i];}
+
+BEGIN {
+print "Log access"}
+{ ip[$1] ++ }
+END {
+for (i in ip)
+print i, " has accessed ", ip[i], " times" }
 
 
 ps aux | awk '{print $3 " % CPU -->> " $13}' | sort -n -k1 -r | grep guest
@@ -15,4 +26,3 @@ ps axo rss,comm,pid \
 END { for (proc in proc_list) { printf("%d\t%s\n", \
 proc_list[proc "," 1],proc); }}' | sort -n | tail -n 10 | sort -rn \
 | awk '{$1/=1024;printf "%.0fMB\t",$1}{print $2}'
-
