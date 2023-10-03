@@ -21,8 +21,10 @@ docker exec -it gitlab-ce /bin/bash
 cat /etc/gitlab/initial_root_password
 vi /etc/gitlab/gitlab.rb
 
-external_url "http://srv01:7080"
+external_url "http://srv01.loc"
 gitlab_rails['gitlab_shell_ssh_port'] = 7022
+nginx['listen_port'] = 7080 
+
 #mail_server_settings
 gitlab_rails['smtp_enable'] = true                                                                                     
 gitlab_rails['smtp_address'] = "mlx.ru"                                                    
@@ -54,3 +56,7 @@ docker stop gitlab-ce
 docker rm gitlab-ce
 docker run -d --hostname gitlab.srv01.loc --publish 7080:7080 --publish 7022:22 --name gitlab-ce --restart always --volume /gitlab/config:/etc/gitlab --volume /gitlab/logs:/var/log/gitlab --volume /gitlab/data:/var/opt/gitlab gitlab/gitlab-ce
 docker logs -f gitlab-ce
+
+2RH6XVvc+EGYdwlCdxUrGfe/3pU2UbjTeTsAuLMTzFc=
+
+docker run -d --hostname gitlab.srv01.loc --publish 7080:7080 --publish 7022:22 --name gitlab-ce --restart always --volume /lv_01/gitlab/config:/etc/gitlab --volume /lv_01/gitlab/logs:/var/log/gitlab --volume /lv_01/gitlab/data:/var/opt/gitlab gitlab/gitlab-ce
