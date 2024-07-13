@@ -20,3 +20,22 @@ if ! PGPASSWORD=pass pg_dump db_name -U user_name -h hostname | gzip >  dbname-$
 else
         echo "backup_status 0" | curl --data-binary @- http://hostname:9091/metrics/job/monitoring_metrics/group/monitoring/service/postgresql/operation/backup
 fi
+
+############### Backup script ###############
+
+crontab -e
+0 0 * * * /opt/postgres/dump.sh dbname /path/to/backup > /dev/null 2>&1
+
+vim /home/postgres/dump.sh
+#!/bin/sh
+
+umask 377
+
+database=$1
+path=$2
+
+psql -d $database -c "vacuum full"
+psql -d $database -c "reindex database $database"
+psql -d $database -c "analyze"
+find $path -ctime +5 -delete
+pg_dump $database | gzip > $path/$database-$(date "+%Y-%m-%d").sql.gz
