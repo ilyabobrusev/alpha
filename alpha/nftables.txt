@@ -15,3 +15,25 @@ echo "flush ruleset" > /etc/nftables.conf
 nft -s list ruleset >> /etc/nftables.conf
 systemctl enable --now nftables
 
+------------------------------------------------------------------------------
+
+# cat /etc/nftables.conf
+flush ruleset
+table ip filter {
+	chain input {
+		type filter hook input priority filter; policy drop;
+		tcp dport 22 counter accept
+		tcp dport { 80, 443 } counter accept
+		ct state established,related counter accept
+		iifname "lo" counter accept
+		ip protocol icmp counter accept
+		tcp dport 22 counter accept
+                tcp dport 8080 counter accept
+	}
+
+table ip nat {
+	chain POSTROUTING {
+		type nat hook postrouting priority srcnat; policy accept;
+                oifname != "docker0" ip saddr 172.0.0.0/8 counter masquerade
+	}
+}
