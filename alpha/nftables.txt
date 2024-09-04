@@ -1,0 +1,15 @@
+apt install nftables
+systemctl enable --now nftables
+flush ruleset
+nft add table ip filter
+nft 'add chain ip filter input { type filter hook input priority 0 ;}'
+nft add rule ip filter input tcp dport 22 counter accept
+nft add rule ip filter input tcp dport {80, 443} counter accept
+nft add rule ip filter input ct state related,established counter accept
+nft add rule ip filter input iifname "lo" counter accept
+nft add rule ip filter input ip protocol icmp counter accept
+nft 'chain ip filter input { policy drop; }'
+nft list table ip filter
+echo "flush ruleset" > /etc/nftables.conf
+nft -S list ruleset >> /etc/nftables.conf
+
