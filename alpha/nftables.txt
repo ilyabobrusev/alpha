@@ -21,14 +21,15 @@ systemctl enable --now nftables
 flush ruleset
 table ip filter {
 	chain input {
-		type filter hook input priority filter; policy drop;
-		tcp dport 22 counter accept
+		type filter hook input priority filter; policy drop; comment "drop all"
+		tcp dport 22 counter accept comment "accent 22"
 		tcp dport { 80, 443 } counter accept
 		ct state established,related counter accept
 		iifname "lo" counter accept
 		ip protocol icmp counter accept
                 tcp dport 8080 counter accept
-                ip saddr 192.168.2.0/24 tcp dport counter 7070 accept
+                ip saddr 192.168.3.0/24 tcp dport {8080, 9090} counter accept
+                ip saddr 192.168.2.0/24 tcp dport 7070 counter accept
                 ip saddr 192.168.1.0/24 counter accept
 	}
 
