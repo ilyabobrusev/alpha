@@ -9,6 +9,7 @@ lsblk
 mkfs.ext4 /dev/md0
 mkdir /raid
 mount /dev/md0 /raid
+# blkid | grep md
 vi /etc/fstab
 #/dev/md0                /raid                   ext4    defaults        1 2
 df -h
@@ -47,3 +48,32 @@ resize2fs /dev/md0
 #disk info
 mdadm --examine /dev/sda1
 mdamd --assemble --scan
+
+-----------------------------------------------------------------------------
+
+mdadm --manage /dev/md1 --fail /dev/sdb1
+mdadm --manage /dev/md2 --fail /dev/sdb2
+mdadm --manage /dev/md1 --remove /dev/sdb1
+mdadm --manage /dev/md2 --remove /dev/sdb2
+mdadm --zero-superblock /dev/sdb1
+mdadm --zero-superblock /dev/sdb2
+fdisk /dev/sdb
+# delete a partition
+# add a new partition
+mdadm --manage /dev/md1 --add /dev/sdb1
+mdadm --manage /dev/md2 --add /dev/sdb2
+mdadm --wait /dev/md1
+mdadm --wait /dev/md2
+cat /proc/mdstat
+
+# Repeat for second disk
+
+mdadm --grow /dev/md1 -z max
+mdadm --grow /dev/md2 -z max
+mdadm -D /dev/md1 | grep -e "Array Size" -e "Dev Size"
+mdadm -D /dev/md2 | grep -e "Array Size" -e "Dev Size"
+xfs_growfs /dev/md1
+xfs_growfs /dev/md2
+
+update-initramfs -u
+
