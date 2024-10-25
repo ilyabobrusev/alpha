@@ -77,3 +77,8 @@ xfs_growfs /dev/md2
 
 update-initramfs -u
 
+-----------------------------------------------------------------------------
+
+# dump partition table (usable for later input)
+sfdisk -d /dev/sdb > sdb
+cat sdb | sfdisk /dev/sdb
