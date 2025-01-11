@@ -1,0 +1,17 @@
+#local
+ssh-keygen -t rsa -b 4096 -C "Key for devops" -f .ssh_devops/id_rsa
+
+#remote_host
+useradd -d /home/devops -s /bin/bash devops
+mkdir /home/devops
+chown devops:devops /home/devops
+usermod -aG sudo devops
+su - devops
+mkdir .ssh
+vi .ssh/authorized_keys
+chmod 600 .ssh/authorized_keys
+chmod 700 .ssh/
+
+#local
+ssh -i .ssh_devops/id_rsa devops@server.name
+
