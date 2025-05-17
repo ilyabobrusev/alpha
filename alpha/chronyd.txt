@@ -1,0 +1,6 @@
+# server server.domain iburst
+chronyc tracking
+chronyc sources
+chronyc sourcestats
+chronyc -a makestep
+
