@@ -37,5 +37,7 @@ table ip nat {
 	chain POSTROUTING {
 		type nat hook postrouting priority srcnat; policy accept;
                 counter masquerade
+                # or
+                # iifname "br-*" masquerade
 	}
 }
